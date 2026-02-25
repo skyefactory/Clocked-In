@@ -28,7 +28,6 @@ func _process(delta: float) -> void:
 	if day_started:
 		if timer == 0:
 			timer = pick_random_time()
-		print(timer)
 		accum += delta
 		if(accum >= timer):
 			createOrder()

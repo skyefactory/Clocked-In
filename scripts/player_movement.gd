@@ -1,5 +1,11 @@
 class_name Player extends CharacterBody3D
+@onready var interact_label: Label = %InteractLabel
+func _on_show_prompt(text: String):
+	interact_label.text = text
+	interact_label.show()
 
+func _on_hide_prompt():
+	interact_label.hide()
 # Main movement code was adapted from https://github.com/rbarongr/GodotFirstPersonController/tree/main
 # All credits to them for the code.
 

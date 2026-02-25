@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://eu60c84sxykh"]
 
 [ext_resource type="Script" uid="uid://diykfrvwlcu1f" path="res://scripts/button.gd" id="1_ydosi"]
-[ext_resource type="Script" uid="uid://c0jc62wfp2qch" path="res://scenes/timer.gd" id="2_77pfx"]
+[ext_resource type="Script" uid="uid://c0jc62wfp2qch" path="res://scripts/timer.gd" id="2_77pfx"]
 
 [node name="Order1" type="Control" unique_id=1298157846]
 layout_mode = 3

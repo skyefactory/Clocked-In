@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dgc4sq20vyb23"]
+
+[ext_resource type="Script" uid="uid://cbvrnyridj4ny" path="res://scripts/add_item.gd" id="1_70f1k"]
+[ext_resource type="Texture2D" uid="uid://cspaul2xqphv4" path="res://others/test icon 1.png" id="2_775ca"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8mr64"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_utrvu"]
+
+[node name="TestUncookedPatty" type="Area3D" unique_id=564607848]
+script = ExtResource("1_70f1k")
+item_name = "Test Item 1"
+item_icon = ExtResource("2_775ca")
+max_qty = 20
+qty = 1
+world_scene = null
+
+[node name="Area" type="CollisionShape3D" parent="." unique_id=1677652502]
+shape = SubResource("SphereShape3D_8mr64")
+
+[node name="Uncooked Patty" type="MeshInstance3D" parent="." unique_id=1106103160]
+mesh = SubResource("SphereMesh_utrvu")

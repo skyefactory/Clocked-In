@@ -3,10 +3,19 @@
 [ext_resource type="Script" uid="uid://bex4481iit5t" path="res://scripts/closegame.gd" id="1_3dx25"]
 [ext_resource type="PackedScene" uid="uid://c7i4wqiffs62l" path="res://scenes/griddle.tscn" id="2_3dx25"]
 [ext_resource type="Script" uid="uid://cic6pigase4kq" path="res://scripts/player_movement.gd" id="3_l6grw"]
-[ext_resource type="Script" uid="uid://ybco1dh7xlee" path="res://scenes/order_manager.gd" id="4_kri1i"]
-[ext_resource type="FontFile" uid="uid://cm2qk2js6qaml" path="res://elegant.woff" id="6_5qbqa"]
-[ext_resource type="Script" uid="uid://c8stcr5blv7sf" path="res://scenes/daytimer.gd" id="6_kri1i"]
+[ext_resource type="Script" uid="uid://ybco1dh7xlee" path="res://scripts/order_manager.gd" id="4_kri1i"]
+[ext_resource type="FontFile" uid="uid://cm2qk2js6qaml" path="res://others/elegant.woff" id="6_5qbqa"]
+[ext_resource type="Script" uid="uid://c8stcr5blv7sf" path="res://scripts/daytimer.gd" id="6_kri1i"]
 [ext_resource type="PackedScene" uid="uid://cgumsdnkyal2d" path="res://scenes/gui_panel_3d.tscn" id="7_gi1h7"]
+[ext_resource type="PackedScene" uid="uid://dgc4sq20vyb23" path="res://scenes/test_uncooked_patty.tscn" id="8_8mr64"]
+[ext_resource type="Script" uid="uid://cbvrnyridj4ny" path="res://scripts/add_item.gd" id="8_jjnc2"]
+[ext_resource type="Texture2D" uid="uid://cspaul2xqphv4" path="res://others/test icon 1.png" id="9_j8asw"]
+[ext_resource type="PackedScene" uid="uid://d1dekat2t1eyy" path="res://scenes/test_bottom_bun.tscn" id="9_utrvu"]
+[ext_resource type="Texture2D" uid="uid://l30ukox7eyrs" path="res://others/test icon 2.png" id="10_utrvu"]
+[ext_resource type="PackedScene" uid="uid://bpnja42rsi2xx" path="res://scenes/test_top_bun.tscn" id="10_yh20h"]
+[ext_resource type="Texture2D" uid="uid://do7lmvmbty6gn" path="res://others/test icon 3.png" id="11_yh20h"]
+[ext_resource type="Script" uid="uid://o63yufdydt05" path="res://scripts/inventory.gd" id="12_uf0dc"]
+[ext_resource type="Texture2D" uid="uid://gerluh6y40jv" path="res://others/blank.png" id="16_fme2p"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5qbqa"]
 size = Vector3(30, 1, 30)
@@ -30,6 +39,66 @@ background_mode = 2
 sky = SubResource("Sky_kri1i")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8mr64"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_utrvu"]
+
+[sub_resource type="PackedScene" id="PackedScene_ci1tm"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"id_paths": [],
+"names": PackedStringArray("TestUncookedPatty", "script", "item_name", "item_icon", "max_qty", "qty", "world_scene", "Area3D", "Area", "shape", "CollisionShape3D", "Uncooked Patty", "mesh", "MeshInstance3D"),
+"node_count": 3,
+"node_ids": PackedInt32Array(564607848, 1677652502, 1106103160),
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 7, 0, -1, 6, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 6, 5, 0, 0, 0, 10, 8, -1, 1, 9, 6, 0, 0, 0, 13, 11, -1, 1, 12, 7, 0),
+"variants": [ExtResource("8_jjnc2"), "Test Item 1", ExtResource("9_j8asw"), 20, 1, ExtResource("8_8mr64"), SubResource("SphereShape3D_8mr64"), SubResource("SphereMesh_utrvu")],
+"version": 3
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fme2p"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_0p782"]
+
+[sub_resource type="PackedScene" id="PackedScene_0lbey"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"id_paths": [],
+"names": PackedStringArray("TestBottomBun", "script", "id", "item_name", "item_icon", "max_qty", "qty", "world_scene", "Area3D", "Area", "shape", "CollisionShape3D", "Bottom Bun", "mesh", "MeshInstance3D"),
+"node_count": 3,
+"node_ids": PackedInt32Array(502264939, 855304052, 1920283445),
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 8, 0, -1, 7, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 6, 1, 7, 5, 0, 0, 0, 11, 9, -1, 1, 10, 6, 0, 0, 0, 14, 12, -1, 1, 13, 7, 0),
+"variants": [ExtResource("8_jjnc2"), 1, "Test Item 3", ExtResource("10_utrvu"), 10, ExtResource("9_utrvu"), SubResource("SphereShape3D_fme2p"), SubResource("SphereMesh_0p782")],
+"version": 3
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ci1tm"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fme2p"]
+
+[sub_resource type="PackedScene" id="PackedScene_pm4hl"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"id_paths": [],
+"names": PackedStringArray("TestTopBun", "script", "id", "item_name", "item_icon", "max_qty", "qty", "world_scene", "Area3D", "Area", "shape", "CollisionShape3D", "Top Bun", "mesh", "MeshInstance3D"),
+"node_count": 3,
+"node_ids": PackedInt32Array(842358485, 537397609, 1769834195),
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 8, 0, -1, 7, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 6, 5, 7, 6, 0, 0, 0, 11, 9, -1, 1, 10, 7, 0, 0, 0, 14, 12, -1, 1, 13, 8, 0),
+"variants": [ExtResource("8_jjnc2"), 2, "Test Item 3", ExtResource("11_yh20h"), 30, 1, ExtResource("10_yh20h"), SubResource("SphereShape3D_ci1tm"), SubResource("SphereMesh_fme2p")],
+"version": 3
+}
 
 [node name="Test Scene" type="Node3D" unique_id=1322774428]
 script = ExtResource("1_3dx25")
@@ -64,14 +133,14 @@ shape = SubResource("BoxShape3D_nuoa6")
 [node name="OrderManager" type="Node" parent="." unique_id=837070661]
 script = ExtResource("4_kri1i")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=243915831]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=243915831 groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2454286, 0)
 script = ExtResource("3_l6grw")
 
-[node name="Camera" type="Camera3D" parent="CharacterBody3D" unique_id=1714575678]
+[node name="Camera" type="Camera3D" parent="Player" unique_id=1714575678]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.7076263, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1448940888]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1448940888]
 shape = SubResource("CapsuleShape3D_3dx25")
 
 [node name="GUIPanel3D" parent="." unique_id=254680086 instance=ExtResource("7_gi1h7")]
@@ -87,6 +156,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="InteractLabel" type="Label" parent="." unique_id=1551062903]
+unique_name_in_owner = true
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -101,12 +171,48 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "PLACEHOLDER"
 
-[node name="Label" type="Label" parent="." unique_id=2015302826]
+[node name="DayTimer" type="Label" parent="." unique_id=2015302826]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("6_5qbqa")
 text = "7:45 AM"
 script = ExtResource("6_kri1i")
 
-[connection signal="day_end" from="Label" to="OrderManager" method="_on_day_end"]
-[connection signal="day_start" from="Label" to="OrderManager" method="_on_day_start"]
+[node name="TestUncookedPatty" parent="." unique_id=564607848 node_paths=PackedStringArray("inv") instance=ExtResource("8_8mr64")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.96169, 2.0433006, -11.022032)
+inv = NodePath("../ItemList")
+item_name = "Uncooked Patty"
+world_scene = SubResource("PackedScene_ci1tm")
+
+[node name="TestBottomBun" parent="." unique_id=502264939 node_paths=PackedStringArray("inv") instance=ExtResource("9_utrvu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.10089, 2.0433006, -11.022032)
+inv = NodePath("../ItemList")
+item_name = "Bottom Bun"
+world_scene = SubResource("PackedScene_0lbey")
+
+[node name="TestTopBun" parent="." unique_id=842358485 node_paths=PackedStringArray("inv") instance=ExtResource("10_yh20h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0433006, -11.022032)
+inv = NodePath("../ItemList")
+item_name = "Top Bun"
+world_scene = SubResource("PackedScene_pm4hl")
+
+[node name="ItemList" type="ItemList" parent="." unique_id=335766266 node_paths=PackedStringArray("player")]
+offset_left = 1037.0
+offset_top = 17.0
+offset_right = 1129.0
+offset_bottom = 535.0
+allow_reselect = true
+allow_rmb_select = true
+allow_search = false
+auto_height = true
+max_columns = 2
+same_column_width = true
+fixed_column_width = 55
+icon_mode = 0
+fixed_icon_size = Vector2i(50, 50)
+script = ExtResource("12_uf0dc")
+blank_icon = ExtResource("16_fme2p")
+player = NodePath("../Player")
+
+[connection signal="day_end" from="DayTimer" to="OrderManager" method="_on_day_end"]
+[connection signal="day_start" from="DayTimer" to="OrderManager" method="_on_day_start"]

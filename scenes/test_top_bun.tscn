@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bpnja42rsi2xx"]
+
+[ext_resource type="Script" uid="uid://cbvrnyridj4ny" path="res://scripts/add_item.gd" id="1_0ltkb"]
+[ext_resource type="Texture2D" uid="uid://do7lmvmbty6gn" path="res://others/test icon 3.png" id="2_gy348"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ci1tm"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fme2p"]
+
+[node name="TestTopBun" type="Area3D" unique_id=842358485]
+script = ExtResource("1_0ltkb")
+id = 2
+item_name = "Test Item 3"
+item_icon = ExtResource("2_gy348")
+max_qty = 30
+qty = 1
+world_scene = null
+
+[node name="Area" type="CollisionShape3D" parent="." unique_id=537397609]
+shape = SubResource("SphereShape3D_ci1tm")
+
+[node name="Top Bun" type="MeshInstance3D" parent="." unique_id=1769834195]
+mesh = SubResource("SphereMesh_fme2p")
