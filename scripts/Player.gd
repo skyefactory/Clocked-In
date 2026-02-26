@@ -1,15 +1,6 @@
 class_name Player extends CharacterBody3D
 @onready var inventory: Inventory = $Inventory
-
-#below UI code needs to be moved to UI controller
-@onready var interact_label: Label = %InteractLabel #
-
-func _on_show_prompt(text: String):
-	interact_label.text = text
-	interact_label.show()
-
-func _on_hide_prompt():
-	interact_label.hide()
+@export var test_icon: Texture2D
 
 # Main movement code was adapted from https://github.com/rbarongr/GodotFirstPersonController/tree/main
 
@@ -38,6 +29,14 @@ var forward: Vector3 # forward direction for dropping items and moving
 @onready var camera: Camera3D = $Camera # reference to player camera
 
 func _ready() -> void: # capture the mouse
+	# test add item
+	var test_item = ItemData.new()
+	test_item.ID = 0
+	test_item.Name = "Test Item"
+	test_item.Description = "This is a test item."
+	test_item.Icon = test_icon
+	test_item.MaxStackSize = 10
+	inventory.add_inventory_item(test_item, 15)
 	capture_mouse()
 
 # handle mouse look input
