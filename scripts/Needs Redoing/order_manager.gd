@@ -1,11 +1,12 @@
 extends Node
+class_name OrderManager
 
-@onready var OrderPanel = $"../GUIPanel3D/SubViewport/GridContainer"
+@export var OrderPanel: GridContainer
 const OrderUIScene: PackedScene = preload("res://scenes/OrderOnScreenUI.tscn")
 var rng = RandomNumberGenerator.new()
 
 # List of all current orders in the game
-var orders: Array[Order] = []
+var orders: Array[Order_old] = []
 
 # First entry is the "base" recipe, second entry is the "variants"
 var Recipies = [
@@ -20,6 +21,7 @@ var active_order_id: int = -1
 
 var accum = 0.0
 var timer = 0
+
 
 func pick_random_time() -> int:
 	return rng.randi_range(20,40)
@@ -40,7 +42,7 @@ func _process(delta: float) -> void:
 # ------------------------
 
 # Creates a new order and adds it to the orders list
-func createOrder() -> Order:
+func createOrder() -> Order_old:
 	# Pick a recipe randomly
 	var recipe = Recipies[randi() % Recipies.size()]
 	
@@ -70,7 +72,7 @@ func createOrder() -> Order:
 			variationLabel.text += ", "
 	# Create Order object
 	OrderPanel.add_child(orderUIInstance)
-	var order = Order.new(orders.size(), recipe[0], selected_variations, orderUIInstance)
+	var order = Order_old.new(orders.size(), recipe[0], selected_variations, orderUIInstance)
 	orders.append(order)
 	return order
 
@@ -94,7 +96,7 @@ func completeOrder(order_id: int) -> void:
 				active_order_id = -1
 
 # Returns the currently active order
-func getActiveOrder() -> Order:
+func getActiveOrder() -> Order_old:
 	for order in orders:
 		if order.status == "active":
 			return order
@@ -119,7 +121,7 @@ func _on_day_end() -> void:
 	day_ended = true
 	pass # Replace with function body.
 
-func _on_day_start() -> void:
+func on_day_start() -> void:
 	day_started = true
 	createOrder() #initial first order
 	pass # Replace with function body.

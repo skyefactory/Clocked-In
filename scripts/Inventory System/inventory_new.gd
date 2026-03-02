@@ -1,7 +1,7 @@
 extends Node
 class_name Inventory
 
-var slots: Array[InventorySlot] = [] # The inventory slots of the player, this will be used to store the items in the player's inventory
+var slots: Array[InventorySlot] = [] # The inventory slots of the player, this will be used to store the items in the player's inventory`
 var inventory_size: int = 9 # size of inventory
 var selected_slot: int = -1 # current selected item in item list
 signal inventory_changed # emitted when the inventory is changed. used for sending signals to the UI to update.

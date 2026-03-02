@@ -1,12 +1,23 @@
 extends Node
 class_name GameManager
 
-signal game_paused
+@export var order_dropoff_area: Area3D
 
-func _process(_delta: float) -> void:
-    if Input.is_action_pressed("pause"):
-        pause_game()
+var active_orders: Array[Order] = []
+var max_active_orders: int = 5
+var completed_orders: Array[Order] = []
 
-func pause_game():
-    get_tree().paused = true
-    game_paused.emit()
+
+signal interaction_signal # emitted when the player moves in range of something interactable. Used to send signals to the UI to show interaction prompts.
+
+func _ready() -> void:
+    order_dropoff_area.body_entered.connect(on_order_dropoff_body_entered)
+    order_dropoff_area.body_exited.connect(on_order_dropoff_body_exited)
+
+func on_order_dropoff_body_entered(body: Node) -> void:
+    if body.is_in_group("Player"):
+        interaction_signal.emit(true, "Press E to drop off order")
+
+func on_order_dropoff_body_exited(body: Node) -> void:
+    if body.is_in_group("Player"):
+        interaction_signal.emit(false)

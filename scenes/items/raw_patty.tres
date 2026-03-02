@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c6pfww40p0tok"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_3088i"]
+[ext_resource type="Texture2D" uid="uid://dyl663g524jxa" path="res://others/item_icons/uncooked_patty_icon.png" id="1_a61pl"]
+[ext_resource type="Resource" uid="uid://cdgehk3kgbjw0" path="res://scenes/items/cooked_patty.tres" id="2_4cyua"]
+
+[resource]
+script = ExtResource("1_3088i")
+Name = "Raw Patty"
+Icon = ExtResource("1_a61pl")
+Description = "A raw burger patty. Should probably be cooked"
+MaxStackSize = 10
+cook_result = ExtResource("2_4cyua")
+time_to_cook = 15.0
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

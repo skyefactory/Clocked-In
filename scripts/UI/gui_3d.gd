@@ -11,6 +11,7 @@ var last_event_time: float = -1.0
 @onready var node_viewport = $SubViewport #The viewport rendered on the 'screen'
 @onready var node_quad = $Quad #the actual screen object
 @onready var node_area = $Quad/Area3D #collision detection
+@export var player: Node3D #reference to the player
 
 func _physics_process(delta: float) -> void:
 	_raycast_from_crosshair()

@@ -1,15 +1,14 @@
-[gd_scene format=3 uid="uid://diy3i46wp32lt"]
+[gd_scene format=3 uid="uid://b2i0m7jc8ro8i"]
 
-[ext_resource type="Script" uid="uid://bex4481iit5t" path="res://scripts/closegame.gd" id="1_3dx25"]
 [ext_resource type="PackedScene" uid="uid://c7i4wqiffs62l" path="res://scenes/griddle.tscn" id="2_3dx25"]
-[ext_resource type="Script" uid="uid://cic6pigase4kq" path="res://scripts/Player.gd" id="3_l6grw"]
-[ext_resource type="Script" uid="uid://ybco1dh7xlee" path="res://scripts/order_manager.gd" id="4_kri1i"]
+[ext_resource type="Script" uid="uid://bhskm4oa0dxj7" path="res://scripts/Needs Redoing/order_manager.gd" id="2_8mr64"]
+[ext_resource type="Script" uid="uid://c2ke1qko84lnb" path="res://scripts/Player/Player.gd" id="3_j8asw"]
 [ext_resource type="Script" uid="uid://8p45qiffxeuj" path="res://scripts/Inventory System/inventory_new.gd" id="5_0p782"]
 [ext_resource type="Texture2D" uid="uid://d257ffddlidy4" path="res://others/icon.svg" id="5_8mr64"]
 [ext_resource type="FontFile" uid="uid://cm2qk2js6qaml" path="res://others/elegant.woff" id="6_5qbqa"]
-[ext_resource type="Script" uid="uid://c8stcr5blv7sf" path="res://scripts/daytimer.gd" id="6_kri1i"]
 [ext_resource type="PackedScene" uid="uid://cgumsdnkyal2d" path="res://scenes/gui_panel_3d.tscn" id="7_gi1h7"]
-[ext_resource type="Script" uid="uid://d0nyku8axrdyg" path="res://scripts/ui_controller.gd" id="7_j8asw"]
+[ext_resource type="Script" uid="uid://c3br6dlabyqri" path="res://scripts/UI/ui_controller.gd" id="8_8mr64"]
+[ext_resource type="Script" uid="uid://b71g2k3iepsa2" path="res://scripts/Manager/game_manager.gd" id="11_8mr64"]
 [ext_resource type="Texture2D" uid="uid://gerluh6y40jv" path="res://others/blank.png" id="16_fme2p"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5qbqa"]
@@ -35,11 +34,28 @@ sky = SubResource("Sky_8mr64")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8mr64"]
+bg_color = Color(0.3088952, 0.44541365, 0.16006756, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utrvu"]
+bg_color = Color(0.30980393, 0.44705883, 0.16078432, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
 [node name="Test Scene" type="Node3D" unique_id=1322774428]
-script = ExtResource("1_3dx25")
 
 [node name="Griddle" parent="." unique_id=1082305125 instance=ExtResource("2_3dx25")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 11.905416, -1.3276114, 18.36706)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 11.905416, 0.6025939, 18.36706)
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=2097325185]
 
@@ -51,11 +67,11 @@ mesh = SubResource("BoxMesh_5qbqa")
 shape = SubResource("BoxShape3D_nuoa6")
 
 [node name="OrderManager" type="Node" parent="." unique_id=837070661]
-script = ExtResource("4_kri1i")
+script = ExtResource("2_8mr64")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=243915831 groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2454286, 0)
-script = ExtResource("3_l6grw")
+script = ExtResource("3_j8asw")
 test_icon = ExtResource("5_8mr64")
 
 [node name="Inventory" type="Node" parent="Player" unique_id=392217953]
@@ -80,14 +96,15 @@ environment = SubResource("Environment_5qbqa")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="GameUI" type="Control" parent="." unique_id=1957543720 node_paths=PackedStringArray("inventory")]
+[node name="GameUI" type="Control" parent="." unique_id=1957543720 node_paths=PackedStringArray("inventory", "ordermanager")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("7_j8asw")
+script = ExtResource("8_8mr64")
 inventory = NodePath("../Player/Inventory")
 blank_icon = ExtResource("16_fme2p")
+ordermanager = NodePath("../OrderManager")
 
 [node name="Crosshair" type="ColorRect" parent="GameUI" unique_id=290325522]
 layout_mode = 1
@@ -127,7 +144,6 @@ offset_right = 55.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("6_5qbqa")
 text = "7:45 AM"
-script = ExtResource("6_kri1i")
 
 [node name="Hotbar" type="ItemList" parent="GameUI" unique_id=335766266]
 layout_mode = 0
@@ -145,5 +161,52 @@ fixed_column_width = 35
 icon_mode = 0
 fixed_icon_size = Vector2i(24, 24)
 
-[connection signal="day_end" from="GameUI/DayTimer" to="OrderManager" method="_on_day_end"]
-[connection signal="day_start" from="GameUI/DayTimer" to="OrderManager" method="_on_day_start"]
+[node name="PauseMenu" type="Control" parent="GameUI" unique_id=671809361]
+anchors_preset = 0
+offset_left = 554.0
+offset_top = 248.0
+offset_right = 594.0
+offset_bottom = 288.0
+
+[node name="ColorRect" type="ColorRect" parent="GameUI/PauseMenu" unique_id=821321919]
+layout_mode = 0
+offset_left = -30.000002
+offset_top = -5.9999995
+offset_right = 9.999998
+offset_bottom = 34.0
+scale = Vector2(3.0040512, 2.8559487)
+color = Color(1, 1, 1, 0.34509805)
+
+[node name="Label" type="Label" parent="GameUI/PauseMenu" unique_id=2123100729]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 56.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Paused
+"
+
+[node name="Quit" type="Button" parent="GameUI/PauseMenu" unique_id=1165857313]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 79.0
+offset_right = 50.0
+offset_bottom = 102.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_8mr64")
+action_mode = 0
+text = "Quit"
+
+[node name="Resume" type="Button" parent="GameUI/PauseMenu" unique_id=717693233]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 42.0
+offset_right = 63.0
+offset_bottom = 65.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_utrvu")
+action_mode = 0
+text = "Resume"
+
+[node name="GameManager" type="Node" parent="." unique_id=1511798511]
+process_mode = 3
+script = ExtResource("11_8mr64")

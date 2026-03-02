@@ -1,7 +1,9 @@
 extends CharacterBody3D
 class_name Player
 @onready var inventory: Inventory = $Inventory
+@export var screen_manager: ScreenManager
 @export var test_icon: Texture2D
+@onready var camera: Camera3D = $Camera # reference to player camera
 
 # Main movement code was adapted from https://github.com/rbarongr/GodotFirstPersonController/tree/main
 
@@ -27,18 +29,36 @@ var jump_vel: Vector3 # Jumping velocity
 
 var forward: Vector3 # forward direction for dropping items and moving
 
-@onready var camera: Camera3D = $Camera # reference to player camera
+var current_world_item: WorldItem
 
 func _ready() -> void: # capture the mouse
-	# test add item
-	var test_item = ItemData.new()
-	test_item.ID = 0
-	test_item.Name = "Test Item"
-	test_item.Description = "This is a test item."
-	test_item.Icon = test_icon
-	test_item.MaxStackSize = 10
-	inventory.add_inventory_item(test_item, 15)
 	capture_mouse()
+
+func raycast_from_crosshair() -> void:
+	#get the exact center of the screen, this is where the crosshair is
+	var viewport_size = get_viewport().size
+	var screen_center = viewport_size / 2
+	
+	#send out a ray from the center of the screen relative to where the camera is
+	var ray_origin = camera.project_ray_origin(screen_center)
+	var ray_direction = camera.project_ray_normal(screen_center)
+
+	var query = PhysicsRayQueryParameters3D.create(
+		ray_origin,
+		ray_origin + ray_direction * 1000.0
+	)
+
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	#check what the ray intersected with.
+
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+
+	screen_manager.handle_ray_result(result)
+
+func _input(event):
+	if event is InputEventMouseButton:
+		screen_manager.forward_mouse_button(event)
 
 # handle mouse look input
 func _unhandled_input(event: InputEvent) -> void:
@@ -56,6 +76,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("drop_item"): drop_item()
 	# calculate final velocity vector and move the player
 	velocity = _walk(delta) + _gravity(delta) + _jump(delta)
+	raycast_from_crosshair()
 	move_and_slide()
 
 # drops the currently held item into the world as a pickup. 

@@ -1,11 +1,10 @@
 extends RefCounted
-
 #This is a custom class to hold Order information.
-class_name Order
+class_name Order_old
 
 #Base recipie (Burger, etc)
 var base: String
-#Additions to the recipie
+#Additions to the base recipie (Cheese, Lettuce, etc)
 var variations: Array = []
 #ID of this order
 var id: int

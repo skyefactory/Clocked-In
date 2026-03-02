@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cdgehk3kgbjw0"]
+
+[ext_resource type="Texture2D" uid="uid://x7lww7ykf4ji" path="res://others/item_icons/cooked_patty_icon.png" id="1_bqr4o"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_tqvyi"]
+
+[resource]
+script = ExtResource("1_tqvyi")
+ID = 1
+Name = "Cooked Patty"
+Icon = ExtResource("1_bqr4o")
+Description = "A cooked burger patty. Perfect for a burger"
+MaxStackSize = 10
+metadata/_custom_type_script = "uid://c2h4urya43rqc"
