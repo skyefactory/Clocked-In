@@ -33,8 +33,11 @@ func update_screen(pending_orders: Array[Order]) -> void:
 						ingredientsText += "- " + ingredient.Name + "\n"
 					ingredientsLabel.text = ingredientsText
 					if o.status == Order.OrderStatus.ACTIVE:
-						var colorRect: ColorRect = ui.get_child(0)
+						var colorRect: ColorRect = ui.get_child(1)
 						colorRect.color = Color(0.0, 155, 0.0, 1.0)
+					else:
+						var colorRect: ColorRect = ui.get_child(1)
+						colorRect.color = Color(255, 0.0, 0.0, 1.0)
 					displayed_order_ids.append(o.id)
 					break
 			#if the order is not in the pending orders, remove it from the screen.

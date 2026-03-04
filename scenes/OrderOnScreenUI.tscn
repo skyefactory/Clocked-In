@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://eu60c84sxykh"]
 
+[ext_resource type="Script" uid="uid://cnlg2k5iquqry" path="res://scripts/Needs Redoing/button.gd" id="1_77pfx"]
 [ext_resource type="Script" uid="uid://brooydsgo0ejl" path="res://scripts/timer.gd" id="2_77pfx"]
 
 [node name="Order1" type="Control" unique_id=1298157846]
@@ -12,6 +13,7 @@ layout_mode = 0
 offset_right = 200.0
 offset_bottom = 200.0
 toggle_mode = true
+script = ExtResource("1_77pfx")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=274165364]
 custom_minimum_size = Vector2(200, 200)

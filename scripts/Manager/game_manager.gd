@@ -71,8 +71,10 @@ func new_order() -> Order:
     push_warning("No recipes available to create an order.")
     return null
 
-func print_order(order: Order) -> void:
-    print("ID:", order.id, " Status:", order.status, " Recipe Name:", order.recipe.result.Name, " Ingredients:", order.recipe.ingredients)
+func print_order(order: Order , additional_info: String = "") -> void:
+    print(additional_info + "\nOrder ID#: " + str(order.id) + "\n Status: " + str(order.status) + "\n Is Late: " + str(order.isLate) + "\n Recipe Name: " + order.recipe.result.Name + "\n Ingredients: ")
+    for ingredient in order.recipe.ingredients:
+        print("\n- " + ingredient.Name)
 
 func complete_order(order:Order = null, id: int = -1) -> void:
     if order == null and id != -1:
@@ -100,6 +102,23 @@ func mark_order_as_late(order:Order = null, id: int = -1) -> void:
         update_orders_ui.emit(pending_orders)
     else:
         push_warning("Order not found to mark as late." + str(id) + " " + str(order))
+
+func set_active_order(id: int) -> void:
+    for o in pending_orders:
+        if o.id == id:
+            o.status = Order.OrderStatus.ACTIVE
+            update_orders_ui.emit(pending_orders)
+        if o.id != id and o.status == Order.OrderStatus.ACTIVE:
+            o.status = Order.OrderStatus.PENDING
+            update_orders_ui.emit(pending_orders)
+    push_warning("Order not found to set as active: " + str(id))
+
+
+func set_order_as_pending(id: int) -> void:
+    for o in pending_orders:
+        if o.id == id:
+            o.status = Order.OrderStatus.PENDING
+            update_orders_ui.emit(pending_orders)
 
 #helper function to pick a random recipe
 func pick_random_recipe() -> Recipe:

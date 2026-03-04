@@ -9,5 +9,4 @@ ID = 7
 Name = "Lettuce"
 Icon = ExtResource("1_o1ccx")
 Description = "what the lettuce"
-MaxStackSize = 10
 metadata/_custom_type_script = "uid://c2h4urya43rqc"
