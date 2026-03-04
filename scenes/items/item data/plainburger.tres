@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cxvhphsjfdbkf"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_h5xm7"]
+
+[resource]
+script = ExtResource("1_h5xm7")
+ID = 3
+Name = "Plain Burger"
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

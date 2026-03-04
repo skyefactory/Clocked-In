@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dfd46dgxs3ucr"]
+
+[ext_resource type="Texture2D" uid="uid://drs87mjo0jpq" path="res://others/item_icons/raw_bacon_icon.png" id="1_enp0b"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_kai40"]
+[ext_resource type="Resource" uid="uid://bpvj0nlklq34j" path="res://scenes/items/item data/cooked_bacon.tres" id="2_fkqsc"]
+
+[resource]
+script = ExtResource("1_kai40")
+ID = 4
+Name = "Raw Bacon"
+Icon = ExtResource("1_enp0b")
+Description = "Raw Bacon.....mmmmmmmmmmmmmmmmmmmmmmmm"
+MaxStackSize = 10
+cook_result = ExtResource("2_fkqsc")
+time_to_cook = 10.0
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://eu60c84sxykh"]
 
-[ext_resource type="Script" uid="uid://cnlg2k5iquqry" path="res://scripts/Needs Redoing/button.gd" id="1_77pfx"]
 [ext_resource type="Script" uid="uid://brooydsgo0ejl" path="res://scripts/timer.gd" id="2_77pfx"]
 
 [node name="Order1" type="Control" unique_id=1298157846]
@@ -13,7 +12,6 @@ layout_mode = 0
 offset_right = 200.0
 offset_bottom = 200.0
 toggle_mode = true
-script = ExtResource("1_77pfx")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=274165364]
 custom_minimum_size = Vector2(200, 200)
@@ -23,14 +21,14 @@ offset_bottom = 40.0
 mouse_filter = 2
 color = Color(1, 0, 0, 1)
 
-[node name="Base Order" type="RichTextLabel" parent="." unique_id=943594512]
+[node name="RecipeName" type="RichTextLabel" parent="." unique_id=943594512]
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 200.0
 mouse_filter = 2
 text = "PLACEHOLDER"
 
-[node name="Additions" type="RichTextLabel" parent="." unique_id=1375929280]
+[node name="Ingredients" type="RichTextLabel" parent="." unique_id=1375929280]
 clip_contents = false
 layout_mode = 0
 offset_left = 25.0
@@ -38,7 +36,8 @@ offset_top = 25.0
 offset_right = 200.0
 offset_bottom = 225.0
 mouse_filter = 2
-text = "PLACEHOLDER"
+text = "o PLACEHOLDER
+o PLACEHOLDER"
 
 [node name="ID" type="Node3D" parent="." unique_id=1678734419]
 

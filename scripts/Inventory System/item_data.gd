@@ -6,7 +6,7 @@ class_name ItemData
 @export var Icon: Texture2D # Icon showed in the inventory / hotbar UI
 @export var Description: String # Description of the item, not sure where to use this yet, maybe in a tooltip
 @export var MaxStackSize: int # Maxiumum number of items that can be stacked, if item is not stackable set this to 1
-@export var WorldModel: PackedScene # The in game/ in world representation of the item.
+@export var WorldModelPath: String # The in game/ in world representation of the item.
 # used when the item is dropped in the world or when the player is holding it in their hand
 
 @export var cook_result: ItemData = null # If this item is cookable, this variable will hold the resulting item after cooking, if not cookable this will be null
@@ -22,11 +22,3 @@ class_name ItemData
 
 func isCookable() -> bool: # quick check to see if cookable. Can be used for interactions with kitchen items.
     return cook_result != null
-
-func _init(id: int, name: String, icon: Texture2D, description: String, max_stack_size: int, world_model: PackedScene) -> void:
-    self.ID = id
-    self.Name = name
-    self.Icon = icon
-    self.Description = description
-    self.MaxStackSize = max_stack_size
-    self.WorldModel = world_model

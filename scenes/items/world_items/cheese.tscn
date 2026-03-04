@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://gj7q8sxwqyju"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_iakaw"]
+[ext_resource type="Resource" uid="uid://c20nxlrns6bli" path="res://scenes/items/item data/cheese.tres" id="2_iakaw"]
+[ext_resource type="Script" uid="uid://ctygqqlb35bdd" path="res://scripts/ignore_player.gd" id="3_t768h"]
+[ext_resource type="PackedScene" uid="uid://dmh8nlgeg415y" path="res://models/blend files/cheese.blend" id="4_iakaw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0ai3j"]
+radius = 1.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iakaw"]
+size = Vector3(2.0291748, 0.0579834, 1.9902954)
+
+[node name="Cheese" type="Area3D" unique_id=1379983220]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_iakaw")
+Data = ExtResource("2_iakaw")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=365586795]
+shape = SubResource("SphereShape3D_0ai3j")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=112627224]
+script = ExtResource("3_t768h")
+
+[node name="cheese" parent="RigidBody3D" unique_id=1523184034 instance=ExtResource("4_iakaw")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=49563713]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004333496, 0.00030517578, -0.01260376)
+shape = SubResource("BoxShape3D_iakaw")

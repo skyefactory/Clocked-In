@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dly3ipy0o5ys4"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_dcs6k"]
+[ext_resource type="Resource" uid="uid://c5ka2x4m6u3ig" path="res://scenes/items/item data/lettuce.tres" id="2_dcs6k"]
+[ext_resource type="Script" uid="uid://ctygqqlb35bdd" path="res://scripts/ignore_player.gd" id="3_5h38l"]
+[ext_resource type="PackedScene" uid="uid://c35kj5ciq1ouj" path="res://models/blend files/letti.blend" id="4_jdi0u"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0ai3j"]
+radius = 1.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5h38l"]
+size = Vector3(1, 0.015319824, 0.77319336)
+
+[node name="Lettuce" type="Area3D" unique_id=1379983220]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_dcs6k")
+Data = ExtResource("2_dcs6k")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=365586795]
+shape = SubResource("SphereShape3D_0ai3j")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=112627224]
+script = ExtResource("3_5h38l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=836933802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0049031973, 0.013587773)
+shape = SubResource("BoxShape3D_5h38l")
+
+[node name="letti" parent="RigidBody3D" unique_id=1754505096 instance=ExtResource("4_jdi0u")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

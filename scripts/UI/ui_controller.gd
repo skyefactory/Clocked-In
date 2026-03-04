@@ -6,8 +6,8 @@ class_name UIController
 
 @export var state_manager: StateManager
 @export var game_manager: GameManager
-
-@export var ordermanager: OrderManager
+@export var player: Player
+@export var screen_manager: ScreenManager
 @onready var hotbar: ItemList = $Hotbar
 @onready var daytimer_label: Label = $DayTimer
 @onready var interact_label: Label = $InteractLabel
@@ -26,20 +26,28 @@ func _ready():
 	daytimer.day_start.connect(on_day_start)
 	daytimer.day_end.connect(on_day_end)
 	daytimer.time_changed.connect(on_time_changed)
+	daytimer.day_start.connect(game_manager.on_day_start)
+
 	# Connect inventory signals to update the hotbar and highlight the selected slot
 	inventory.inventory_changed.connect(update_hotbar)
 	inventory.selected_item_changed.connect(highlight_slot)
-	# Connect the game paused signal to show the pause menu
-	state_manager.paused.connect(on_game_paused)
-	daytimer.day_start.connect(ordermanager.on_day_start)
-	pause_menu.hide()
-	quit_button.pressed.connect(state_manager.quit)
-	resume_button.pressed.connect(state_manager.toggle_pause)
-	game_manager.interaction_signal.connect(toggle_interact_label)
 	# Initial hotbar update
 	update_hotbar()
 
+	# Connect the game paused signal to show the pause menu
+	state_manager.paused.connect(on_game_paused)
+
+	pause_menu.hide()
+	quit_button.pressed.connect(state_manager.quit)
+	resume_button.pressed.connect(state_manager.toggle_pause)
+	player.interact_target.connect(toggle_interact_label)
+
+	game_manager.update_orders_ui.connect(screen_manager.update_screen)
+
+
+
 func toggle_interact_label(show_label: bool, text: String = ""):
+	print("Toggling interact label: ", show_label, text)
 	if show_label:
 		interact_label.text = text
 		interact_label.show()
@@ -82,15 +90,16 @@ func on_time_changed(hour: int, minute: int, pm: bool, spedup: bool):
 
 
 func highlight_slot(index: int):
-	hotbar.select(index)    
+	if index >= 0 and index < hotbar.get_item_count():
+		hotbar.select(index)    
 
 func on_game_paused(paused: bool):
 	if paused:
+		
 		get_tree().paused = true
-		# Show pause menu
-		pass
+		pause_menu.show()
 	else:
 		get_tree().paused = false
-		# Hide pause menu
+		pause_menu.hide()
 		pass
 	pass

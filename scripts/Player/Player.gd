@@ -2,7 +2,6 @@ extends CharacterBody3D
 class_name Player
 @onready var inventory: Inventory = $Inventory
 @export var screen_manager: ScreenManager
-@export var test_icon: Texture2D
 @onready var camera: Camera3D = $Camera # reference to player camera
 
 # Main movement code was adapted from https://github.com/rbarongr/GodotFirstPersonController/tree/main
@@ -30,6 +29,8 @@ var jump_vel: Vector3 # Jumping velocity
 var forward: Vector3 # forward direction for dropping items and moving
 
 var current_world_item: WorldItem
+
+signal interact_target(show_label, text)
 
 func _ready() -> void: # capture the mouse
 	capture_mouse()
@@ -59,6 +60,8 @@ func raycast_from_crosshair() -> void:
 func _input(event):
 	if event is InputEventMouseButton:
 		screen_manager.forward_mouse_button(event)
+	if event.is_action_pressed("interact") and current_world_item:
+		current_world_item.pickup()
 
 # handle mouse look input
 func _unhandled_input(event: InputEvent) -> void:
@@ -83,21 +86,38 @@ func _physics_process(delta: float) -> void:
 # The item is removed from the inventory and an instance of the item's WorldModel 
 # is created in the world at the player's position.
 func drop_item():
-	# get the currently held item from the inventory and remove it from the inventory
-	var slot = inventory.remove_selected_item() 
-	if slot == null: # if the return is null, do nothing (this should not happen)
+	# remove the currently held item
+	var slot = inventory.remove_selected_item()
+	if slot == null:
 		return
-	
-	# create an instance of the item's WorldModel and add it to the world
-	var world_scene = slot.item.WorldModel
-	var world_item = world_scene.instantiate()
-	get_tree().current_scene.add_child(world_item)
 
-	# set the data and quantity of the world item to match the item that was in the inventory
+	# instantiate the WorldItem scene
+	var path = slot.item.WorldModelPath
+	var world_item_scene = ResourceLoader.load(path) as PackedScene
+	if world_item_scene == null:
+		push_error("Failed to load world model scene at path: " + path)
+		return
+	var world_item = world_item_scene.instantiate() as WorldItem
+	if world_item == null:
+		push_error("Dropped scene root is not a WorldItem!")
+		return
+
+	# get the scene root
+	var scene_root = get_tree().get_current_scene()
+	if scene_root == null:
+		push_error("Cannot drop item: current scene is null")
+		return
+
+	# add the world item to the scene
+	scene_root.add_child(world_item)
+
+	# assign data and quantity
 	world_item.Data = slot.item
 	world_item.Quantity = slot.quantity
-	# set the position of the world item to be in front of the player
-	world_item.global_position = global_position + forward * 2.0
+
+	# place in front of the player
+	world_item.global_position = global_position + forward * 2.00
+
 
 # capture mouse
 func capture_mouse() -> void:
@@ -132,3 +152,17 @@ func _jump(delta: float) -> Vector3:
 		return jump_vel
 	jump_vel = Vector3.ZERO if is_on_floor() or is_on_ceiling_only() else jump_vel.move_toward(Vector3.ZERO, gravity * delta)
 	return jump_vel
+
+func set_world_item(world_item: WorldItem) -> void:
+	print("Set world item:", world_item, world_item.Data.Name)
+	current_world_item = world_item
+	if world_item and world_item.Data:
+		emit_signal("interact_target", true, "Press E to pick up " + world_item.Data.Name) # show the interact label with the name of the item
+	else:
+		emit_signal("interact_target", false, "") # hide the interact label
+
+func clear_world_item(world_item: WorldItem) -> void:
+	print("Clear world item:", world_item)
+	if current_world_item == world_item:
+		current_world_item = null
+		emit_signal("interact_target", false, "")

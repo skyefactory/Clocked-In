@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c5ka2x4m6u3ig"]
+
+[ext_resource type="Texture2D" uid="uid://c0fyuiwd8psdn" path="res://others/item_icons/lettuce_icon.png" id="1_o1ccx"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_rfp86"]
+
+[resource]
+script = ExtResource("1_rfp86")
+ID = 7
+Name = "Lettuce"
+Icon = ExtResource("1_o1ccx")
+Description = "what the lettuce"
+MaxStackSize = 10
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://e4308awryt7r"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_8bos6"]
+[ext_resource type="Resource" uid="uid://cdgehk3kgbjw0" path="res://scenes/items/item data/cooked_patty.tres" id="2_l0wk3"]
+[ext_resource type="PackedScene" uid="uid://bymvg31wg01v1" path="res://models/blend files/cooked_patty.blend" id="4_0ai3j"]
+[ext_resource type="Script" uid="uid://ctygqqlb35bdd" path="res://scripts/ignore_player.gd" id="4_l0wk3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0ai3j"]
+radius = 1.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v6p6b"]
+height = 0.09472656
+
+[node name="CookedPatty" type="Area3D" unique_id=1379983220]
+script = ExtResource("1_8bos6")
+Data = ExtResource("2_l0wk3")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=365586795]
+shape = SubResource("SphereShape3D_0ai3j")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=112627224]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("4_l0wk3")
+
+[node name="cooked_patty" parent="RigidBody3D" unique_id=1914127075 instance=ExtResource("4_0ai3j")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1335055178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0053710938, 0)
+shape = SubResource("CylinderShape3D_v6p6b")
