@@ -46,7 +46,7 @@ func _process(delta):
 
 # helper function to format the remaining time in MM:SS format for display on the timer label.
 func format_time(seconds: int) -> String:
-	var mins := seconds / 60
+	var mins := int(seconds / 60)
 	var secs := seconds % 60
 	
 	return "%02d:%02d" % [mins, secs]
