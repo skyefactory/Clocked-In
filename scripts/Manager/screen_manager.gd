@@ -11,8 +11,6 @@ var is_hovering: bool = false
 var last_event_pos2D: Vector2 = Vector2.ZERO
 var last_event_time: float = -1.0
 
-
-
 func update_screen(pending_orders: Array[Order]) -> void:
 	#Check if order is already on the screen.
 	var displayed_order_ids = []
@@ -77,6 +75,7 @@ func process_hit_position(hit_position: Vector3) -> void:
 
 	pos2D.x *= viewport.size.x
 	pos2D.y *= viewport.size.y
+	pos2D = pos2D.clamp(Vector2.ZERO, Vector2(viewport.size) - Vector2.ONE)
 
 	var now = Time.get_ticks_msec() / 1000.0
 
@@ -91,7 +90,7 @@ func process_hit_position(hit_position: Vector3) -> void:
 		motion_event.relative = Vector2.ZERO
 		motion_event.velocity = Vector2.ZERO
 
-	viewport.push_input(motion_event)
+	viewport.push_input(motion_event, true)
 
 	last_event_pos2D = pos2D
 	last_event_time = now
@@ -104,7 +103,10 @@ func forward_mouse_button(event: InputEventMouseButton) -> void:
 	var button_event := InputEventMouseButton.new()
 	button_event.button_index = event.button_index
 	button_event.pressed = event.pressed
+	button_event.button_mask = event.button_mask
+	button_event.double_click = event.double_click
+	button_event.factor = event.factor
 	button_event.position = last_event_pos2D
 	button_event.global_position = last_event_pos2D
 
-	viewport.push_input(button_event)
+	viewport.push_input(button_event, true)

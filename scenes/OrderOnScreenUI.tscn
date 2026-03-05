@@ -1,17 +1,19 @@
 [gd_scene format=3 uid="uid://eu60c84sxykh"]
 
-[ext_resource type="Script" uid="uid://cnlg2k5iquqry" path="res://scripts/Needs Redoing/button.gd" id="1_77pfx"]
+[ext_resource type="Script" uid="uid://cnlg2k5iquqry" path="res://scripts/orderbutton.gd" id="1_77pfx"]
 [ext_resource type="Script" uid="uid://brooydsgo0ejl" path="res://scripts/timer.gd" id="2_77pfx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_77pfx"]
 
 [node name="Order1" type="Control" unique_id=1298157846]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Button" type="Button" parent="." unique_id=59237145]
-custom_minimum_size = Vector2(200, 200)
+[node name="Button2" type="Button" parent="." unique_id=1661815591]
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 200.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_77pfx")
 toggle_mode = true
 script = ExtResource("1_77pfx")
 
@@ -62,5 +64,4 @@ mouse_filter = 2
 text = "PLACEHOLDER"
 script = ExtResource("2_77pfx")
 
-[connection signal="toggled" from="Button" to="Button" method="_on_toggled"]
-[connection signal="timer_finished" from="Timer" to="Button" method="_on_timer_finished"]
+[connection signal="toggled" from="Button2" to="Button2" method="_on_toggled"]

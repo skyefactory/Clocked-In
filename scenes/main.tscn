@@ -12,8 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://cdk2t0f8gpwmi" path="res://others/granite_tile_04_4k/textures/granite_tile_04_nor_dx_4k.jpg" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://ymqlnxatyjjr" path="res://others/granite_tile_04_4k/textures/granite_tile_04_rough_4k.jpg" id="11_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://ceyoc6vay4ul" path="res://others/damaged_plaster_4k/textures/damaged_plaster_diff_4k.jpg" id="12_muem4"]
+[ext_resource type="Texture2D" uid="uid://c08ghwe8odi6d" path="res://others/available_to_craft.png" id="13_0ld40"]
 [ext_resource type="Texture2D" uid="uid://bk6qcag04tigs" path="res://others/damaged_plaster_4k/textures/damaged_plaster_arm_4k.jpg" id="13_dp3eg"]
+[ext_resource type="Script" uid="uid://c2adhnywm1ael" path="res://scenes/crafting_station.gd" id="13_yc10j"]
 [ext_resource type="Texture2D" uid="uid://drgy8772vt2t8" path="res://others/damaged_plaster_4k/textures/damaged_plaster_nor_dx_4k.jpg" id="14_0ld40"]
+[ext_resource type="Texture2D" uid="uid://eo07v6taau63" path="res://others/unavailable_to_craft.png" id="14_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://crqyasghqsks" path="res://others/damaged_plaster_4k/textures/damaged_plaster_rough_4k.jpg" id="15_gqmmt"]
 [ext_resource type="PackedScene" uid="uid://be7iys4ysjmhd" path="res://models/blend files/screen.blend" id="17_0ld40"]
 [ext_resource type="Script" uid="uid://bvk80mlofk6w4" path="res://scripts/Manager/screen_manager.gd" id="19_0ld40"]
@@ -106,6 +109,16 @@ size = Vector3(1.6799316, 2.730957, 2.9851074)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dp3eg"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yc10j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jscy8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pm3ni"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y6deb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_og1vs"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
 bg_color = Color(0.3088952, 0.44541365, 0.16006756, 1)
 corner_radius_top_left = 4
@@ -143,7 +156,7 @@ expand_margin_left = 5.0
 expand_margin_right = 5.0
 
 [sub_resource type="QuadMesh" id="1"]
-size = Vector2(15, 10)
+size = Vector2(4, 2.5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_gqmmt"]
 viewport_path = NodePath("Managers/ScreenManager/SubViewport")
@@ -155,7 +168,7 @@ shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_gqmmt")
 
 [sub_resource type="BoxShape3D" id="4"]
-size = Vector3(15, 10, 0.1)
+size = Vector3(4, 2.5, 0.1)
 
 [node name="Main" type="Node3D" unique_id=877551196]
 
@@ -344,8 +357,103 @@ game_manager = NodePath("../GameManager")
 player = NodePath("../../Player")
 screen_manager = NodePath("../ScreenManager")
 
+[node name="CraftingStationUI" type="Control" parent="Managers/UIController" unique_id=1103988347]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 538.0
+offset_top = 284.0
+offset_right = 578.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("13_yc10j")
+
+[node name="Label" type="Label" parent="Managers/UIController/CraftingStationUI" unique_id=17701733]
+layout_mode = 0
+offset_left = -274.0
+offset_top = -123.0
+offset_right = -172.0
+offset_bottom = -100.0
+text = "StationName"
+
+[node name="ColorRect" type="ColorRect" parent="Managers/UIController/CraftingStationUI" unique_id=259705167]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -150.0
+offset_right = 300.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.5647059)
+
+[node name="ColorRect2" type="ColorRect" parent="Managers/UIController/CraftingStationUI" unique_id=1780326147]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -294.0
+offset_top = -121.0
+offset_right = 296.0
+offset_bottom = 179.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.034555048)
+color = Color(0, 0, 0, 0.5647059)
+
+[node name="GridContainer" type="GridContainer" parent="Managers/UIController/CraftingStationUI" unique_id=1298725838]
+layout_mode = 1
+offset_left = -266.0
+offset_top = -76.0
+offset_right = 304.0
+offset_bottom = 154.0
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 225
+columns = 4
+
+[node name="RecipeBlock" type="Control" parent="Managers/UIController/CraftingStationUI/GridContainer" unique_id=191976588]
+layout_mode = 2
+
+[node name="CraftingStatus" type="TextureRect" parent="Managers/UIController/CraftingStationUI/GridContainer/RecipeBlock" unique_id=17216199]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_0ld40")
+
+[node name="UnavailableCrossover" type="TextureRect" parent="Managers/UIController/CraftingStationUI/GridContainer/RecipeBlock" unique_id=552826091]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 64.0
+texture = ExtResource("14_gqmmt")
+
+[node name="StartCraftingButton" type="Button" parent="Managers/UIController/CraftingStationUI/GridContainer/RecipeBlock" unique_id=1942585329]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 64.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yc10j")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jscy8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pm3ni")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_y6deb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_og1vs")
+
 [node name="PauseMenu" type="Control" parent="Managers/UIController" unique_id=1988835037]
 process_mode = 2
+visible = false
 anchors_preset = 0
 offset_left = 554.0
 offset_top = 248.0
@@ -448,7 +556,7 @@ theme_override_fonts/font = ExtResource("5_choun")
 text = "7:45 AM"
 
 [node name="ScreenManager" type="Node3D" parent="Managers" unique_id=1977879103]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3.28959, 2.161603, -8.874062)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.28959, 2.161603, -8.874062)
 script = ExtResource("19_0ld40")
 metadata/_custom_type_script = "uid://bvk80mlofk6w4"
 
@@ -467,6 +575,7 @@ theme_override_constants/v_separation = 225
 columns = 4
 
 [node name="Quad" type="MeshInstance3D" parent="Managers/ScreenManager" unique_id=1270843842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14193869)
 mesh = SubResource("1")
 surface_material_override/0 = SubResource("StandardMaterial3D_yc10j")
 
@@ -478,7 +587,7 @@ input_capture_on_drag = true
 shape = SubResource("4")
 
 [node name="screen" parent="Managers/ScreenManager" unique_id=57950789 instance=ExtResource("17_0ld40")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -0.1384719)
+transform = Transform3D(0.135, 0, 0, 0, 0.12, 0, 0, 0, 0.25, 0, 0, 0.08657664)
 
 [node name="GameManager" type="Node" parent="Managers" unique_id=1699590259]
 script = ExtResource("7_o6xl0")

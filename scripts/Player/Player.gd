@@ -50,7 +50,8 @@ func raycast_from_crosshair() -> void:
 	)
 
 	query.collide_with_areas = true
-	query.collide_with_bodies = true
+	query.collide_with_bodies = false
+	query.collision_mask = 2
 	#check what the ray intersected with.
 
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
@@ -59,6 +60,8 @@ func raycast_from_crosshair() -> void:
 
 func _input(event):
 	if event is InputEventMouseButton:
+		# Refresh the hit position in the same input tick as the click.
+		raycast_from_crosshair()
 		screen_manager.forward_mouse_button(event)
 	if event.is_action_pressed("interact") and current_world_item:
 		current_world_item.pickup()
