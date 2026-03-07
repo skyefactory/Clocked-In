@@ -3,6 +3,11 @@
 *.csproj
 *.sln
 *.import
+*.uid
+*.tmp
+*.import
+*.ase
+*.blend1
 
 # Godot-specific ignores
 .import/
