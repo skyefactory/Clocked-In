@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://c0leqa8csef5p"]
+
+[ext_resource type="Script" uid="uid://bw275jn70amds" path="res://scripts/scenechange.gd" id="1_0wykx"]
+[ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="2_rujfs"]
+
+[sub_resource type="Animation" id="Animation_ovque"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rujfs"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0wykx"]
+resource_name = "fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2sgj6"]
+_data = {
+&"RESET": SubResource("Animation_ovque"),
+&"fade_in": SubResource("Animation_rujfs"),
+&"fade_out": SubResource("Animation_0wykx")
+}
+
+[node name="SceneTransition" type="CanvasLayer" unique_id=997350166]
+script = ExtResource("1_0wykx")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1601551658]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=15288117]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -162.0
+offset_right = 2.0
+offset_bottom = -135.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_rujfs")
+theme_override_font_sizes/font_size = 64
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1149450909]
+libraries/ = SubResource("AnimationLibrary_2sgj6")

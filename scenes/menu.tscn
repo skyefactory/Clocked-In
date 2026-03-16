@@ -1,0 +1,192 @@
+[gd_scene format=3 uid="uid://dafh3frppmetf"]
+
+[ext_resource type="Script" uid="uid://drpot7lki3tp3" path="res://scripts/menu.gd" id="1_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://c1itepcoe5cr0" path="res://1.png" id="1_con2f"]
+[ext_resource type="Texture2D" uid="uid://dd2ilggbeg5h7" path="res://2.png" id="2_mhnvy"]
+[ext_resource type="Texture2D" uid="uid://ca1x81o75blva" path="res://3.png" id="3_4ytvr"]
+[ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_mhnvy"]
+[ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="6_g3eks"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4h3mk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_con2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_mhnvy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4ytvr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ytvr"]
+bg_color = Color(0.23108348, 0.33046642, 0.15417445, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3eks"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13sgg"]
+bg_color = Color(0.288518, 0.288518, 0.2885179, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6lef"]
+bg_color = Color(0.555044, 0.07118932, 0.025011867, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v86rl"]
+bg_color = Color(0.7786898, 0.118815385, 0.05190999, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70i5f"]
+bg_color = Color(0.7786898, 0.118815385, 0.05190999, 1)
+
+[node name="Menu" type="Control" unique_id=953088719]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ytvr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1546440247]
+sprite_frames = SubResource("SpriteFrames_4h3mk")
+autoplay = "default"
+
+[node name="New" type="Button" parent="." unique_id=1267581906]
+layout_mode = 0
+offset_left = -860.0
+offset_top = -132.0
+offset_right = -653.0
+offset_bottom = -59.0
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "New Game"
+
+[node name="Load" type="Button" parent="." unique_id=166240239]
+layout_mode = 0
+offset_left = -860.0
+offset_top = 86.0
+offset_right = -653.0
+offset_bottom = 159.0
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Load Game"
+
+[node name="Quit" type="Button" parent="." unique_id=2137939630]
+layout_mode = 0
+offset_left = -860.0
+offset_top = 288.0
+offset_right = -653.0
+offset_bottom = 361.0
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Quit
+"
+
+[node name="ConfirmationModal" type="Control" parent="." unique_id=1809986893]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmBG" type="ColorRect" parent="ConfirmationModal" unique_id=1562885359]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -400.0
+offset_right = 600.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2784314, 0.2784314, 0.2784314, 0.81960785)
+
+[node name="ConfirmText" type="Label" parent="ConfirmationModal" unique_id=1631211619]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -334.5
+offset_top = -52.0
+offset_right = 334.5
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_g3eks")
+theme_override_font_sizes/font_size = 32
+text = "Are you sure you wish to start a new game?
+
+    Doing so will erase your existing save."
+
+[node name="ConfirmNo" type="Button" parent="ConfirmationModal" unique_id=1546330285]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 184.0
+offset_top = 178.0
+offset_right = 391.0
+offset_bottom = 251.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6lef")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v86rl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_70i5f")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Nevermind"
+
+[node name="ConfirmYes" type="Button" parent="ConfirmationModal" unique_id=215072912]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -392.0
+offset_top = 178.0
+offset_right = -185.0
+offset_bottom = 251.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Yes"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://crv07bvtbqe0u"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_eubnu"]
+[ext_resource type="Resource" uid="uid://dsx7kjql1u8ss" path="res://scenes/items/item data/2_buns.tres" id="2_0y2ph"]
+[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/recipe.gd" id="2_5kq4l"]
+[ext_resource type="Resource" uid="uid://c5ka2x4m6u3ig" path="res://scenes/items/item data/7_lettuce.tres" id="3_nai5v"]
+[ext_resource type="Resource" uid="uid://cslxrqd8pwewf" path="res://scenes/items/item data/21_tomato.tres" id="4_lwf27"]
+[ext_resource type="Resource" uid="uid://bpvj0nlklq34j" path="res://scenes/items/item data/5_cooked_bacon.tres" id="5_rojxm"]
+[ext_resource type="Resource" uid="uid://kednkwvwttgk" path="res://scenes/items/item data/13_blt.tres" id="6_v20y3"]
+
+[resource]
+script = ExtResource("2_5kq4l")
+ingredients = Array[ExtResource("1_eubnu")]([ExtResource("2_0y2ph"), ExtResource("3_nai5v"), ExtResource("4_lwf27"), ExtResource("5_rojxm")])
+result = ExtResource("6_v20y3")
+assemblable = true
+time_to_craft = 10.0
+metadata/_custom_type_script = "uid://csngmnnwm6r3y"

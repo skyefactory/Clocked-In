@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://6wstvucn6l1g"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_rs065"]
+[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/recipe.gd" id="2_jnn1g"]
+[ext_resource type="Resource" uid="uid://cu40sdyvoc0sh" path="res://scenes/items/item data/8_empty_cup.tres" id="2_suxp2"]
+[ext_resource type="Resource" uid="uid://c725cfj1eeofc" path="res://scenes/items/item data/9_beer_cup.tres" id="3_ci3ps"]
+
+[resource]
+script = ExtResource("2_jnn1g")
+ingredients = Array[ExtResource("1_rs065")]([ExtResource("2_suxp2")])
+result = ExtResource("3_ci3ps")
+drinkable = true
+time_to_craft = 2.0
+metadata/_custom_type_script = "uid://csngmnnwm6r3y"

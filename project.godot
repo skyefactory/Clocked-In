@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="The Cooking"
-run/main_scene="uid://dyfkigudqgyu0"
+run/main_scene="uid://dhscaotipm3y8"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://others/textures/icon.svg"
+
+[autoload]
+
+Gamestate="*uid://cioykxcv316wi"
+Scenechange="*uid://c0leqa8csef5p"
 
 [display]
 

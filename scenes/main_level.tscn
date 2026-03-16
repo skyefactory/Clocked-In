@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://dhscaotipm3y8"]
+
+[ext_resource type="Script" uid="uid://c2ke1qko84lnb" path="res://scripts/Player/Player.gd" id="1_qmak7"]
+[ext_resource type="Script" uid="uid://8p45qiffxeuj" path="res://scripts/Inventory System/inventory_new.gd" id="2_8ra5a"]
+[ext_resource type="PackedScene" uid="uid://cm5utitfajpj6" path="res://models/blend files/roadside.blend" id="3_bq26l"]
+[ext_resource type="PackedScene" uid="uid://cw2h60ubp3rbl" path="res://scenes/restauraunt_with_collision.tscn" id="4_qmak7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wy2v3"]
+radius = 1.25
+height = 5.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hy5vw"]
+radius = 1.25
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ljh6"]
+albedo_color = Color(0.5805274, 0, 0.18293685, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hxycm"]
+size = Vector2(30, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ay5uw"]
+albedo_color = Color(0.19525167, 0.23363528, 0.11415883, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ay5uw"]
+size = Vector3(190, 0.001, 160)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ay5uw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_kri1i"]
+sky_material = SubResource("ProceduralSkyMaterial_ay5uw")
+
+[sub_resource type="Environment" id="Environment_t5yav"]
+background_mode = 2
+sky = SubResource("Sky_kri1i")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5yav"]
+size = Vector3(187.84813, 23.934448, 8.3125)
+
+[node name="Restauraunt" type="StaticBody3D" unique_id=387577380]
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1668707330 groups=["Player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.396197, 2.6694207, 0)
+script = ExtResource("1_qmak7")
+speed = 15.0
+jump_height = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=710369898]
+shape = SubResource("CapsuleShape3D_wy2v3")
+
+[node name="Inventory" type="Node" parent="Player" unique_id=977560416]
+script = ExtResource("2_8ra5a")
+metadata/_custom_type_script = "uid://8p45qiffxeuj"
+
+[node name="Camera" type="Camera3D" parent="Player" unique_id=908612847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.478219, 0)
+current = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=683361334]
+mesh = SubResource("CapsuleMesh_hy5vw")
+surface_material_override/0 = SubResource("StandardMaterial3D_7ljh6")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1483586174]
+
+[node name="mesh" type="MeshInstance3D" parent="Ground" unique_id=805756023]
+transform = Transform3D(6.4236937, 0, 0, 0, 1, 0, 0, 0, 8, -33.07466, -0.01, 0)
+mesh = SubResource("PlaneMesh_hxycm")
+surface_material_override/0 = SubResource("StandardMaterial3D_ay5uw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1079060907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.592773, -0.01, 0)
+shape = SubResource("BoxShape3D_ay5uw")
+
+[node name="Env Lighting" type="Node3D" parent="." unique_id=1780842759]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env Lighting" unique_id=929156355]
+environment = SubResource("Environment_t5yav")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env Lighting" unique_id=621901757]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, -4.233227, 11.25601, 7.3321624)
+shadow_enabled = true
+
+[node name="roadside" parent="." unique_id=1271567669 instance=ExtResource("3_bq26l")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="restauraunt" parent="." unique_id=2110745043 instance=ExtResource("4_qmak7")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -52.650665, 0, 3.096332e-07)
+
+[node name="Boundry" type="StaticBody3D" parent="." unique_id=1531485972]
+
+[node name="EastBoundry" type="CollisionShape3D" parent="Boundry" unique_id=665473947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.546227, 11.467224, -61.446537)
+shape = SubResource("BoxShape3D_t5yav")
+
+[node name="WestBoundry" type="CollisionShape3D" parent="Boundry" unique_id=1623321902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.345814, 12.12669, 61.441444)
+shape = SubResource("BoxShape3D_t5yav")
+
+[node name="SouthBoundry" type="CollisionShape3D" parent="Boundry" unique_id=1279605849]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -123.40962, 11.467224, 6.693512)
+shape = SubResource("BoxShape3D_t5yav")
+
+[node name="NorthBoundry" type="CollisionShape3D" parent="Boundry" unique_id=1923953763]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60.831192, 11.467224, 6.693504)
+shape = SubResource("BoxShape3D_t5yav")

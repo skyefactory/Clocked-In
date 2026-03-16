@@ -91,7 +91,7 @@ func _physics_process(delta: float) -> void:
 
 	# calculate final velocity vector and move the player
 	velocity = _walk(delta) + _gravity(delta) + _jump(delta)
-	screen_raycast_from_crosshair()
+	#screen_raycast_from_crosshair()
 	
 	# Check for interactable in view
 	var interact_result = interactable_in_view()
@@ -138,7 +138,7 @@ func drop_item():
 	world_item.global_position = global_position + forward * 2.00
 
 #checks to see if it is colliding with a collider on layer 3 to determine if we are looking at an item we can interact with.
-func interactable_in_view(max_distance: float = 7.5) -> Node:
+func interactable_in_view(max_distance: float = 4.0) -> Node:
 	var query = raycast_from_crosshair() # set up the ray query parameters for a raycast from the center of the screen
 	query.collide_with_bodies = true
 	query.collide_with_areas = false

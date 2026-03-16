@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://cyxwuqqvytetj"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_e2v4o"]
+[ext_resource type="Resource" uid="uid://cff1fsbosr78t" path="res://scenes/items/item data/16_fries.tres" id="2_4lkiy"]
+[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/recipe.gd" id="2_udksq"]
+
+[resource]
+script = ExtResource("2_udksq")
+ingredients = Array[ExtResource("1_e2v4o")]([ExtResource("2_4lkiy")])
+result = ExtResource("2_4lkiy")
+metadata/_custom_type_script = "uid://csngmnnwm6r3y"
+metadata/note = "Special case, since technically the end result is achived just from the frying action."
