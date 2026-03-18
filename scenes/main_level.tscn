@@ -1,9 +1,38 @@
 [gd_scene format=3 uid="uid://dhscaotipm3y8"]
 
+[ext_resource type="Script" uid="uid://boqgxef72dvc6" path="res://scripts/misc/CraftingStationInteractable.gd" id="1_0e4v7"]
 [ext_resource type="Script" uid="uid://c2ke1qko84lnb" path="res://scripts/Player/Player.gd" id="1_qmak7"]
-[ext_resource type="Script" uid="uid://8p45qiffxeuj" path="res://scripts/Inventory System/inventory_new.gd" id="2_8ra5a"]
+[ext_resource type="PackedScene" uid="uid://ucw4m14fn03y" path="res://models/blend files/counter.blend" id="2_6nivd"]
+[ext_resource type="Script" uid="uid://8p45qiffxeuj" path="res://scripts/Inventory System/Inventory.gd" id="2_8ra5a"]
 [ext_resource type="PackedScene" uid="uid://cm5utitfajpj6" path="res://models/blend files/roadside.blend" id="3_bq26l"]
 [ext_resource type="PackedScene" uid="uid://cw2h60ubp3rbl" path="res://scenes/restauraunt_with_collision.tscn" id="4_qmak7"]
+[ext_resource type="Script" uid="uid://c3br6dlabyqri" path="res://scripts/Manager/UIManager.gd" id="7_al56o"]
+[ext_resource type="Texture2D" uid="uid://gerluh6y40jv" path="res://others/textures/blank.png" id="8_1bmon"]
+[ext_resource type="PackedScene" uid="uid://df0wu0cybcy5h" path="res://scenes/prefabs/crafting_station_ui.tscn" id="9_siio1"]
+[ext_resource type="FontFile" uid="uid://kwk25hkyaadj" path="res://others/font/Oxanium-SemiBold.ttf" id="10_ndwfr"]
+[ext_resource type="FontFile" uid="uid://bn4dnw3akfcte" path="res://others/font/Oxanium-Regular.ttf" id="11_nc5r2"]
+[ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="12_sjhni"]
+[ext_resource type="Script" uid="uid://bvk80mlofk6w4" path="res://scripts/Manager/ScreenManager.gd" id="13_7sk5s"]
+[ext_resource type="PackedScene" uid="uid://be7iys4ysjmhd" path="res://models/blend files/screen.blend" id="14_cssx7"]
+[ext_resource type="Script" uid="uid://b71g2k3iepsa2" path="res://scripts/Manager/GameManager.gd" id="15_1irq3"]
+[ext_resource type="Script" uid="uid://b7vfunxxajhy8" path="res://scripts/Manager/OrderManager.gd" id="15_uq2li"]
+[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/misc/Griddle.gd" id="17_rcrbw"]
+[ext_resource type="PackedScene" uid="uid://bl6f3p03ytljn" path="res://models/blend files/griddle.blend" id="18_c88u2"]
+[ext_resource type="PackedScene" uid="uid://dx1aoqmmywucl" path="res://models/blend files/generictable.blend" id="19_al56o"]
+[ext_resource type="PackedScene" uid="uid://d8qipvokjuvl" path="res://models/blend files/drink_machine.blend" id="20_1bmon"]
+[ext_resource type="PackedScene" uid="uid://dmdkbr3gbxblp" path="res://scenes/order_dropoff.tscn" id="22_siio1"]
+[ext_resource type="PackedScene" uid="uid://d1jucsb5ugsfh" path="res://scenes/fridge.tscn" id="23_ndwfr"]
+[ext_resource type="PackedScene" uid="uid://b7a0gi778lsco" path="res://scenes/items/world_items/2_buns.tscn" id="24_1irq3"]
+[ext_resource type="PackedScene" uid="uid://e4308awryt7r" path="res://scenes/items/world_items/0_raw_patty.tscn" id="24_nc5r2"]
+[ext_resource type="PackedScene" uid="uid://dkhialkv2262a" path="res://scenes/items/world_items/4_raw_bacon.tscn" id="25_iycfq"]
+[ext_resource type="PackedScene" uid="uid://gj7q8sxwqyju" path="res://scenes/items/world_items/6_cheese.tscn" id="26_rcrbw"]
+[ext_resource type="PackedScene" uid="uid://dly3ipy0o5ys4" path="res://scenes/items/world_items/7_lettuce.tscn" id="27_c88u2"]
+[ext_resource type="PackedScene" uid="uid://biuj624vl76md" path="res://scenes/items/world_items/8_empty_cup.tscn" id="29_c88u2"]
+[ext_resource type="PackedScene" uid="uid://tog5agrbe67a" path="res://scenes/items/world_items/3_plain_burger.tscn" id="30_gr2jy"]
+[ext_resource type="PackedScene" uid="uid://wl2gyntqawlj" path="res://scenes/items/world_items/5_cooked_bacon.tscn" id="31_3iae7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gr2jy"]
+size = Vector3(1.792038, 2.4181519, 6.8964157)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wy2v3"]
 radius = 1.25
@@ -41,11 +70,83 @@ glow_enabled = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_t5yav"]
 size = Vector3(187.84813, 23.934448, 8.3125)
 
-[node name="Restauraunt" type="StaticBody3D" unique_id=387577380]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3iae7"]
+bg_color = Color(0.3088952, 0.44541365, 0.16006756, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 20.0
+expand_margin_right = 20.0
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1668707330 groups=["Player"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cycrt"]
+bg_color = Color(0.43137255, 0.6156863, 0.23529412, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pfmml"]
+bg_color = Color(0.30980393, 0.44705883, 0.16078432, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ul7a"]
+bg_color = Color(0.4314026, 0.6137446, 0.23384014, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_kxeow"]
+size = Vector2(4, 2.5)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gwyuf"]
+viewport_path = NodePath("Managers/ScreenManager/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yl4j0"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_gwyuf")
+texture_filter = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hdbb3"]
+size = Vector3(4, 2.5, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uxuvg"]
+size = Vector3(1.5728073, 1.677002, 2.099533)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_siio1"]
+size = Vector3(4.9487305, 4.3204346, 3.0976563)
+
+[node name="Restauraunt" type="Node3D" unique_id=521374274]
+
+[node name="Counter_Assembler" type="StaticBody3D" parent="." unique_id=1632196409 node_paths=PackedStringArray("crafting_station")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -81.36649, 0.025296688, 3.9732475)
+collision_layer = 5
+script = ExtResource("1_0e4v7")
+crafting_station = NodePath("../Managers/UIController/AssemblerCraftingStation")
+
+[node name="model" parent="Counter_Assembler" unique_id=1868468466 instance=ExtResource("2_6nivd")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Counter_Assembler" unique_id=104416153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3036728, 0.7090759, 1.6646614)
+shape = SubResource("BoxShape3D_gr2jy")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1668707330 node_paths=PackedStringArray("screen_manager") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.396197, 2.6694207, 0)
 script = ExtResource("1_qmak7")
+screen_manager = NodePath("../Managers/ScreenManager")
 speed = 15.0
 jump_height = 3.0
 
@@ -107,3 +208,336 @@ shape = SubResource("BoxShape3D_t5yav")
 [node name="NorthBoundry" type="CollisionShape3D" parent="Boundry" unique_id=1923953763]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60.831192, 11.467224, 6.693504)
 shape = SubResource("BoxShape3D_t5yav")
+
+[node name="Managers" type="Node" parent="." unique_id=186383763]
+
+[node name="UIController" type="Control" parent="Managers" unique_id=228210605 node_paths=PackedStringArray("inventory", "game_manager", "order_manager", "player", "screen_manager")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -2.0
+offset_right = 38.0
+offset_bottom = 40.0
+script = ExtResource("7_al56o")
+inventory = NodePath("../../Player/Inventory")
+blank_icon = ExtResource("8_1bmon")
+game_manager = NodePath("../GameManager")
+order_manager = NodePath("../OrderManager")
+player = NodePath("../../Player")
+screen_manager = NodePath("../ScreenManager")
+
+[node name="AssemblerCraftingStation" parent="Managers/UIController" unique_id=1728938586 node_paths=PackedStringArray("inventory", "player") instance=ExtResource("9_siio1")]
+visible = false
+layout_mode = 1
+offset_left = 946.0
+offset_top = 463.0
+offset_right = 986.0
+offset_bottom = 503.0
+inventory = NodePath("../../../Player/Inventory")
+player = NodePath("../../../Player")
+assembler = true
+
+[node name="DrinkCraftingStation2" parent="Managers/UIController" unique_id=520222819 node_paths=PackedStringArray("inventory", "player") instance=ExtResource("9_siio1")]
+visible = false
+layout_mode = 1
+offset_left = 2395.0
+offset_top = 1187.5
+offset_right = 2435.0
+offset_bottom = 1227.5
+inventory = NodePath("../../../Player/Inventory")
+player = NodePath("../../../Player")
+station_name = "Drink Station"
+filler = true
+
+[node name="DrinkCraftingStation" parent="Managers/UIController" unique_id=2133708183 node_paths=PackedStringArray("inventory", "player") instance=ExtResource("9_siio1")]
+visible = false
+layout_mode = 1
+offset_left = 946.0
+offset_top = 463.0
+offset_right = 986.0
+offset_bottom = 503.0
+inventory = NodePath("../../../Player/Inventory")
+player = NodePath("../../../Player")
+station_name = "Drink Station"
+filler = true
+
+[node name="PauseMenu" type="Control" parent="Managers/UIController" unique_id=1263877735]
+process_mode = 2
+anchors_preset = 0
+offset_left = 940.0
+offset_top = 480.0
+offset_right = 980.0
+offset_bottom = 520.0
+
+[node name="ColorRect" type="ColorRect" parent="Managers/UIController/PauseMenu" unique_id=76503271]
+layout_mode = 0
+offset_left = -30.000002
+offset_top = -5.9999995
+offset_right = 9.999998
+offset_bottom = 34.0
+scale = Vector2(3.0040512, 2.8559487)
+color = Color(1, 1, 1, 0.34509805)
+
+[node name="Label" type="Label" parent="Managers/UIController/PauseMenu" unique_id=1701406704]
+layout_mode = 0
+offset_left = -25.0
+offset_right = 85.0
+offset_bottom = 68.333336
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_ndwfr")
+theme_override_font_sizes/font_size = 32
+text = "Paused
+"
+
+[node name="Quit" type="Button" parent="Managers/UIController/PauseMenu" unique_id=2110810409]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 78.0
+offset_right = 45.0
+offset_bottom = 101.0
+theme_override_fonts/font = ExtResource("11_nc5r2")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_3iae7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cycrt")
+action_mode = 0
+text = "Quit"
+
+[node name="Resume" type="Button" parent="Managers/UIController/PauseMenu" unique_id=1817250374]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 43.0
+offset_right = 61.0
+offset_bottom = 66.0
+theme_override_fonts/font = ExtResource("11_nc5r2")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_pfmml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ul7a")
+action_mode = 0
+text = "Resume"
+
+[node name="Hotbar" type="ItemList" parent="Managers/UIController" unique_id=1824863764]
+layout_mode = 0
+offset_left = 1828.0
+offset_top = 222.0
+offset_right = 1885.0
+offset_bottom = 761.0
+allow_reselect = true
+allow_rmb_select = true
+allow_search = false
+auto_width = true
+auto_height = true
+same_column_width = true
+fixed_column_width = 35
+icon_mode = 0
+fixed_icon_size = Vector2i(24, 24)
+
+[node name="Crosshair" type="ColorRect" parent="Managers/UIController" unique_id=1013566107]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 940.0
+offset_top = 520.0
+offset_right = 945.0
+offset_bottom = 525.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="InteractLabel" type="Label" parent="Managers/UIController" unique_id=2142402396]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 880.0
+offset_top = 480.0
+offset_right = 993.0
+offset_bottom = 503.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_nc5r2")
+theme_override_font_sizes/font_size = 24
+text = "PLACEHOLDER"
+
+[node name="VBox" type="VBoxContainer" parent="Managers/UIController" unique_id=970404755]
+layout_mode = 1
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 255.0
+offset_bottom = 124.0
+theme_override_constants/separation = 6
+
+[node name="HBox" type="HBoxContainer" parent="Managers/UIController/VBox" unique_id=216377021]
+layout_mode = 2
+
+[node name="DayTimer" type="Label" parent="Managers/UIController/VBox/HBox" unique_id=1795251256]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+text = "7:45 AM"
+
+[node name="Div" type="Label" parent="Managers/UIController/VBox/HBox" unique_id=1166462178]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+text = "|"
+
+[node name="DayLabel" type="Label" parent="Managers/UIController/VBox/HBox" unique_id=1286624565]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+text = "Day -1"
+
+[node name="RatingLabel" type="Label" parent="Managers/UIController/VBox" unique_id=1064491946]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9019608, 0, 1)
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+text = "Rating: ★★★★★"
+
+[node name="CashLabel" type="Label" parent="Managers/UIController/VBox" unique_id=1158446810]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0.29411766, 1)
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+text = "$0.00"
+
+[node name="ScreenManager" type="Node3D" parent="Managers" unique_id=89943004]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 2, -67.625244, 7.6156073, -19.405876)
+script = ExtResource("13_7sk5s")
+metadata/_custom_type_script = "uid://bvk80mlofk6w4"
+
+[node name="SubViewport" type="SubViewport" parent="Managers/ScreenManager" unique_id=1842031966]
+msaa_2d = 1
+msaa_3d = 1
+screen_space_aa = 1
+gui_embed_subwindows = true
+size = Vector2i(1280, 900)
+render_target_update_mode = 4
+
+[node name="GridContainer" type="GridContainer" parent="Managers/ScreenManager/SubViewport" unique_id=186082973]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 50.0
+theme_override_constants/h_separation = 300
+theme_override_constants/v_separation = 300
+columns = 4
+
+[node name="Quad" type="MeshInstance3D" parent="Managers/ScreenManager" unique_id=1726496106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14193869)
+mesh = SubResource("QuadMesh_kxeow")
+surface_material_override/0 = SubResource("StandardMaterial3D_yl4j0")
+
+[node name="Area3D" type="Area3D" parent="Managers/ScreenManager/Quad" unique_id=206232943]
+collision_layer = 2
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/ScreenManager/Quad/Area3D" unique_id=456778787]
+shape = SubResource("BoxShape3D_hdbb3")
+
+[node name="screen" parent="Managers/ScreenManager" unique_id=57950789 instance=ExtResource("14_cssx7")]
+transform = Transform3D(0.135, 0, 0, 0, 0.12, 0, 0, 0, 0.25, 0, 0, 0.08657664)
+
+[node name="GameManager" type="Node" parent="Managers" unique_id=630960665]
+process_mode = 3
+script = ExtResource("15_1irq3")
+metadata/_custom_type_script = "uid://b71g2k3iepsa2"
+
+[node name="OrderManager" type="Node" parent="Managers" unique_id=1164616153 node_paths=PackedStringArray("game_manager")]
+script = ExtResource("15_uq2li")
+game_manager = NodePath("../GameManager")
+recipes_path = "res://scenes/items/recipes/"
+
+[node name="Griddle" type="StaticBody3D" parent="." unique_id=976880093 node_paths=PackedStringArray("player")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -81.41483, 0.16665459, -4.732898)
+collision_layer = 5
+script = ExtResource("17_rcrbw")
+player = NodePath("../Player")
+
+[node name="griddle" parent="Griddle" unique_id=972458142 instance=ExtResource("18_c88u2")]
+transform = Transform3D(1.3, 0, 0, 0, 1, 0, 0, 0, 1.3, 0.42940745, 0, -0.08513448)
+
+[node name="Collider" type="CollisionShape3D" parent="Griddle" unique_id=478689423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47541618, 0.33850098, -0.14536464)
+shape = SubResource("BoxShape3D_uxuvg")
+
+[node name="Griddle2" type="StaticBody3D" parent="." unique_id=718876696 node_paths=PackedStringArray("player")]
+process_mode = 4
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -81.41483, 0.16665459, -12.316557)
+collision_layer = 5
+script = ExtResource("17_rcrbw")
+player = NodePath("../Player")
+
+[node name="griddle" parent="Griddle2" unique_id=856286992 instance=ExtResource("18_c88u2")]
+transform = Transform3D(1.3, 0, 0, 0, 1, 0, 0, 0, 1.3, 0.42940745, 0, -0.08513448)
+
+[node name="Collider" type="CollisionShape3D" parent="Griddle2" unique_id=193269884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43613434, 0.31518555, -0.1777513)
+shape = SubResource("BoxShape3D_uxuvg")
+
+[node name="generictable" parent="." unique_id=1245395371 instance=ExtResource("19_al56o")]
+process_mode = 4
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 1.5, 0, -2, 0, -8.742278e-08, -67.48577, 0.47200012, -17.405024)
+
+[node name="Drink Station" type="StaticBody3D" parent="." unique_id=739299324 node_paths=PackedStringArray("crafting_station")]
+process_mode = 4
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -69.57994, 4.2806253, -17.758034)
+collision_layer = 5
+script = ExtResource("1_0e4v7")
+crafting_station = NodePath("../Managers/UIController/DrinkCraftingStation")
+
+[node name="drink_machine" parent="Drink Station" unique_id=1364059045 instance=ExtResource("20_1bmon")]
+transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0, -0.9362955, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Drink Station" unique_id=1385416906]
+transform = Transform3D(0.99999976, 0, -2.842171e-14, 0, 0.99999976, 0, 2.842171e-14, 0, 0.99999976, 0.8004813, 1.5065236, -0.19094276)
+shape = SubResource("BoxShape3D_siio1")
+
+[node name="Drink Station2" type="StaticBody3D" parent="." unique_id=870638157 node_paths=PackedStringArray("crafting_station")]
+process_mode = 4
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -65.36309, 4.2806253, -17.758034)
+collision_layer = 5
+script = ExtResource("1_0e4v7")
+crafting_station = NodePath("../Managers/UIController/DrinkCraftingStation2")
+
+[node name="drink_machine" parent="Drink Station2" unique_id=857927245 instance=ExtResource("20_1bmon")]
+transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0, -0.9362955, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Drink Station2" unique_id=770381466]
+transform = Transform3D(0.99999976, 0, -2.842171e-14, 0, 0.99999976, 0, 2.842171e-14, 0, 0.99999976, 0.8004813, 1.5065236, -0.19094276)
+shape = SubResource("BoxShape3D_siio1")
+
+[node name="OrderDropoff" parent="." unique_id=1104333716 node_paths=PackedStringArray("order_manager") instance=ExtResource("22_siio1")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -53.002678, 0, -7.5692077e-07)
+order_manager = NodePath("../Managers/OrderManager")
+
+[node name="fridge" parent="." unique_id=1452000601 instance=ExtResource("23_ndwfr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -75.52503, 0, 17.63825)
+
+[node name="Buns" parent="." unique_id=1123478666 instance=ExtResource("24_1irq3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4249284, 0, 0)
+
+[node name="Raw Bacon" parent="." unique_id=1901679628 instance=ExtResource("25_iycfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5531015, 0, 0)
+
+[node name="Cheese" parent="." unique_id=371920072 instance=ExtResource("26_rcrbw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5252817, 0, 0)
+
+[node name="Lettuce" parent="." unique_id=1710269444 instance=ExtResource("27_c88u2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8278165, 0.2977972, 0.88412285)
+
+[node name="Raw Patty" parent="." unique_id=481736889 instance=ExtResource("24_nc5r2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7059401, 0, 0)
+
+[node name="Empty Cup" parent="." unique_id=101964194 instance=ExtResource("29_c88u2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9831837, 0, 0.69989276)
+
+[node name="Plain Burger" parent="." unique_id=1775565736 instance=ExtResource("30_gr2jy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4832022, 0.18897665, -1.338527)
+
+[node name="CookedBacon" parent="." unique_id=963601447 instance=ExtResource("31_3iae7")]

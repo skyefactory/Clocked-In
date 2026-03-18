@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dkhialkv2262a"]
 
-[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_2qa40"]
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_2qa40"]
 [ext_resource type="Resource" uid="uid://dfd46dgxs3ucr" path="res://scenes/items/item data/4_raw_bacon.tres" id="2_cyb2r"]
 [ext_resource type="PackedScene" uid="uid://yundpe3f7xil" path="res://models/blend files/uncooked bacon.blend" id="3_2qa40"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_duose"]
-size = Vector3(0.20590821, 0.03043213, 0.5944336)
+size = Vector3(0.20590821, 0.04158325, 0.5944336)
 
 [node name="Raw Bacon" type="RigidBody3D" unique_id=1901679628]
 collision_layer = 5
@@ -16,7 +16,7 @@ Data = ExtResource("2_cyb2r")
 metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=333947138]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049560536, 4.2724423e-05, 0.010107398)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049560536, -0.005532837, 0.010107398)
 shape = SubResource("BoxShape3D_duose")
 
 [node name="uncooked bacon" parent="." unique_id=894374617 instance=ExtResource("3_2qa40")]

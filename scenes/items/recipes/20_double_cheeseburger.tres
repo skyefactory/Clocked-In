@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://cc2rm0rqgkdd8"]
 
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_ws1qp"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_ws1qp"]
 [ext_resource type="Resource" uid="uid://c20nxlrns6bli" path="res://scenes/items/item data/6_cheese.tres" id="2_ffrmd"]
-[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/recipe.gd" id="2_w3rt3"]
+[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/Recipe.gd" id="2_w3rt3"]
 [ext_resource type="Resource" uid="uid://cdgehk3kgbjw0" path="res://scenes/items/item data/1_cooked_patty.tres" id="3_7rrl0"]
 [ext_resource type="Resource" uid="uid://dsx7kjql1u8ss" path="res://scenes/items/item data/2_buns.tres" id="4_ew7j5"]
 [ext_resource type="Resource" uid="uid://biq4tmvocd104" path="res://scenes/items/item data/20_double_cheeseburger.tres" id="5_1cm8n"]

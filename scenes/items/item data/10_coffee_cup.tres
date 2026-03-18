@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cod6x113g2hr8"]
 
 [ext_resource type="Texture2D" uid="uid://b234u8w8b6vfi" path="res://others/item_icons/coffee_cup.png" id="1_sqg85"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_h7fdl"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_h7fdl"]
 
 [resource]
 script = ExtResource("2_h7fdl")
@@ -10,4 +10,5 @@ Name = "Coffee"
 Icon = ExtResource("1_sqg85")
 Description = "Kaffi"
 MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/10_coffee_cup.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

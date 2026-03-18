@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dafh3frppmetf"]
 
-[ext_resource type="Script" uid="uid://drpot7lki3tp3" path="res://scripts/menu.gd" id="1_4ytvr"]
-[ext_resource type="Texture2D" uid="uid://c1itepcoe5cr0" path="res://1.png" id="1_con2f"]
-[ext_resource type="Texture2D" uid="uid://dd2ilggbeg5h7" path="res://2.png" id="2_mhnvy"]
-[ext_resource type="Texture2D" uid="uid://ca1x81o75blva" path="res://3.png" id="3_4ytvr"]
+[ext_resource type="Script" uid="uid://drpot7lki3tp3" path="res://scripts/misc/MainMenu.gd" id="1_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://c1itepcoe5cr0" path="res://others/main_menu/1.png" id="1_con2f"]
+[ext_resource type="Texture2D" uid="uid://dd2ilggbeg5h7" path="res://others/main_menu/2.png" id="2_mhnvy"]
+[ext_resource type="Texture2D" uid="uid://ca1x81o75blva" path="res://others/main_menu/3.png" id="3_4ytvr"]
 [ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_mhnvy"]
 [ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="6_g3eks"]
 

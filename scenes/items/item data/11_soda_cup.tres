@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c8f61rdcful4m"]
 
 [ext_resource type="Texture2D" uid="uid://c8e00ech38ikv" path="res://others/item_icons/soda_cup.png" id="1_6b5pc"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_j2ujt"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_j2ujt"]
 
 [resource]
 script = ExtResource("2_j2ujt")
@@ -10,4 +10,5 @@ Name = "Soda"
 Icon = ExtResource("1_6b5pc")
 Description = "Cokey Cola"
 MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/11_soda_cup.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

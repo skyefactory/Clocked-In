@@ -34,6 +34,22 @@ signal interact_target(show_label, text)
 
 func _ready() -> void: # capture the mouse
 	capture_mouse()
+	if inventory:
+		inventory.selected_item_changed.connect(_on_selected_item_changed)
+	
+	var unlocked = Gamestate.unlocked_content.keys()
+	print("Unlocked content at start: " + str(unlocked))
+
+func _on_selected_item_changed(_selected_slot: int) -> void:
+	refresh_interaction_prompt()
+
+func refresh_interaction_prompt() -> void:
+	if not current_interactable or not is_instance_valid(current_interactable):
+		return
+	if not Interactable.can_interact(current_interactable, self):
+		clear_interactable(current_interactable)
+		return
+	emit_signal("interact_target", true, Interactable.interaction_text(current_interactable, self))
 
 func raycast_from_crosshair() ->PhysicsRayQueryParameters3D:
 
@@ -72,6 +88,8 @@ func _input(event):
 	#check to see if we have a current interactable and if the interact button was pressed
 	if event.is_action_pressed("interact") and current_interactable and is_instance_valid(current_interactable):
 		Interactable.interact(current_interactable, self)
+		if current_interactable and is_instance_valid(current_interactable):
+			emit_signal("interact_target", true, Interactable.interaction_text(current_interactable, self))
 
 # handle mouse look input
 func _unhandled_input(event: InputEvent) -> void:
@@ -138,7 +156,7 @@ func drop_item():
 	world_item.global_position = global_position + forward * 2.00
 
 #checks to see if it is colliding with a collider on layer 3 to determine if we are looking at an item we can interact with.
-func interactable_in_view(max_distance: float = 4.0) -> Node:
+func interactable_in_view(max_distance: float = 8.0) -> Node:
 	var query = raycast_from_crosshair() # set up the ray query parameters for a raycast from the center of the screen
 	query.collide_with_bodies = true
 	query.collide_with_areas = false

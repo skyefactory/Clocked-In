@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dsx7kjql1u8ss"]
 
 [ext_resource type="Texture2D" uid="uid://btnqouxg75b1m" path="res://others/item_icons/buns_icon.png" id="1_2qax2"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_6pudb"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_6pudb"]
 
 [resource]
 script = ExtResource("1_6pudb")
@@ -9,6 +9,6 @@ ID = 2
 Name = "Burger Buns"
 Icon = ExtResource("1_2qax2")
 Description = "A top and bottom bun. Perhaps a patty can go between, or maybe not, who knows..."
-MaxStackSize = 6
+MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/2_buns.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

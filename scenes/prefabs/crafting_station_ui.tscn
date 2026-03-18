@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://df0wu0cybcy5h"]
 
-[ext_resource type="Script" uid="uid://c2adhnywm1ael" path="res://scripts/Crafting System/crafting_station.gd" id="1_l5kdm"]
+[ext_resource type="Script" uid="uid://c2adhnywm1ael" path="res://scripts/Crafting System/CraftingStation.gd" id="1_l5kdm"]
 [ext_resource type="FontFile" uid="uid://kwk25hkyaadj" path="res://others/font/Oxanium-SemiBold.ttf" id="2_d6ci5"]
 
 [sub_resource type="FontFile" id="FontFile_qs4po"]

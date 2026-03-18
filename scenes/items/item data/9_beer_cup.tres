@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c725cfj1eeofc"]
 
 [ext_resource type="Texture2D" uid="uid://naa8b1tsidw8" path="res://others/item_icons/beer_cup.png" id="1_nwp45"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_6d4hm"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_6d4hm"]
 
 [resource]
 script = ExtResource("2_6d4hm")
@@ -10,4 +10,5 @@ Name = "Beer"
 Icon = ExtResource("1_nwp45")
 Description = "Yummers."
 MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/9_beer_cup.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

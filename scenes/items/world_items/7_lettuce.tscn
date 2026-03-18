@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dly3ipy0o5ys4"]
 
-[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_dcs6k"]
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_dcs6k"]
 [ext_resource type="Resource" uid="uid://c5ka2x4m6u3ig" path="res://scenes/items/item data/7_lettuce.tres" id="2_dcs6k"]
 [ext_resource type="PackedScene" uid="uid://c35kj5ciq1ouj" path="res://models/blend files/letti.blend" id="4_jdi0u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5h38l"]
-size = Vector3(0.5, 0.015, 0.39)
+size = Vector3(0.7199707, 0.03875, 0.543789)
 
 [node name="Lettuce" type="RigidBody3D" unique_id=1710269444]
 collision_layer = 5
@@ -16,8 +16,8 @@ Data = ExtResource("2_dcs6k")
 metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=26770255]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0049031973, 0.0072767287)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0008544922, -0.0069718026, 0.012569681)
 shape = SubResource("BoxShape3D_5h38l")
 
 [node name="letti" parent="." unique_id=1754505096 instance=ExtResource("4_jdi0u")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0, 0)

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wl2gyntqawlj"]
 
-[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_l6u0f"]
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_l6u0f"]
 [ext_resource type="Resource" uid="uid://bpvj0nlklq34j" path="res://scenes/items/item data/5_cooked_bacon.tres" id="2_l6u0f"]
 [ext_resource type="PackedScene" uid="uid://b4677vvqbn0ms" path="res://models/blend files/cooked bacon.blend" id="4_pdgtv"]
 

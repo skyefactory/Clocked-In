@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://volkt48ynk02"]
 
 [ext_resource type="Texture2D" uid="uid://dkyhx1a76x4fw" path="res://others/item_icons/overcooked_bacon_icon.png" id="1_lm5v7"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_5r8fq"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_5r8fq"]
 
 [resource]
 script = ExtResource("2_5r8fq")

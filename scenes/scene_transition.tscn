@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0leqa8csef5p"]
 
-[ext_resource type="Script" uid="uid://bw275jn70amds" path="res://scripts/scenechange.gd" id="1_0wykx"]
+[ext_resource type="Script" uid="uid://bw275jn70amds" path="res://scripts/misc/SceneChange.gd" id="1_0wykx"]
 [ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="2_rujfs"]
 
 [sub_resource type="Animation" id="Animation_ovque"]

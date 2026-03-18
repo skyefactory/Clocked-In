@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://die4qf5mvf6g"]
 
-[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_waak3"]
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_waak3"]
 [ext_resource type="Resource" uid="uid://ea8rx3xwero6" path="res://scenes/items/item data/12_cheese_burger.tres" id="2_waak3"]
 [ext_resource type="PackedScene" uid="uid://5q8wk1dr12di" path="res://models/blend files/cheese_burger.blend" id="3_hmbev"]
 

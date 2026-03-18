@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://big0rtuookob"]
 
-[ext_resource type="Script" uid="uid://cfd5gknb6t03w" path="res://scripts/Crafting System/recipe_block.gd" id="1_ejtxv"]
+[ext_resource type="Script" uid="uid://cfd5gknb6t03w" path="res://scripts/Crafting System/RecipeBlock.gd" id="1_ejtxv"]
 [ext_resource type="Texture2D" uid="uid://c08ghwe8odi6d" path="res://others/textures/available_to_craft.png" id="2_5mhdk"]
 [ext_resource type="Texture2D" uid="uid://eo07v6taau63" path="res://others/textures/unavailable_to_craft.png" id="3_3qyh0"]
 [ext_resource type="FontFile" uid="uid://kwk25hkyaadj" path="res://others/font/Oxanium-SemiBold.ttf" id="4_6g6kv"]

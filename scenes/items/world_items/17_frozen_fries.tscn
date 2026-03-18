@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cjpajbynmf5w6"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_0aru5"]
+[ext_resource type="Resource" uid="uid://bkqs1vpbwmrrg" path="res://scenes/items/item data/17_frozen_fries.tres" id="2_0aru5"]
+[ext_resource type="PackedScene" uid="uid://dwcitmwaqi1c8" path="res://models/blend files/frozen_fries.blend" id="3_i7dig"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bx8ye"]
+height = 0.57992554
+radius = 0.34423828
+
+[node name="Frozen Fries" type="RigidBody3D" unique_id=481736889]
+collision_layer = 5
+linear_damp = 0.1
+angular_damp = 0.1
+script = ExtResource("1_0aru5")
+Data = ExtResource("2_0aru5")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2047276604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06421399, 0.23023987, 0.113636255)
+shape = SubResource("CylinderShape3D_bx8ye")
+
+[node name="frozen_fries" parent="." unique_id=1196845182 instance=ExtResource("3_i7dig")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)

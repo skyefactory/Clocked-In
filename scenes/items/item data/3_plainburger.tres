@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cxvhphsjfdbkf"]
 
 [ext_resource type="Texture2D" uid="uid://br0o52tgwbns5" path="res://others/item_icons/plain_burger_icon.png" id="1_pfbcs"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_is0ci"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_is0ci"]
 
 [resource]
 script = ExtResource("2_is0ci")
@@ -10,5 +10,5 @@ Name = "Plain Burger"
 Icon = ExtResource("1_pfbcs")
 Description = "Plain Burger. Whoever ordered this is a loser."
 MaxStackSize = 1
-WorldModelPath = "res://scenes/items/recipes/plain_burger.tres"
+WorldModelPath = "res://scenes/items/world_items/3_plain_burger.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

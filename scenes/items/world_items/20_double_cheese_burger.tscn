@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvag2maluhw3v"]
 
-[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/world_item.gd" id="1_jvcg6"]
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_jvcg6"]
 [ext_resource type="Resource" uid="uid://biq4tmvocd104" path="res://scenes/items/item data/20_double_cheeseburger.tres" id="2_jvcg6"]
 [ext_resource type="PackedScene" uid="uid://ctlf2v640hmrq" path="res://models/blend files/double_cheese_burger.blend" id="3_fh1yt"]
 

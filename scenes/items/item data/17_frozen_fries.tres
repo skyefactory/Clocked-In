@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bkqs1vpbwmrrg"]
 
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_e81n8"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_e81n8"]
 [ext_resource type="Texture2D" uid="uid://rvxk281rtwfr" path="res://others/item_icons/frozen_fries_icon.png" id="1_iyi6b"]
 [ext_resource type="Resource" uid="uid://cff1fsbosr78t" path="res://scenes/items/item data/16_fries.tres" id="2_kty40"]
 
@@ -11,5 +11,6 @@ Name = "Frozen Fries"
 Icon = ExtResource("1_iyi6b")
 Description = "make potato un cold now!"
 MaxStackSize = 4
+WorldModelPath = "res://scenes/items/world_items/17_frozen_fries.tscn"
 fry_result = ExtResource("2_kty40")
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://x7lww7ykf4ji" path="res://others/item_icons/cooked_patty_icon.png" id="1_x2ahp"]
 [ext_resource type="Resource" uid="uid://c76jeondqg7uy" path="res://scenes/items/item data/14_overcooked_patty.tres" id="2_57r0t"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="2_tnr4a"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_tnr4a"]
 
 [resource]
 script = ExtResource("2_tnr4a")

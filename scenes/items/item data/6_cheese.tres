@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c20nxlrns6bli"]
 
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="1_awbqt"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_awbqt"]
 [ext_resource type="Texture2D" uid="uid://y0g8t1m7bdja" path="res://others/item_icons/cheese_icon.png" id="1_io7ro"]
 
 [resource]
@@ -9,6 +9,6 @@ ID = 6
 Name = "Cheese"
 Icon = ExtResource("1_io7ro")
 Description = "ches"
-MaxStackSize = 10
+MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/6_cheese.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

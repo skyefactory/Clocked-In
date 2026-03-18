@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dyl663g524jxa" path="res://others/item_icons/uncooked_patty_icon.png" id="1_84hfn"]
 [ext_resource type="Resource" uid="uid://cdgehk3kgbjw0" path="res://scenes/items/item data/1_cooked_patty.tres" id="2_in6ef"]
-[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/item_data.gd" id="3_b2g44"]
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="3_b2g44"]
 
 [resource]
 script = ExtResource("3_b2g44")
@@ -12,5 +12,5 @@ Description = "A raw burger patty. Should probably be cooked"
 MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/0_raw_patty.tscn"
 cook_result = ExtResource("2_in6ef")
-time_to_cook = 15.0
+time_to_cook = 10.0
 metadata/_custom_type_script = "uid://c2h4urya43rqc"
