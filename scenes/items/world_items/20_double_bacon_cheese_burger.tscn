@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bfjtiv8dr7ntj"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_hl6u8"]
+[ext_resource type="Resource" uid="uid://ccb0qae7v6lkx" path="res://scenes/items/item data/20_double_bacon_cheeseburger.tres" id="2_w1dik"]
+[ext_resource type="PackedScene" uid="uid://ctlf2v640hmrq" path="res://models/blend files/double_cheese_burger.blend" id="3_4s2g0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dxsgv"]
+height = 0.4080963
+radius = 0.6
+
+[node name="Double Cheese Burger" type="RigidBody3D" unique_id=1775565736]
+collision_layer = 7
+linear_damp = 0.1
+angular_damp = 0.1
+script = ExtResource("1_hl6u8")
+Data = ExtResource("2_w1dik")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="collider" type="CollisionShape3D" parent="." unique_id=1549140078]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.04602182, -0.06978625)
+shape = SubResource("CylinderShape3D_dxsgv")
+
+[node name="double_cheese_burger" parent="." unique_id=340285848 instance=ExtResource("3_4s2g0")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, -0.053449184)

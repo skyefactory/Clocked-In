@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
 	Gamestate.current_state = Gamestate.States.KITCHEN
-	
+
 # checks for pause key
 func check_for_input() -> void:
 	if Input.is_action_just_released("pause"):
@@ -127,3 +127,6 @@ func on_day_start() -> void:
 	payout = 0.0 # reset payout for the day
 	potential_payout = 0.0 # reset potential payout for the day
 	efficiency = 0.0 # reset efficiency for the day
+
+func on_day_end():
+	pass

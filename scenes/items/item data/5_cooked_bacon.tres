@@ -1,7 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bpvj0nlklq34j"]
 
 [ext_resource type="Texture2D" uid="uid://h35ldicbtiqs" path="res://others/item_icons/cooked_bacon_icon.png" id="1_ukcf4"]
-[ext_resource type="Resource" uid="uid://volkt48ynk02" path="res://scenes/items/item data/15_overcooked_bacon.tres" id="2_my48l"]
 [ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="3_tmidh"]
 
 [resource]
@@ -12,6 +11,4 @@ Icon = ExtResource("1_ukcf4")
 Description = "Some Cooka Bacon. Yum x2"
 MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/5_cooked_bacon.tscn"
-cook_result = ExtResource("2_my48l")
-time_to_cook = 10.0
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bghg6rm5mr53a"]
+
+[ext_resource type="Script" uid="uid://j0v5tdjwn0bj" path="res://scripts/Inventory System/WorldItem.gd" id="1_sr6gg"]
+[ext_resource type="Resource" uid="uid://kednkwvwttgk" path="res://scenes/items/item data/13_blt.tres" id="2_sr6gg"]
+[ext_resource type="PackedScene" uid="uid://do50w338refn0" path="res://models/blend files/BLT.blend" id="3_sr6gg"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dxsgv"]
+height = 0.5121536
+radius = 0.6
+
+[node name="BLT" type="RigidBody3D" unique_id=1775565736]
+collision_layer = 5
+linear_damp = 0.1
+angular_damp = 0.1
+script = ExtResource("1_sr6gg")
+Data = ExtResource("2_sr6gg")
+metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
+
+[node name="collider" type="CollisionShape3D" parent="." unique_id=1549140078]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.016792625, 0.07203615, 0.01919853)
+shape = SubResource("CylinderShape3D_dxsgv")
+
+[node name="BLT" parent="." unique_id=2042166836 instance=ExtResource("3_sr6gg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)

@@ -10,4 +10,5 @@ Name = "BLT"
 Icon = ExtResource("1_e7rdp")
 Description = "Bacon Lettuce Tomato!!!!!!!!!!!!!!"
 MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/13_BLT.tscn"
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

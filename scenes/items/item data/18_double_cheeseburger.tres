@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://biq4tmvocd104"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_1ici2"]
+[ext_resource type="Texture2D" uid="uid://dwq0fvo3355la" path="res://others/item_icons/double_cheese_burger_icon.png" id="1_x3u2a"]
+
+[resource]
+script = ExtResource("1_1ici2")
+ID = 18
+Name = "Double Cheeseburger"
+Icon = ExtResource("1_x3u2a")
+Description = "double cheeseburger"
+MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/18_double_cheese_burger.tscn"
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -1,7 +1,6 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cdgehk3kgbjw0"]
 
 [ext_resource type="Texture2D" uid="uid://x7lww7ykf4ji" path="res://others/item_icons/cooked_patty_icon.png" id="1_x2ahp"]
-[ext_resource type="Resource" uid="uid://c76jeondqg7uy" path="res://scenes/items/item data/14_overcooked_patty.tres" id="2_57r0t"]
 [ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="2_tnr4a"]
 
 [resource]
@@ -12,6 +11,4 @@ Icon = ExtResource("1_x2ahp")
 Description = "A cooked burger patty. Perfect for a burger"
 MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/1_cooked_patty.tscn"
-cook_result = ExtResource("2_57r0t")
-time_to_cook = 10.0
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://ccb0qae7v6lkx"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_0gcfv"]
+[ext_resource type="Texture2D" uid="uid://bqi3jbqxov65e" path="res://others/item_icons/double_bacon_cheese_burger_icon.png" id="1_ybvat"]
+
+[resource]
+script = ExtResource("1_0gcfv")
+ID = 20
+Name = "Double Bacon Cheeseburger"
+Icon = ExtResource("1_ybvat")
+Description = "wawa"
+MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/20_double_bacon_cheese_burger.tscn"
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

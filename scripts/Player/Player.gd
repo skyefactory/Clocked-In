@@ -152,8 +152,25 @@ func drop_item():
 	world_item.Data = slot.item
 	world_item.Quantity = slot.quantity
 
-	# place in front of the player
-	world_item.global_position = global_position + forward * 2.00
+	# place at a nearby ray hit if valid, otherwise fall back to the original feet/front drop.
+	world_item.global_position = get_drop_position()
+
+func get_drop_position(max_distance: float = 6.0) -> Vector3:
+	var fallback_position = global_position + forward * 2.0
+	var query = raycast_from_crosshair()
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	query.exclude = [get_rid()]
+
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	if not result or not result.collider:
+		return fallback_position
+
+	var hit_distance = camera.global_position.distance_to(result.position)
+	if hit_distance > max_distance:
+		return fallback_position
+
+	return result.position
 
 #checks to see if it is colliding with a collider on layer 3 to determine if we are looking at an item we can interact with.
 func interactable_in_view(max_distance: float = 8.0) -> Node:

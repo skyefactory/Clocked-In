@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b4677vvqbn0ms" path="res://models/blend files/cooked bacon.blend" id="4_pdgtv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_duose"]
-size = Vector3(0.20590821, 0.03043213, 0.5944336)
+size = Vector3(0.20590821, 0.06306763, 0.5944336)
 
 [node name="CookedBacon" type="RigidBody3D" unique_id=1901679628]
 collision_layer = 5
@@ -16,7 +16,7 @@ Data = ExtResource("2_l6u0f")
 metadata/_custom_type_script = "uid://j0v5tdjwn0bj"
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=333947138]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049560536, 4.2724423e-05, 0.010107398)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0049560536, -0.016275026, 0.010107398)
 shape = SubResource("BoxShape3D_duose")
 
 [node name="cooked bacon" parent="." unique_id=1162762395 instance=ExtResource("4_pdgtv")]

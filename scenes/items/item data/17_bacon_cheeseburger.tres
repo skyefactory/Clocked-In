@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bvnbneauy0c1w"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_240wg"]
+[ext_resource type="Texture2D" uid="uid://br5gq1gb4akdv" path="res://others/item_icons/bacon_cheese_burger_icon.png" id="1_hj5ur"]
+
+[resource]
+script = ExtResource("1_240wg")
+ID = 17
+Name = "Bacon Cheeseburger"
+Icon = ExtResource("1_hj5ur")
+Description = "bacon cheeseburger"
+MaxStackSize = 1
+WorldModelPath = "res://scenes/items/world_items/17_bacon_cheeseburger.tscn"
+metadata/_custom_type_script = "uid://c2h4urya43rqc"

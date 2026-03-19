@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Recipe" format=3 uid="uid://rsv20yb5oai0"]
+
+[ext_resource type="Script" uid="uid://c2h4urya43rqc" path="res://scripts/Inventory System/ItemData.gd" id="1_117au"]
+[ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/Recipe.gd" id="2_bk5gr"]
+[ext_resource type="Resource" uid="uid://cdgehk3kgbjw0" path="res://scenes/items/item data/1_cooked_patty.tres" id="2_pgu6n"]
+[ext_resource type="Resource" uid="uid://dsx7kjql1u8ss" path="res://scenes/items/item data/2_buns.tres" id="3_73g0x"]
+[ext_resource type="Resource" uid="uid://cabp5ljsv8pu6" path="res://scenes/items/item data/16_double_burger.tres" id="4_it4mi"]
+
+[resource]
+script = ExtResource("2_bk5gr")
+ingredients = Array[ExtResource("1_117au")]([ExtResource("2_pgu6n"), ExtResource("2_pgu6n"), ExtResource("3_73g0x")])
+result = ExtResource("4_it4mi")
+assemblable = true
+time_to_craft = 15.0
+metadata/_custom_type_script = "uid://csngmnnwm6r3y"

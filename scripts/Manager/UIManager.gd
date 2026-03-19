@@ -15,6 +15,7 @@ class_name UIController
 @onready var rating_label: Label = $VBox/RatingLabel
 @onready var day_label: Label = $VBox/HBox/DayLabel
 @onready var crosshair: ColorRect = $Crosshair
+@onready var inventory_hint: Label = $InventoryHint
 
 @onready var pause_menu: Control = $PauseMenu
 @onready var quit_button: Button = $PauseMenu/Quit
@@ -23,6 +24,7 @@ class_name UIController
 @onready var assembler_crafting_station: CraftingStation = $AssemblerCraftingStation
 
 var daytimer: DayTimer
+var inventory_hint_request_id: int = 0
 
 func _ready():
 	# Initialize the day timer and connect signals
@@ -40,8 +42,10 @@ func _ready():
 	# Connect inventory signals to update the hotbar and highlight the selected slot
 	inventory.inventory_changed.connect(update_hotbar)
 	inventory.selected_item_changed.connect(highlight_slot)
+	inventory.selected_item_changed.connect(show_inventory_hint)
 	# Initial hotbar update
 	update_hotbar()
+	inventory_hint.hide()
 
 	# Connect the game paused signal to show the pause menu
 	game_manager.paused.connect(on_game_paused)
@@ -112,6 +116,35 @@ func on_time_changed(hour: int, minute: int, pm: bool, spedup: bool):
 func highlight_slot(index: int):
 	if index >= 0 and index < hotbar.get_item_count():
 		hotbar.select(index)    
+
+# shows a hint with the item quantity and name when selected
+func show_inventory_hint(index: int) -> void:
+	# increment the request id to invalidate any previous requests, 
+	# this way if the player quickly changes selection we won't have multiple hints 
+	# showing up and hiding at different times.
+	inventory_hint_request_id += 1
+	var request_id = inventory_hint_request_id
+
+	# if the index is out of bounds, hide the hint and return.
+	if index < 0 or index >= inventory.inventory_size:
+		inventory_hint.hide()
+		return
+
+
+	var slot: InventorySlot = inventory.slots[index]
+	# if the slot is empty, hide the hint and return.
+	if slot == null or slot.item == null or slot.quantity <= 0:
+		inventory_hint.hide()
+		return
+
+	# show the hint with the item name and quantity, 
+	# then hide it after 2 seconds if the request id hasn't changed (meaning the player hasn't changed selection).
+	inventory_hint.text = "%d %s" % [slot.quantity, slot.item.Name]
+	inventory_hint.show()
+
+	await get_tree().create_timer(2.0).timeout
+	if request_id == inventory_hint_request_id:
+		inventory_hint.hide()
 
 func on_game_paused(paused: bool):
 	if paused:
