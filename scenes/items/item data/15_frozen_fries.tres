@@ -13,4 +13,5 @@ Description = "make potato un cold now!"
 MaxStackSize = 4
 WorldModelPath = "res://scenes/items/world_items/15_frozen_fries.tscn"
 fry_result = ExtResource("2_kty40")
+time_to_fry = 10.0
 metadata/_custom_type_script = "uid://c2h4urya43rqc"

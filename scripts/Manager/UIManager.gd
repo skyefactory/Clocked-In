@@ -72,6 +72,10 @@ func _ready():
 
 # trigger to show the interaction label. Called by other scripts when they need it via signal.
 func toggle_interact_label(show_label: bool, text: String = ""):
+	if game_manager and game_manager.is_paused:
+		interact_label.hide()
+		return
+
 	if show_label:
 		interact_label.text = text
 		interact_label.show()
@@ -148,12 +152,14 @@ func show_inventory_hint(index: int) -> void:
 
 func on_game_paused(paused: bool):
 	if paused:
+		interact_label.hide()
 		get_tree().paused = true
 		pause_menu.show()
 	else:
 		get_tree().paused = false
 		pause_menu.hide()
-		pass
+		if player:
+			player.refresh_interaction_prompt()
 	pass
 
 # trigger area for the assembler crafting station, shows the crafting UI when the player is within range and hides it when they leave range.

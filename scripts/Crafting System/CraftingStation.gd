@@ -4,6 +4,7 @@ class_name CraftingStation
 @export var recipes_path: String = "res://scenes/items/recipes/" # path to folder containing the recipe resources.
 @export var inventory: Inventory # reference to the player's inventory
 @export var player: Player # reference to the player.
+@export var game_manager: GameManager # reference to the game manager for pause state updates.
 @export var recipe_block_scene: PackedScene = preload("res://scenes/prefabs/recipe_block.tscn") # prefab scene for the recipe blocks that will be added to the crafting station UI.
 @export var station_name: String = "Assembling Station" # name of this station.
 @onready var recipe_block_container: GridContainer = $GridContainer # reference to the container in the UI where the recipe blocks will be added.
@@ -14,6 +15,7 @@ class_name CraftingStation
 @export var filler: bool = false #type of station
 var recipes: Array[Recipe] = [] # recipe storage
 var crafting_dict: Dictionary = {} # Dictionary that maps recipes to their status and crafting timer.
+var was_visible_before_pause: bool = false
 
 enum recipe_status {
 	CRAFTABLE,
@@ -161,6 +163,17 @@ func update_tooltip() -> void:
 		var res = inventory.has_items(child.recipe_ref.ingredients)
 		child.set_tt_text(child.recipe_ref.ingredients, res["missing"])
 
+func on_game_paused(paused: bool) -> void:
+	if paused:
+		was_visible_before_pause = visible
+		if visible:
+			hide()
+	else:
+		if was_visible_before_pause:
+			show()
+			player.release_mouse()
+		was_visible_before_pause = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	station_name_label.text = station_name
@@ -169,3 +182,7 @@ func _ready() -> void:
 	initialize_ui() 
 	inventory.inventory_changed.connect(update_crafting_status) # Connect the inventory changed signal to update crafting status when the inventory changes.
 	inventory.inventory_changed.connect(update_tooltip) # Connect the inventory changed signal to update the tooltip when the inventory changes.
+	if game_manager == null:
+		game_manager = get_node_or_null("../../GameManager") as GameManager
+	if game_manager:
+		game_manager.paused.connect(on_game_paused)

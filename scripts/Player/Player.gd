@@ -151,6 +151,7 @@ func drop_item():
 	# assign data and quantity
 	world_item.Data = slot.item
 	world_item.Quantity = slot.quantity
+	world_item.PickupAllowed = true
 
 	# place at a nearby ray hit if valid, otherwise fall back to the original feet/front drop.
 	world_item.global_position = get_drop_position()

@@ -1,7 +1,7 @@
 extends StaticBody3D
 
 var opened = false
-@onready var animator: AnimationPlayer = get_parent().get_node("AnimationPlayer")
+@onready var animator: AnimationPlayer = get_parent().get_parent().get_node("AnimationPlayer")
 
 func can_interact(_interacting_player: Player) -> bool:
 	return animator != null # does the animation player exist.

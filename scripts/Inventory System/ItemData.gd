@@ -21,4 +21,7 @@ class_name ItemData
 @export var time_to_fry: float = 0.0 # Time in seconds it takes to fry this item, if this item is not fryable this should be set to 0
 
 func isCookable() -> bool: # quick check to see if cookable. Can be used for interactions with kitchen items.
-    return cook_result != null
+	return cook_result != null
+
+func isFryable() -> bool: # quick check to see if fryable. Can be used for interactions with kitchen items.
+	return fry_result != null

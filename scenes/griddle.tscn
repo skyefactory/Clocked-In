@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://br35dvd5m8iv8"]
+
+[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/misc/Griddle.gd" id="1_gne31"]
+[ext_resource type="PackedScene" uid="uid://bl6f3p03ytljn" path="res://models/blend files/griddle.blend" id="2_5ucq5"]
+[ext_resource type="PackedScene" uid="uid://dc4865ni4iv6e" path="res://scenes/floatingtimer.tscn" id="3_hoj7j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uxuvg"]
+size = Vector3(1.5728073, 1.6221924, 2.099533)
+
+[node name="Griddle" type="StaticBody3D" unique_id=851131731 node_paths=PackedStringArray("player")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+collision_layer = 5
+script = ExtResource("1_gne31")
+player = NodePath("")
+
+[node name="griddle" parent="." unique_id=972458142 instance=ExtResource("2_5ucq5")]
+transform = Transform3D(1.3, 0, 0, 0, 1, 0, 0, 0, 1.3, 0.42940745, 0, -0.08513448)
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=758057785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47541618, 0.3110962, -0.14536464)
+shape = SubResource("BoxShape3D_uxuvg")
+
+[node name="Slot1" type="Node3D" parent="." unique_id=1811112352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0765617, 0.5376374)
+
+[node name="FloatingTimer" parent="Slot1" unique_id=32800554 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
+
+[node name="Slot2" type="Node3D" parent="." unique_id=1532841470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7666041, 1.0765617, 0.5376374)
+
+[node name="FloatingTimer" parent="Slot2" unique_id=1594140343 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
+
+[node name="Slot3" type="Node3D" parent="." unique_id=380659930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0765617, -0.7197949)
+
+[node name="FloatingTimer" parent="Slot3" unique_id=1255893802 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
+
+[node name="Slot4" type="Node3D" parent="." unique_id=1218438072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7765249, 1.0765617, -0.7197949)
+
+[node name="FloatingTimer" parent="Slot4" unique_id=1767484698 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
+
+[node name="Slot5" type="Node3D" parent="." unique_id=2054643038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7765249, 1.0765617, -0.07796019)
+
+[node name="FloatingTimer" parent="Slot5" unique_id=1346559183 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
+
+[node name="Slot6" type="Node3D" parent="." unique_id=2129577855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0765617, -0.0435673)
+
+[node name="FloatingTimer" parent="Slot6" unique_id=637351557 node_paths=PackedStringArray("player_camera") instance=ExtResource("3_hoj7j")]
+player_camera = NodePath("")
