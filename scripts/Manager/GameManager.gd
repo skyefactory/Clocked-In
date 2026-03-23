@@ -4,6 +4,8 @@ class_name GameManager
 var is_paused: bool = false
 
 signal paused
+signal show_day_end_confirmation()
+
 
 var orders_perfect: Array[Order] = [] # all completed orders for the day
 var orders_late: Array[Order] = [] # all late orders for the day
@@ -14,14 +16,175 @@ var payout = 0.0
 var potential_payout = 0.0
 var efficiency = 0.0
 
-const POINTS_TO_RATING: Array[int] = [0,20,50,100,200] # rating points required to reach each rating 1-5
-const ORDER_PAYOUT_PER_RATING: Array[float] = [3.0,3.25,3.50,3.75,4.0] # payout multiplier based on the current rating 1-5
+var is_day_over: bool = false
+var all_orders_completed: bool = false
+
+const POINTS_TO_RATING: Array[int] = [0,75,150,275,350] # rating points required to reach each rating 1-5
+const ORDER_PAYOUT_PER_RATING: Array[float] = [4.2,4.8,5.4,6.0,6.6] # payout multiplier based on the current rating 1-5
+
+@export var griddle_1: Node
+@export var griddle_2: Node
+@export var drink_machine_1: Node
+@export var drink_machine_2: Node
+@export var fryer_1: Node
+@export var fryer_2: Node
+@export var drink_machine_table: Node
+
+@export var patty_supply: Node
+@export var bun_supply: Node
+@export var cheese_supply: Node
+@export var lettuce_supply: Node
+@export var tomato_supply: Node
+@export var bacon_supply: Node
+@export var frozen_fries_supply: Node
+@export var empty_cup_supply: Node
+
+@export var world_environment: WorldEnvironment
+@export var sun: DirectionalLight3D
+var environment: Environment
+var sky_material: ProceduralSkyMaterial
+
+const DAY_SKY_TOP: Color = Color(0.32, 0.66, 0.98)
+const DAY_SKY_HORIZON: Color = Color(0.86, 0.93, 1.0)
+const DAY_GROUND_HORIZON: Color = Color(0.39, 0.49, 0.28)
+const DAY_GROUND_BOTTOM: Color = Color(0.16, 0.21, 0.14)
+
+const NIGHT_SKY_TOP: Color = Color(0.015, 0.03, 0.08)
+const NIGHT_SKY_HORIZON: Color = Color(0.06, 0.09, 0.17)
+const NIGHT_GROUND_HORIZON: Color = Color(0.05, 0.06, 0.08)
+const NIGHT_GROUND_BOTTOM: Color = Color(0.01, 0.015, 0.025)
+
+const DAY_SUN_COLOR: Color = Color(1.0, 0.97, 0.91)
+const NIGHT_SUN_COLOR: Color = Color(0.35, 0.42, 0.58)
+
+func show_hide_unlocked_content() -> void:
+	var supplies = Gamestate.get_available_supplies()
+
+	set_node_unlocked_state(griddle_1, Gamestate.unlocked_content.has("Griddle"))
+	set_node_unlocked_state(griddle_2, Gamestate.unlocked_content.has("Second Griddle"))
+	set_node_unlocked_state(drink_machine_1, Gamestate.unlocked_content.has("Drink Machine"))
+	set_node_unlocked_state(drink_machine_table, Gamestate.unlocked_content.has("Drink Machine")) # the drink machine table is just a visual element, so it unlocks with the drink machine
+	set_node_unlocked_state(drink_machine_2, Gamestate.unlocked_content.has("Second Drink Machine"))
+	set_node_unlocked_state(fryer_1, Gamestate.unlocked_content.has("Fryer"))
+	set_node_unlocked_state(fryer_2, Gamestate.unlocked_content.has("Second Fryer"))
+
+
+	set_node_unlocked_state(patty_supply, supplies.has("RAWPATTY"))
+	set_node_unlocked_state(bun_supply, supplies.has("BUNS"))
+	set_node_unlocked_state(cheese_supply, supplies.has("CHEESE"))
+	set_node_unlocked_state(lettuce_supply, supplies.has("LETTUCE"))
+	set_node_unlocked_state(tomato_supply, supplies.has("TOMATO"))
+	set_node_unlocked_state(bacon_supply, supplies.has("RAWBACON"))
+	set_node_unlocked_state(frozen_fries_supply, supplies.has("FROZENFRIES"))
+	set_node_unlocked_state(empty_cup_supply, supplies.has("EMPTYCUP"))
+
+func set_node_unlocked_state(target: Node, unlocked: bool) -> void:
+	if target == null:
+		return
+
+	if target.has_method("show") and target.has_method("hide"):
+		if unlocked:
+			target.show()
+		else:
+			target.hide()
+
+	target.process_mode = Node.PROCESS_MODE_INHERIT if unlocked else Node.PROCESS_MODE_DISABLED
+	set_collision_shapes_disabled(target, not unlocked)
+
+func on_time_changed(hour: int, minute: int, pm: bool, _spedup: bool) -> void:
+	var normalized_time = _to_day_fraction(hour, minute, pm)
+	_apply_day_night(normalized_time)
+
+# convert time to 24 hour, then to a fraction of the day (0.0-1.0)
+func _to_day_fraction(hour: int, minute: int, pm: bool) -> float:
+	var h12 = hour
+	if h12 == 0: # hour 0 is 12pm
+		h12 = 12
+
+	var h24 = 0  # convert to 24 hour time
+	if h12 == 12:
+		h24 = 12 if pm else 0
+	else:
+		h24 = h12 + (12 if pm else 0)
+	# convert to fraction of the day
+	return float(h24 * 60 + minute) / 1440.0
+
+func _apply_day_night(day_fraction: float) -> void:
+	# Peak daylight at noon, darkest at midnight.
+	#sin function provides a smooth wave. Subtracting 0.25 shifts the wave so that peak daylight is at noon.
+	#then it is changed from -1,1 to 0,1. 
+	var daylight = clamp((sin((day_fraction - 0.25) * TAU) + 1.0) * 0.5, 0.0, 1.0)
+	var sunrise_sunset = 1.0 - abs(daylight * 2.0 - 1.0)
+
+	if sky_material != null:
+		#mixes the day and night color based on the current daylight value.
+		sky_material.sky_top_color = NIGHT_SKY_TOP.lerp(DAY_SKY_TOP, daylight)
+		sky_material.sky_horizon_color = NIGHT_SKY_HORIZON.lerp(DAY_SKY_HORIZON, daylight)
+		sky_material.ground_horizon_color = NIGHT_GROUND_HORIZON.lerp(DAY_GROUND_HORIZON, daylight)
+		sky_material.ground_bottom_color = NIGHT_GROUND_BOTTOM.lerp(DAY_GROUND_BOTTOM, daylight)
+		sky_material.energy_multiplier = lerp(0.14, 1.0, daylight)
+
+	if sun != null:
+		sun.rotation_degrees.x = day_fraction * 360.0 + 90.0 # rotate the sun based on the time of day, with an offset so that it starts at the horizon at 6am.
+		sun.light_energy = lerp(0.02, 1.2, daylight)
+		# Slightly warmer tint near sunrise/sunset. 
+		var warm_tint = Color(1.0, 0.80, 0.62)
+		var base_tint = NIGHT_SUN_COLOR.lerp(DAY_SUN_COLOR, daylight)
+		sun.light_color = base_tint.lerp(warm_tint, sunrise_sunset * 0.35)
+	
+func set_collision_shapes_disabled(root: Node, disabled: bool) -> void:
+	for child in root.get_children():
+		if child is CollisionShape3D:
+			child.disabled = disabled
+		elif child is CollisionPolygon3D:
+			child.disabled = disabled
+
+		set_collision_shapes_disabled(child, disabled)
 
 func _process(_delta: float) -> void:
 	check_for_input()
+	if is_day_over and all_orders_completed:
+		calculate_payouts() # calculate the payout for the day based on the completed orders
+		calculate_rating_points() # calculate the rating points earned for the day based on the completed orders
+		calculate_rating() # calculate the new rating based on the updated rating points
+		is_day_over = false # reset the day over flag for the next day
+		all_orders_completed = false # reset the all orders completed flag for the next day
+		show_day_end_confirmation.emit() # emit a signal to show the day end confirmation screen
+		Gamestate.last_day_perfect_orders = orders_perfect.duplicate() # store the perfect orders for the day in the game state for use in the day end summary screen
+		Gamestate.last_day_late_orders = orders_late.duplicate() # store the late orders for the day in the game state for use in the day end summary screen
+		Gamestate.last_day_wrong_orders = orders_wrong.duplicate() # store the wrong orders for the day in the game state for use in the day end summary screen
+		Gamestate.last_day_payout = payout # store the payout for the day in the game state for use in the day end summary screen
+
 
 func _ready() -> void:
+	if world_environment != null:
+		environment = world_environment.environment
+		if environment != null and environment.sky != null and environment.sky.sky_material is ProceduralSkyMaterial:
+			sky_material = environment.sky.sky_material as ProceduralSkyMaterial
+		else:
+			push_warning("WorldEnvironment sky material is missing or is not ProceduralSkyMaterial.")
+	else:
+		push_warning("world_environment is not assigned on GameManager.")
+
 	Gamestate.current_state = Gamestate.States.KITCHEN
+	Gamestate.last_day_perfect_orders = []
+	Gamestate.last_day_late_orders = [] 
+	Gamestate.last_day_wrong_orders = []
+	Gamestate.last_day_payout = 0.0
+	#clear all variables that should be reset at the start of the game
+	orders_perfect.clear()
+	orders_late.clear()
+	orders_wrong.clear()
+	all_completed_orders.clear()
+	payout = 0.0
+	potential_payout = 0.0
+	efficiency = 0.0
+	is_day_over = false
+	all_orders_completed = false
+
+	show_hide_unlocked_content()
+	# Match DayTimer starting value so lighting is correct on scene load.
+	on_time_changed(7, 45, false, false)
 
 # checks for pause key
 func check_for_input() -> void:
@@ -78,7 +241,6 @@ func calculate_rating() -> void:
 			new_rating = i + 1 # if so, set the new rating to this rating (i+1 since ratings start at 1 but our index starts at 0)
 	if new_rating != Gamestate.rating: # if our rating has changed, update it and print the new rating.
 		Gamestate.rating = new_rating
-		print("New rating: " + str(Gamestate.rating))
 
 # toggles the paused state and shows/hides the mouse cursor accordingly. Also emits a signal to notify other nodes of the pause state change.
 func toggle_pause() -> void:
@@ -107,13 +269,10 @@ func record_completed_order(order: Order, wrong: bool = false) -> void:
 		orders_perfect.append(order)
 
 	order.status = Order.OrderStatus.COMPLETED
-	print("Perfect Orders: ", orders_perfect.size(), " Late Orders: ", orders_late.size(), " Wrong Orders: ", orders_wrong.size())
 
 # helper function to print an order's details for debugging purposes
 func print_order(order: Order , additional_info: String = "") -> void:
-	print(additional_info + "\nOrder ID#: " + str(order.id) + "\n Status: " + str(order.status) + "\n Is Late: " + str(order.isLate) + "\n Recipe Name: " + order.recipe.result.Name + "\n Ingredients: ")
-	for ingredient in order.recipe.ingredients:
-		print("\n- " + ingredient.Name)
+	pass
 
 #helper function to get all completed orders
 func get_completed_orders() -> Array[Order]:
@@ -129,4 +288,7 @@ func on_day_start() -> void:
 	efficiency = 0.0 # reset efficiency for the day
 
 func on_day_end():
-	pass
+	is_day_over = true
+
+func on_all_orders_completed() -> void:
+	all_orders_completed = true

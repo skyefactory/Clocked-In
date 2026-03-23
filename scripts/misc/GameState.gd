@@ -13,6 +13,14 @@ var rating_points = 0 # player rating points
 var current_day = 0 # current day
 var unlocked_content: Dictionary = {}
 
+var chef_name: String = ""
+var restaurant_name: String = ""
+
+var last_day_perfect_orders: Array = [] # perfect orders from the last day
+var last_day_late_orders: Array = [] # late orders from the last day
+var last_day_wrong_orders: Array = [] # wrong orders from the last day
+var last_day_payout: float = 0.0 # payout from the last day
+
 # Type: station or recipe
 # starts_unlcoked: whether the content is unlocked at the start of the game
 # requires_all: list of ids that must be unlocked before this content can be unlocked
@@ -21,30 +29,36 @@ var unlocked_content: Dictionary = {}
 
 var content_defs = {
 	# Stations
-	"ASSEMBLER": {"type": "station", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
-	"GRIDDLE1": {"type": "station", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
-	"GRIDDLE2": {"type": "station", "starts_unlocked": false, "requires_all": ["GRIDDLE1"], "cash_cost": 300, "grants_supplies": []},
-	"DRINKMACHINE1": {"type": "station", "starts_unlocked": false, "requires_all": ["GRIDDLE1"], "cash_cost": 400, "grants_supplies": []},
-	"DRINKMACHINE2": {"type": "station", "starts_unlocked": false, "requires_all": ["DRINKMACHINE1"], "cash_cost": 700, "grants_supplies": []},
-	"FRYER1": {"type": "station", "starts_unlocked": false, "requires_all": ["DRINKMACHINE1"], "cash_cost": 500, "grants_supplies": []},
-	"FRYER2": {"type": "station", "starts_unlocked": false, "requires_all": ["FRYER1"], "cash_cost": 800, "grants_supplies": []},
-
+	"Assembler": {"type": "station", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
+	"Griddle": {"type": "station", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
+	"Second Griddle": {"type": "station", "starts_unlocked": false, "requires_all": ["Griddle"], "cash_cost": 120, "grants_supplies": []},
+	"Drink Machine": {"type": "station", "starts_unlocked": false, "requires_all": ["Griddle"], "cash_cost": 160, "grants_supplies": []},
+	"Second Drink Machine": {"type": "station", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 280, "grants_supplies": []},
+	"Fryer": {"type": "station", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 120, "grants_supplies": []},
+	"Second Fryer": {"type": "station", "starts_unlocked": false, "requires_all": ["Fryer"], "cash_cost": 320, "grants_supplies": []},
+	
 	# Recipes
-	"PLAINBURGER": {"type": "recipe", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
-	"DOUBLEBURGER": {"type": "recipe", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": []},
-	"CHEESEBURGER": {"type": "recipe", "starts_unlocked": false, "requires_all": ["PLAINBURGER", "GRIDDLE1"], "cash_cost": 150, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE"]},
-	"DOUBLECHEESEBURGER": {"type": "recipe", "starts_unlocked": false, "requires_all": ["DOUBLEBURGER", "GRIDDLE1"], "cash_cost": 200, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE"]},
-	"BACONCHEESEBURGER": {"type": "recipe", "starts_unlocked": false, "requires_all": ["CHEESEBURGER", "GRIDDLE1"], "cash_cost": 250, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE", "RAWBACON"]},
-	"DOUBLEBACONCHEESEBURGER": {"type": "recipe", "starts_unlocked": false, "requires_all": ["DOUBLECHEESEBURGER", "GRIDDLE1"], "cash_cost": 300, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE", "RAWBACON"]},
-	"BLT": {"type": "recipe", "starts_unlocked": false, "requires_all": ["BACONCHEESEBURGER", "GRIDDLE1"], "cash_cost": 220, "grants_supplies": ["BUNS", "LETTUCE", "TOMATO", "RAWBACON"]},
-	"FRIES": {"type": "recipe", "starts_unlocked": false, "requires_all": ["FRYER1"], "cash_cost": 180, "grants_supplies": ["FROZENFRIES"]},
-	"SODA": {"type": "recipe", "starts_unlocked": false, "requires_all": ["DRINKMACHINE1"], "cash_cost": 140, "grants_supplies": ["EMPTYCUP"]},
-	"BEER": {"type": "recipe", "starts_unlocked": false, "requires_all": ["DRINKMACHINE2"], "cash_cost": 240, "grants_supplies": ["EMPTYCUP"]},
-	"COFFEE": {"type": "recipe", "starts_unlocked": false, "requires_all": ["DRINKMACHINE1"], "cash_cost": 160, "grants_supplies": ["EMPTYCUP"]}
+	"Plain Burger": {"type": "recipe", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": ["BUNS", "RAWPATTY"]},
+	"Double Burger": {"type": "recipe", "starts_unlocked": true, "requires_all": [], "cash_cost": 0, "grants_supplies": ["BUNS", "RAWPATTY"]},
+	"Cheeseburger": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Plain Burger", "Griddle"], "cash_cost": 10, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE"]},
+	"Double Cheeseburger": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Double Burger", "Griddle"], "cash_cost": 20, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE"]},
+	"Bacon Cheeseburger": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Cheeseburger", "Griddle"], "cash_cost": 30, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE", "RAWBACON"]},
+	"Double Bacon Cheeseburger": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Double Cheeseburger", "Griddle"], "cash_cost": 40, "grants_supplies": ["BUNS", "RAWPATTY", "CHEESE", "RAWBACON"]},
+	"BLT": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Bacon Cheeseburger", "Griddle"], "cash_cost": 50, "grants_supplies": ["BUNS", "LETTUCE", "TOMATO", "RAWBACON"]},
+	"Fries": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Fryer"], "cash_cost": 20, "grants_supplies": ["FROZENFRIES"]},
+	"Soda": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]},
+	"Beer": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]},
+	"COFFEE": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]}
 }
 
-var base_supplies = ["BUNS", "RAWPATTY"]
+const supplies_cost:int = 5 # how much it costs to keep a stock of each supply for a day.
 
+func get_total_supplies_cost() -> int:
+	var total_cost = 0
+	var supplies = get_available_supplies()
+	for supply in supplies:
+		total_cost += supplies_cost
+	return total_cost
 
 func _ready() -> void:
 	initialize_unlocked_content()
@@ -72,12 +86,12 @@ func get_cash_cost(content_id: String) -> int:
 	return int(content_defs[content_id].get("cash_cost", 0))
 
 # can this content be unlocked (are all dependencies unlocked and is it not already unlocked)
-func can_unlock(content_id: String) -> bool:
+func can_unlock(content_id: String, care_cash: bool = true) -> bool:
 	if not has_content(content_id): # does the content exist
 		return false
 	if is_unlocked(content_id): # is it already unlocked
 		return false
-	if cash < get_cash_cost(content_id): # is there enough cash
+	if care_cash and cash < get_cash_cost(content_id): # is there enough cash
 		return false
 	var requires_all: Array = content_defs[content_id].get("requires_all", []) # are all dependencies unlocked
 	for dependency in requires_all:
@@ -94,12 +108,12 @@ func unlock_content(content_id: String) -> bool:
 	return true
 
 # returns what can be unlocked right now.
-func get_unlockable_now(content_type: String = "") -> Array[String]:
+func get_unlockable_now(content_type: String = "", care_cash: bool = true) -> Array[String]:
 	var unlockable: Array[String] = []
 	for content_id in content_defs.keys(): # for each content
 		if content_type != "" and content_defs[content_id].get("type", "") != content_type: # if a content type is specified and this content doesn't match, skip it
 			continue
-		if can_unlock(content_id): # if we can unlock this content
+		if can_unlock(content_id, care_cash): # if we can unlock this content
 			unlockable.append(content_id)
 	unlockable.sort() # sort the unlockable content alphabetically
 	return unlockable
@@ -108,7 +122,12 @@ func get_unlockable_now(content_type: String = "") -> Array[String]:
 func get_granted_supplies(content_id: String) -> Array[String]:
 	if not has_content(content_id):
 		return []
-	return content_defs[content_id].get("grants_supplies", []).duplicate()
+
+	var raw_supplies: Array = content_defs[content_id].get("grants_supplies", [])
+	var granted_supplies: Array[String] = []
+	for supply_id in raw_supplies:
+		granted_supplies.append(str(supply_id))
+	return granted_supplies
 
 #  content_type should be "station" or "recipe" or left blank to check all types. 
 # returns a sorted list of unlocked content of the given type.
@@ -122,7 +141,7 @@ func get_unlocked_by_type(content_type: String) -> Array[String]:
 
 #returns all supplies that should be available based on the unlocked content
 func get_available_supplies() -> Array[String]:
-	var all_supplies: Array[String] = base_supplies.duplicate() # start with base supplies
+	var all_supplies: Array[String] = []
 	for recipe_id in get_unlocked_by_type("recipe"): # for each unlocked recipe
 		for supply_id in get_granted_supplies(recipe_id): # for each supply granted by this recipe
 			if not all_supplies.has(supply_id): # if we don't already have this supply in the list
@@ -130,3 +149,15 @@ func get_available_supplies() -> Array[String]:
 	all_supplies.sort() # sort the available supplies alphabetically
 	return all_supplies
 
+func save_game() -> void:
+	var file = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	
+	file.store_var(cash)
+	file.store_var(rating)
+	file.store_var(rating_points)
+	file.store_var(current_day)
+	file.store_var(unlocked_content)
+	file.store_var(restaurant_name)
+	file.store_var(chef_name)
+
+	file.close()

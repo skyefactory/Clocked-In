@@ -86,3 +86,13 @@ bbcode_enabled = true
 text = "[color=white][b]Ingredients:[/b][/color]
 - Item 1
 - Item 2"
+
+[node name="Timer" type="Label" parent="." unique_id=1536351426]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 49.0
+offset_right = 129.0
+offset_bottom = 72.0
+theme_override_fonts/font = ExtResource("4_6g6kv")
+theme_override_font_sizes/font_size = 12
+text = "0.0 s"

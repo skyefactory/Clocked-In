@@ -36,9 +36,6 @@ func _ready() -> void: # capture the mouse
 	capture_mouse()
 	if inventory:
 		inventory.selected_item_changed.connect(_on_selected_item_changed)
-	
-	var unlocked = Gamestate.unlocked_content.keys()
-	print("Unlocked content at start: " + str(unlocked))
 
 func _on_selected_item_changed(_selected_slot: int) -> void:
 	refresh_interaction_prompt()
@@ -99,9 +96,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_rotate_camera()
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("release_mouse"): # toggle mouse capture on and off
-		if mouse_captured: release_mouse()
-		else: capture_mouse()
 	# check for jump input
 	if Input.is_action_just_pressed("jump"): jumping = true  
 	# check for drop item input
@@ -124,12 +118,13 @@ func _physics_process(delta: float) -> void:
 # is created in the world at the player's position.
 func drop_item():
 	# remove the currently held item
-	var slot = inventory.remove_selected_item()
-	if slot == null:
+	var item = inventory.held_item.item
+	if item == null:
 		return
 
+
 	# instantiate the WorldItem scene
-	var path = slot.item.WorldModelPath
+	var path = item.WorldModelPath
 	var world_item_scene = ResourceLoader.load(path) as PackedScene
 	if world_item_scene == null:
 		push_error("Failed to load world model scene at path: " + path)
@@ -149,10 +144,10 @@ func drop_item():
 	scene_root.add_child(world_item)
 
 	# assign data and quantity
-	world_item.Data = slot.item
-	world_item.Quantity = slot.quantity
+	world_item.Data = item
+	world_item.Quantity = 1
 	world_item.PickupAllowed = true
-
+	inventory.take_item(item, 1)
 	# place at a nearby ray hit if valid, otherwise fall back to the original feet/front drop.
 	world_item.global_position = get_drop_position()
 
@@ -178,7 +173,7 @@ func interactable_in_view(max_distance: float = 8.0) -> Node:
 	var query = raycast_from_crosshair() # set up the ray query parameters for a raycast from the center of the screen
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
-	query.collision_mask = 4 # only collide with layer 3
+	query.collision_mask = 1 | 4 # only collide with layer 3
 
 	var result = get_world_3d().direct_space_state.intersect_ray(query) # perform the raycast and get the result
 

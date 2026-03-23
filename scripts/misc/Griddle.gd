@@ -86,9 +86,7 @@ func _ready() -> void: # initialization
 		push_error("Griddle player reference is not assigned.")
 
 func debug_print_slots() -> void: # debug print for slots
-	for i in range(1, num_slots+1):
-		var slot = slots[i]
-		print("Slot ", i, ": Item: ", slot["item"].Name if slot["item"] else "None", ", Timer: ", slot["timer"], ", Status: ", SlotStatus.find_key(slot["status"]), ", World Item: ", slot["world_item"], ", World Item Instance: ", slot["world_item_instance"], ", UI: ", slot["ui"])
+	pass
 
 func is_open_slot() -> int: # returns the index of an open slot, or -1 if no open slots are available
 	for i in range(1, num_slots+1):
@@ -122,7 +120,6 @@ func interact(_interacting_player: Player) -> void:
 		despawn_slot_world_item(slot_index) # clear any existing world item in this slot just in case
 		spawn_world_item_for_slot(slot_index, held_item, false, false) # spawn the raw item as a world item that cannot be picked up
 		player.inventory.take_item(held_item, 1) # take the item from the player's inventory
-	debug_print_slots() # debug print for slots
 
 # gets the transform of the 1 of the 4 slot areas
 func get_slot_position(slot_index: int) -> Vector3:

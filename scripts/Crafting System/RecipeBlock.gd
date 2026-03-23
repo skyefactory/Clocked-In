@@ -10,7 +10,7 @@ class_name RecipeBlock
 #@onready var craft_timer: Label = $CraftTimer
 @onready var available_texture: Texture2D = preload("res://others/textures/available_to_craft.png") #available to craft
 @onready var crafting_texture: Texture2D = preload("res://others/textures/crafting_finished.png") #currently crafting or ready to collect
-
+@onready var timer: Label = $Timer
 var recipe_ref: Recipe # reference to the recipe this block represents, used for accessing the recipe's data when we click on the block to start crafting or collect the item or whatever.
 
 
@@ -19,11 +19,9 @@ func _ready():
 	button.mouse_exited.connect(_on_mouse_exited)
 
 func _on_mouse_entered():
-	print("mouse enter")
 	custom_tooltip.visible = true
 
 func _on_mouse_exited():
-	print("mouse exit")
 	custom_tooltip.visible = false
 
 # set the tooltip text, based on ingredients and the ones we're missing.
@@ -68,3 +66,12 @@ func set_status(status: int) -> void:
 			unavailable_overlay.visible = false
 			crafting_status.visible = true
 			crafting_status.texture = crafting_texture
+
+func update_timer(remaining_time: float) -> void:
+	if remaining_time > 0:
+		var text = "%.1f" % remaining_time
+		timer.text = text + " s"
+	elif remaining_time == 0:
+		timer.text = "Ready!"
+	elif remaining_time < 0:
+		timer.text = ""

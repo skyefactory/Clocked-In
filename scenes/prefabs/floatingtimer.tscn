@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dc4865ni4iv6e"]
 
-[ext_resource type="Script" uid="uid://c0jp8hfqnbg65" path="res://scenes/floating_timer.gd" id="1_lqmpw"]
+[ext_resource type="Script" uid="uid://c0jp8hfqnbg65" path="res://scripts/misc/floating_timer.gd" id="1_lqmpw"]
 [ext_resource type="Texture2D" uid="uid://bkmi81d6cg85u" path="res://others/item_icons/cook_timer_bg.png" id="2_t6osl"]
 [ext_resource type="Texture2D" uid="uid://dmw61g22ehmou" path="res://others/item_icons/cook_timer_over.png" id="3_rq1dg"]
 [ext_resource type="Texture2D" uid="uid://dvmeyitpgnfj5" path="res://others/item_icons/cook_timer_fill.png" id="4_aqmsr"]

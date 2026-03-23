@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://csngmnnwm6r3y" path="res://scripts/Inventory System/Recipe.gd" id="2_trh0k"]
 [ext_resource type="Resource" uid="uid://c5ka2x4m6u3ig" path="res://scenes/items/item data/7_lettuce.tres" id="2_w6bh0"]
 [ext_resource type="Resource" uid="uid://bpvj0nlklq34j" path="res://scenes/items/item data/5_cooked_bacon.tres" id="3_4dxeo"]
-[ext_resource type="Resource" uid="uid://c20nxlrns6bli" path="res://scenes/items/item data/6_cheese.tres" id="4_ggv3v"]
 [ext_resource type="Resource" uid="uid://dsx7kjql1u8ss" path="res://scenes/items/item data/2_buns.tres" id="5_ds3om"]
+[ext_resource type="Resource" uid="uid://cslxrqd8pwewf" path="res://scenes/items/item data/19_tomato.tres" id="5_w6bh0"]
 [ext_resource type="Resource" uid="uid://kednkwvwttgk" path="res://scenes/items/item data/13_blt.tres" id="6_c6ovn"]
 
 [resource]
 script = ExtResource("2_trh0k")
-ingredients = Array[ExtResource("1_utxrs")]([ExtResource("2_w6bh0"), ExtResource("3_4dxeo"), ExtResource("4_ggv3v"), ExtResource("5_ds3om")])
+ingredients = Array[ExtResource("1_utxrs")]([ExtResource("2_w6bh0"), ExtResource("3_4dxeo"), ExtResource("5_ds3om"), ExtResource("5_w6bh0")])
 result = ExtResource("6_c6ovn")
 assemblable = true
 time_to_craft = 10.0

@@ -1,0 +1,341 @@
+[gd_scene format=3 uid="uid://demkjr11rydy6"]
+
+[ext_resource type="Script" uid="uid://bplrc57hmt7y4" path="res://scripts/misc/day_summary.gd" id="1_4t4v7"]
+[ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="1_l8ov3"]
+[ext_resource type="Script" uid="uid://b4wtfa5m7r2bi" path="res://scripts/misc/upgrades_shop.gd" id="3_62c8v"]
+[ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_fgkmq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62c8v"]
+bg_color = Color(0.23108348, 0.33046642, 0.15417445, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_026ns"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgkmq"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[node name="DayEndSummary" type="CanvasLayer" unique_id=1927320134]
+
+[node name="bg" type="ColorRect" parent="." unique_id=1187155639]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="DaySummary" type="Control" parent="." unique_id=764561302]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4t4v7")
+
+[node name="summarybg" type="ColorRect" parent="DaySummary" unique_id=1144985164]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -300.0
+offset_right = 200.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.72156864, 1, 0.5019608, 0.83137256)
+
+[node name="summarybg2" type="ColorRect" parent="DaySummary" unique_id=1915394838]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -290.0
+offset_right = 190.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.72156864, 1, 0.5019608, 0.83137256)
+
+[node name="DayCompletedLabel" type="Label" parent="DaySummary" unique_id=213195189]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -66.0
+offset_top = -269.0
+offset_right = 67.0
+offset_bottom = -246.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.44313726, 0, 1, 1)
+theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_font_sizes/font_size = 32
+text = "Day X Completed"
+
+[node name="Summary" type="VBoxContainer" parent="DaySummary" unique_id=2055868529]
+layout_mode = 0
+offset_left = -142.0
+offset_top = -230.0
+offset_right = 186.0
+offset_bottom = -160.0
+theme_override_constants/separation = 12
+
+[node name="Divider" type="ColorRect" parent="DaySummary/Summary" unique_id=1022802775]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="OrderInfo" type="VBoxContainer" parent="DaySummary/Summary" unique_id=1703279486]
+layout_mode = 2
+alignment = 2
+
+[node name="PerfectOrdersLabel" type="RichTextLabel" parent="DaySummary/Summary/OrderInfo" unique_id=1917917820]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Perfect Orders - - - - - - - - - - - - - - 0"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="LateOrdersLabel" type="RichTextLabel" parent="DaySummary/Summary/OrderInfo" unique_id=1137154804]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Late Orders - - - - - - - - - - - - - - - 0"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="IncorrectOrdersLabel" type="RichTextLabel" parent="DaySummary/Summary/OrderInfo" unique_id=1580880432]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Incorrect Orders - - - - - - - - - - - - - - - 0"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="Divider2" type="ColorRect" parent="DaySummary/Summary" unique_id=874657424]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="RatingInfo" type="VBoxContainer" parent="DaySummary/Summary" unique_id=661617203]
+layout_mode = 2
+alignment = 2
+
+[node name="NewRatingLabel" type="RichTextLabel" parent="DaySummary/Summary/RatingInfo" unique_id=1590254904]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "New Rating - - - - - - - - - - - - - - - [color=yellow]★[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="Divider3" type="ColorRect" parent="DaySummary/Summary" unique_id=634345929]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="CashflowInfo" type="VBoxContainer" parent="DaySummary/Summary" unique_id=1070494445]
+layout_mode = 2
+alignment = 2
+
+[node name="RentLabel" type="RichTextLabel" parent="DaySummary/Summary/CashflowInfo" unique_id=1301460366]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Rent Payment - - - - - - - - - - - - - - [color=red]$50[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="SuppliesCostLabel" type="RichTextLabel" parent="DaySummary/Summary/CashflowInfo" unique_id=340259075]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Supplies Cost - - - - - - - - - - - - - - - [color=red]$150[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="IncomeLabel" type="RichTextLabel" parent="DaySummary/Summary/CashflowInfo" unique_id=1149386002]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Income - - - - - - - - - - - - - - - [color=green]$200[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="CashflowLabel" type="RichTextLabel" parent="DaySummary/Summary/CashflowInfo" unique_id=876939448]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Cashflow - - - - - - - - - - - - - - - [color=white]$0[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="Divider4" type="ColorRect" parent="DaySummary/Summary" unique_id=2038716347]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="StatsInfo" type="VBoxContainer" parent="DaySummary/Summary" unique_id=109519728]
+layout_mode = 2
+alignment = 2
+
+[node name="CashLabel" type="RichTextLabel" parent="DaySummary/Summary/StatsInfo" unique_id=1335900553]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Cash - - - - - - - - - - - - - - [color=green]$50[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="RatingLabel" type="RichTextLabel" parent="DaySummary/Summary/StatsInfo" unique_id=956852266]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "Rating - - - - - - - - - - - - - - - [color=yellow]★[/color]"
+fit_content = true
+horizontal_alignment = 3
+
+[node name="Divider4" type="ColorRect" parent="DaySummary/Summary/StatsInfo" unique_id=2098189135]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="ContinueButton" type="Button" parent="DaySummary/Summary/StatsInfo" unique_id=1819345116]
+layout_mode = 2
+text = "Purchase Menu Items & Upgrades"
+
+[node name="UpgradesShop" type="Control" parent="." unique_id=1214886697]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_62c8v")
+
+[node name="shopbg" type="ColorRect" parent="UpgradesShop" unique_id=1050982940]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -337.5
+offset_right = 350.0
+offset_bottom = 337.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.72156864, 1, 0.5019608, 0.83137256)
+
+[node name="shopbg2" type="ColorRect" parent="UpgradesShop" unique_id=1291734477]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -327.5
+offset_right = 340.0
+offset_bottom = 327.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.72156864, 1, 0.5019608, 0.83137256)
+
+[node name="ShopLabel" type="Label" parent="UpgradesShop" unique_id=830264218]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -66.5
+offset_top = -299.0
+offset_right = 66.5
+offset_bottom = -266.33334
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.44313726, 0, 1, 1)
+theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_font_sizes/font_size = 32
+text = "Shop"
+horizontal_alignment = 1
+
+[node name="ShopEntryContainer" type="GridContainer" parent="UpgradesShop" unique_id=122904365]
+layout_mode = 0
+offset_left = -238.0
+offset_top = -220.0
+offset_right = 62.0
+offset_bottom = 140.0
+theme_override_constants/h_separation = 300
+theme_override_constants/v_separation = 72
+columns = 2
+
+[node name="ContinueButton" type="Button" parent="UpgradesShop" unique_id=1115986430]
+layout_mode = 0
+offset_left = -101.0
+offset_top = 269.0
+offset_right = 179.0
+offset_bottom = 333.0
+scale = Vector2(0.977, 1)
+theme_override_fonts/font = ExtResource("4_fgkmq")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_62c8v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_026ns")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fgkmq")
+text = "Continue to Next Day
+"
+
+[node name="UnlockedEverythingLabel" type="Label" parent="UpgradesShop" unique_id=1080050793]
+visible = false
+layout_mode = 0
+offset_left = -212.0
+offset_top = -155.0
+offset_right = 313.0
+offset_bottom = -122.33333
+theme_override_colors/font_color = Color(0.3254902, 0.40392157, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_font_sizes/font_size = 32
+text = "You have unlocked EVERYTHING!!!"
+
+[node name="CashLabel" type="Label" parent="UpgradesShop" unique_id=1893948636]
+layout_mode = 0
+offset_left = -245.0
+offset_top = -271.0
+offset_right = -79.0
+offset_bottom = -226.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 32
+text = "Cash: $800"

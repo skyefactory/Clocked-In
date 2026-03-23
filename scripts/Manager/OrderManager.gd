@@ -2,7 +2,7 @@ extends Node
 class_name OrderManager
 
 signal update_orders_ui(pending_orders: Array[Order])
-
+signal all_orders_completed()
 const ORDERS_PER_RATING: Array[int] = [27,36,45,54,63] # number of orders based on the current rating 1-5
 const HOURS_PER_DAY: int = 12 # number of hours in a day (8 am to 8 pm)
 
@@ -15,6 +15,7 @@ var order_schedule: Array[Vector2i] = [] # schedule of when orders should be gen
 var next_scheduled_order_index: int = 0
 var next_order_id: int = 0
 var day_started: bool = false
+var completion_emitted_for_day: bool = false
 
 func _ready() -> void:
 	randomize() # randomize the random number generator for picking random recipes
@@ -24,6 +25,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_released("debug_order"):
 		create_and_queue_order()
+	
 
 func schedule_orders_for_day() -> void:
 	order_schedule.clear() # clear the order schedule
@@ -44,9 +46,7 @@ func schedule_orders_for_day() -> void:
 
 # print the order schedule for debugging purposes
 func print_schedule() -> void:
-	for time in order_schedule:
-		print("Order scheduled for: " + str(time.x) + ":" + str(time.y))
-	print("Total orders scheduled for the day: " + str(order_schedule.size()))
+	pass
 
 #load all recipes from the specified path and add them to the recipes array.
 func load_recipes() -> void:
@@ -73,9 +73,21 @@ func load_recipes() -> void:
 		# if we didn't load any recipes, print a warning.
 		if recipes.is_empty():
 			push_warning("No recipes were loaded from path: " + recipes_path)
+		remove_not_unlocked_recipes() # remove any recipes that aren't unlocked based on the current game state
 		return
 	# If we failed to open the directory, print an error
 	push_error("Failed to load recipes from path: " + recipes_path)
+
+func remove_not_unlocked_recipes():
+	var unlocked_recipes = Gamestate.get_unlocked_by_type("recipe")
+	var recipes_to_remove: Array[Recipe] = []
+	for recipe in recipes:
+		if not unlocked_recipes.has(recipe.result.Name):
+			recipes_to_remove.append(recipe)
+
+	for recipe in recipes_to_remove:
+		recipes.erase(recipe)
+
 
 # create a new order with a random recipe and return it.
 func new_order() -> Order:
@@ -100,11 +112,6 @@ func take_order(item: ItemData) -> void:
 	var was_wrong = item.ID != active_order.recipe.result.ID
 	complete_order(active_order, was_wrong)
 
-# helper function to print an order's details for debugging purposes
-func print_order(order: Order , additional_info: String = "") -> void:
-	print(additional_info + "\nOrder ID#: " + str(order.id) + "\n Status: " + str(order.status) + "\n Is Late: " + str(order.isLate) + "\n Recipe Name: " + order.recipe.result.Name + "\n Ingredients: ")
-	for ingredient in order.recipe.ingredients:
-		print("\n- " + ingredient.Name)
 
 # remove the order from the list of pending orders and send it to the game manager to be recorded.
 func complete_order(order: Order = null, wrong: bool = false, id: int = -1) -> void:
@@ -121,9 +128,11 @@ func complete_order(order: Order = null, wrong: bool = false, id: int = -1) -> v
 		order.status = Order.OrderStatus.COMPLETED
 
 	update_orders_ui.emit(pending_orders)
+	check_all_orders_completed()
 
 # mark the order as late.
 func mark_order_as_late(order: Order = null, id: int = -1) -> void:
+	print("Marking order as late: " + str(id))
 	if order == null and id != -1:
 		order = get_order_by_id(id)
 	if order == null:
@@ -132,6 +141,7 @@ func mark_order_as_late(order: Order = null, id: int = -1) -> void:
 
 	order.isLate = true
 	update_orders_ui.emit(pending_orders)
+	print("Order marked as late: " + str(order.id))
 
 # set the specified order as the active order, setting any previously active order back to pending.
 func set_active_order(id: int) -> void:
@@ -140,6 +150,7 @@ func set_active_order(id: int) -> void:
 		if order.id == id:
 			order.status = Order.OrderStatus.ACTIVE
 			found = true
+			print("Order set as active: " + str(order.recipe.result.Name))
 		elif order.status == Order.OrderStatus.ACTIVE:
 			order.status = Order.OrderStatus.PENDING
 
@@ -178,6 +189,7 @@ func get_active_order() -> Order:
 
 func on_day_start() -> void:
 	day_started = true # start the day
+	completion_emitted_for_day = false
 	pending_orders.clear() # clear the pending orders
 	next_order_id = 0 # reset the order ID counter for the new day
 	schedule_orders_for_day() # schedule orders for the day based on the current rating
@@ -186,6 +198,7 @@ func on_day_start() -> void:
 
 func on_day_end() -> void:
 	day_started = false
+	check_all_orders_completed()
 
 func on_time_changed(hour: int, minute: int, pm: bool, _spedup: bool) -> void:
 	if not day_started:
@@ -201,6 +214,7 @@ func create_and_queue_order() -> void:
 
 	pending_orders.append(order)
 	update_orders_ui.emit(pending_orders)
+	check_all_orders_completed()
 
 # spawn any orders that are scheduled based on the current time. 
 func spawn_due_orders(hour: int, minute: int, pm: bool) -> void:
@@ -228,6 +242,8 @@ func spawn_due_orders(hour: int, minute: int, pm: bool) -> void:
 	if added_order:
 		update_orders_ui.emit(pending_orders)
 
+	check_all_orders_completed()
+
 func get_minutes_since_day_start(hour: int, minute: int, pm: bool) -> int:
 	var normalized_hour = hour
 	if normalized_hour == 0:
@@ -246,3 +262,15 @@ func get_order_by_id(id: int) -> Order:
 		if order.id == id:
 			return order
 	return null
+
+func check_all_orders_completed() -> void:
+	if completion_emitted_for_day:
+		return
+
+	if day_started:
+		return
+
+	# Only complete once every scheduled order has spawned and no pending orders remain.
+	if next_scheduled_order_index >= order_schedule.size() and pending_orders.is_empty():
+		completion_emitted_for_day = true
+		all_orders_completed.emit()

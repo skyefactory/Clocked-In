@@ -3,9 +3,15 @@ extends Control
 @onready var new_game_button = $New
 @onready var load_button = $Load
 @onready var quit_button = $Quit
+
 @onready var confirmation_modal = $ConfirmationModal
 @onready var confirm_yes_button = $ConfirmationModal/ConfirmYes
 @onready var confirm_no_button = $ConfirmationModal/ConfirmNo
+
+@onready var name_entry_modal = $NameEntryModal
+@onready var restauraunt_name: LineEdit = $NameEntryModal/RestaurauntName
+@onready var chef_name: LineEdit = $NameEntryModal/ChefName
+@onready var name_confirm_button = $NameEntryModal/Confirm
 
 func create_new_game(): # called when the new game button is pressed
 	#reset gamestate
@@ -13,8 +19,9 @@ func create_new_game(): # called when the new game button is pressed
 	Gamestate.rating = 1 # 1 star
 	Gamestate.rating_points = 0 # 0 rating points
 	Gamestate.current_day = 0 # day 0 indicates tutorial, day 1 is the first day of the game
-	Gamestate.unlocked_content.clear()
-
+	Gamestate.initialize_unlocked_content()
+	print("restaurant name: " + Gamestate.restaurant_name)
+	print("chef name: " + Gamestate.chef_name)
 	#save the new game state to the save file
 	var file = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	file.store_var(Gamestate.cash)
@@ -22,6 +29,8 @@ func create_new_game(): # called when the new game button is pressed
 	file.store_var(Gamestate.rating_points)
 	file.store_var(Gamestate.current_day)
 	file.store_var(Gamestate.unlocked_content)
+	file.store_var(Gamestate.restaurant_name)
+	file.store_var(Gamestate.chef_name)
 	file.close()
 
 	Scenechange.change_scene("res://scenes/main_level.tscn")
@@ -37,6 +46,8 @@ func load_game():
 	Gamestate.rating_points = file.get_var()
 	Gamestate.current_day = file.get_var()
 	Gamestate.unlocked_content = file.get_var()
+	Gamestate.restauraunt_name = file.get_var()
+	Gamestate.chef_name = file.get_var()
 
 	file.close()
 
@@ -53,10 +64,25 @@ func does_save_file_exist():
 func start_new_game():
 	if does_save_file_exist():
 		toggle_confirmation_modal()
-		confirm_yes_button.pressed.connect(create_new_game)
+		confirm_yes_button.pressed.connect(take_name_entry)
 		confirm_no_button.pressed.connect(toggle_confirmation_modal)
 	else:
-		create_new_game()
+		take_name_entry()
+
+func take_name_entry():
+	name_entry_modal.visible = true
+	confirmation_modal.visible = false
+	name_confirm_button.pressed.connect(create_new_game_with_name)
+
+func create_new_game_with_name():
+	if chef_name.text.strip_edges() == "" or restauraunt_name.text.strip_edges() == "":
+		return
+
+	Gamestate.chef_name = chef_name.text.strip_edges()
+	Gamestate.restaurant_name = restauraunt_name.text.strip_edges()
+
+	create_new_game()
+		
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

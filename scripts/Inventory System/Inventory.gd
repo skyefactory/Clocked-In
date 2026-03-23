@@ -3,18 +3,23 @@ class_name Inventory
 
 var slots: Array[InventorySlot] = [] # The inventory slots of the player, this will be used to store the items in the player's inventory`
 var inventory_size: int = 9 # size of inventory
-var selected_slot: int = -1 # current selected item in item list
+var selected_slot: int = 0 # current selected item in item list
 signal inventory_changed # emitted when the inventory is changed. used for sending signals to the UI to update.
 signal selected_item_changed # emitted when the player changes the inventory selection to update the ItemList.
+signal item_added(item_name: String, quantity: int) # emitted when items are successfully added to inventory.
+signal item_removed(item_name: String, quantity: int) # emitted when items are successfully removed from inventory.
 var held_item: InventorySlot = null # reference to the currently selected inventory slot.
-
+@export var debug: Label
 func _ready() -> void:
 	# Initialize the inventory with empty slots
 	for i in range(inventory_size):
 		var slot = InventorySlot.new()
 		slots.append(slot)
 		emit_signal("inventory_changed")
+	if debug:
+		debug.hide()
 	update_held_item()
+	emit_signal("selected_item_changed", selected_slot) # emit signal to update the UI selection at the start of the game.
 
 # this is used to automatically sync up the held item with the currently selected slot.
 func update_held_item() -> void:
@@ -25,21 +30,82 @@ func update_held_item() -> void:
 
 func _process(_delta: float) -> void:
 	handle_slot_input() # check for input to change selected slot
+	var inventory_was_changed := false
 	#clear any 0 quantity items from the inventory
 	for i in range(inventory_size):
 		if slots[i].item != null and slots[i].quantity <= 0:
 			slots[i] = InventorySlot.new() # set the slot to a new empty slot
-			emit_signal("inventory_changed") # emit signal to update the UI 
+			inventory_was_changed = true
+
+	if auto_combine_stacks():
+		inventory_was_changed = true
+
+	if inventory_was_changed:
+		emit_signal("inventory_changed") # emit signal to update the UI
+
 	update_held_item()
 	pass
+
+func auto_combine_stacks() -> bool:
+	var changed := false
+
+	for i in range(inventory_size):
+		var target_slot = slots[i]
+		if target_slot.item == null:
+			continue
+
+		var max_stack: int = target_slot.item.MaxStackSize
+		if max_stack <= 1 or target_slot.quantity >= max_stack:
+			continue
+
+		for j in range(i + 1, inventory_size):
+			var source_slot = slots[j]
+			if source_slot.item == null:
+				continue
+			if source_slot.item.ID != target_slot.item.ID:
+				continue
+			if source_slot.quantity <= 0:
+				continue
+
+			var space_left: int = max_stack - target_slot.quantity
+			if space_left <= 0:
+				break
+
+			var amount_to_move: int = min(space_left, source_slot.quantity)
+			target_slot.quantity += amount_to_move
+			source_slot.quantity -= amount_to_move
+			changed = true
+
+			if source_slot.quantity <= 0:
+				slots[j] = InventorySlot.new()
+
+			if target_slot.quantity >= max_stack:
+				break
+
+	return changed
 
 # check for input to change the selected slot.
 func handle_slot_input() -> void:
 	for i in range(inventory_size): # for each slot in the inventory
 		if Input.is_action_just_pressed("slot_" + str(i+1)): #check if the slot_i action is pressed
-			selected_slot = i # set the selected slot to i
-			update_held_item()
-			emit_signal("selected_item_changed", selected_slot) # emit signal to update the UI selection
+			set_selected_slot(i)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			set_selected_slot(posmod(selected_slot - 1, inventory_size))
+			get_viewport().set_input_as_handled()
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			set_selected_slot(posmod(selected_slot + 1, inventory_size))
+			get_viewport().set_input_as_handled()
+
+func set_selected_slot(new_slot: int) -> void:
+	if inventory_size <= 0:
+		return
+
+	selected_slot = posmod(new_slot, inventory_size)
+	update_held_item()
+	emit_signal("selected_item_changed", selected_slot) # emit signal to update the UI selection
 
 #remove the item from the inventory. Returns the removed item so it can be dropped in the world or used in some way. 
 #Returns null if there is no item in the selected slot.
@@ -52,8 +118,9 @@ func remove_selected_item() -> InventorySlot:
 		return null
 		
 	var removed = slot # store the removed item to return later
+	emit_signal("item_removed", removed.item.Name, removed.quantity)
 	slots[selected_slot] = InventorySlot.new() # set the selected slot to a new empty slot
-	selected_slot = -1 # reset the selected slot since there is no longer an item there
+	selected_slot = 0 # reset the selected slot since there is no longer an item there
 	update_held_item()
 	emit_signal("selected_item_changed", selected_slot) # emit signal to update the UI selection
 	emit_signal("inventory_changed") # emit signal to update the UI since the inventory has changed
@@ -69,10 +136,10 @@ func get_id_by_item(item: ItemData) -> int:
 # try and take an item from the inventory, reducing the quantity of that item in the inventory by the specified amount.
 func take_item(item: ItemData, quantity: int) -> void:
 	var slot_id = get_id_by_item(item) # get item slot if exists
-	print("Taking item: ", item.Name, " Quantity: ", quantity, " from slot: ", slot_id)
 	if slot_id != -1:
 		if slots[slot_id].quantity >= quantity: # check that there is enough of the item in the inventory to take the specified quantity
 			slots[slot_id].quantity -= quantity # take the quantity. If the item quantity reaches 0, it will be cleared from the inventory in the _process function.
+			emit_signal("item_removed", item.Name, quantity)
 			emit_signal("inventory_changed")
 			return
 		else:
@@ -85,6 +152,7 @@ func take_item(item: ItemData, quantity: int) -> void:
 func add_inventory_item(item: ItemData, quantity: int) -> int:
 	#assert statement to catch any invalid items or quantities being added to the inventory. 
 	assert(item != null and quantity > 0, "Invalid item or quantity") 
+	var requested_quantity: int = quantity
 
 	# first try to add the item to any existing stacks of the same item in the inventory. 
 	# This will update the quantity of the item in those stacks and reduce the quantity that still needs to be added.
@@ -94,6 +162,7 @@ func add_inventory_item(item: ItemData, quantity: int) -> int:
 	# if there is nothing remaining, then we are done and can return 0 to 
 	# indicate that the entire quantity was added successfully.
 	if remaining <= 0:
+		emit_signal("item_added", item.Name, requested_quantity)
 		return 0
 	# else we should look for empty slots in the inventory to add the remaining quantity of the item.
 	for slot in range(inventory_size):
@@ -105,7 +174,11 @@ func add_inventory_item(item: ItemData, quantity: int) -> int:
 		else:
 			slots[slot].quantity = remaining # set the quantity in the slot to the remaining quantity we need to add
 			emit_signal("inventory_changed") # emit signal to update the UI since the inventory has changed
+			emit_signal("item_added", item.Name, requested_quantity)
 			return 0 # return 0 to indicate that the entire quantity was added successfully
+	var added_quantity: int = requested_quantity - remaining
+	if added_quantity > 0:
+		emit_signal("item_added", item.Name, added_quantity)
 	return remaining # if we get here, then there were not enough empty slots to add the entire quantity, so we return the remaining quantity that could not be added.
 
 #function to add items to existing stacks

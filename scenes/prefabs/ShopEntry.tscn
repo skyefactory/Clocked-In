@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://b58k8mwwgxaqj"]
+
+[ext_resource type="FontFile" uid="uid://bn4dnw3akfcte" path="res://others/font/Oxanium-Regular.ttf" id="1_eku6w"]
+[ext_resource type="Script" uid="uid://spphkv5fu6nu" path="res://scripts/misc/ShopEntry.gd" id="2_ljaeq"]
+[ext_resource type="FontFile" uid="uid://d01uwom00xy2e" path="res://others/font/Oxanium-Light.ttf" id="3_l4nbl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eku6w"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ljaeq"]
+bg_color = Color(0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4nbl"]
+bg_color = Color(0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hcgl"]
+bg_color = Color(0.35531357, 0.35531357, 0.35531345, 1)
+
+[node name="ShopEntry" type="Control" unique_id=176055156]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ljaeq")
+
+[node name="Button" type="Button" parent="." unique_id=874208901]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_eku6w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_eku6w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ljaeq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l4nbl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_7hcgl")
+
+[node name="CostLabel" type="RichTextLabel" parent="Button" unique_id=710155650]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -23.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = ExtResource("3_l4nbl")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[color=green]$100[/color]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="ItemNameLabel" type="Label" parent="Button" unique_id=739837136]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -132.0
+offset_top = 3.0
+offset_right = 132.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.062181577, 0, 0.78370625, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_eku6w")
+text = "Double Bacon Cheeseburger Recipe"
+horizontal_alignment = 1

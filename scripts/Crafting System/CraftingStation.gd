@@ -34,26 +34,33 @@ func _process(delta):
 	for recipe in crafting_dict.keys():
 		if crafting_dict[recipe]["status"] == recipe_status.CRAFTING: #check that this recipe is crafting currently.
 			crafting_dict[recipe]["timer"] -= delta # tick down the stored timer
+			update_recipe_block_timer(recipe, crafting_dict[recipe]["timer"]) # update the timer display on the recipe block UI for this recipe.
 			if crafting_dict[recipe]["timer"] <= 0: # if it has reached 0, crafting is finished.
-				print("Crafting finished for recipe: " + recipe.result.Name)
 				crafting_dict[recipe]["status"] = recipe_status.READY # set the status to ready so the player can collect the item.
 				update_recipe_block_status(recipe) # update the UI for this recipe block to show that it is ready to collect.
+		else:
+			update_recipe_block_timer(recipe, -1) # if we're not crafting this item, clear the timer by passing -1.
 
 # when a recipe block is clicked on. Depending on the status of the recipe, we either start crafting, cancel crafting, or collect the crafted item.
 func on_recipe_button_pressed(recipe: Recipe) -> void:
 	if crafting_dict[recipe]["status"] == recipe_status.CRAFTABLE: # this item is craftable, start crafting it.
 		start_crafting(recipe)
-	elif crafting_dict[recipe]["status"] == recipe_status.READY: # this item has been crafted, take it
+	elif crafting_dict[recipe]["status"] == recipe_status.READY: # this item has been crafted, take it                    
 		# Give the player the crafted item
-		inventory.add_inventory_item(recipe.result, 1) # add to inventory
+		if inventory.add_inventory_item(recipe.result, 1) == 0: # add to inventory
 		# Set the recipe status back to unavailable after crafting is done and item is collected.
-		crafting_dict[recipe]["status"] = recipe_status.UNAVAILABLE # update status to unavailable.
+			crafting_dict[recipe]["status"] = recipe_status.UNAVAILABLE # update status to unavailable.
 	elif crafting_dict[recipe]["status"] == recipe_status.CRAFTING:
 		cancel_crafting(recipe)
 	
 	update_crafting_status() # update the crafting status of all recipes after a button press in case the player's inventory has changed and that affects what they can craft.
 	update_recipe_block_status(recipe) # update the UI for this recipe block to reflect the new status after the button press.
 	
+func update_recipe_block_timer(recipe: Recipe, remaining_time: float) -> void:
+	for child in recipe_block_container.get_children():
+		if child.recipe_ref == recipe:
+			child.update_timer(remaining_time)
+			break
 
 #update recipe blocks with the current status. This is called whenever a recipe's status changes to update the UI to reflect the new status.
 func update_recipe_block_status(recipe: Recipe) -> void:
@@ -70,7 +77,6 @@ func start_crafting(recipe: Recipe) -> void:
 	for ingredient in recipe.ingredients:
 		inventory.take_item(ingredient, 1) # remove the ingredients from the player's inventory when crafting starts.
 		craft["itemstorage"].append(ingredient) # store the removed ingredients in the crafting dict in case we want to return them to the player if crafting is cancelled or something like that.
-	print("Started crafting recipe: " + recipe.result.Name)	
 
 # cancel crafting: if we have not finished crafting, set the status back to unavailable, reset the timer, and return any stored ingredients back to the player's inventory.
 func cancel_crafting(recipe: Recipe) -> void:
@@ -111,22 +117,28 @@ func load_recipes() -> void: #load all recipes from the specified path and add t
 			#get the next file
 			file_name = dir.get_next()
 		dir.list_dir_end()
+		remove_not_unlocked_recipes()
 		if recipes.is_empty():
 			push_warning("No station recipes were loaded from path: " + recipes_path)
 		return
 	# If we failed to open the directory, print an error
 	push_error("Failed to load recipes from path: " + recipes_path)
 
+func remove_not_unlocked_recipes() -> void:
+	var unlocked_recipes = Gamestate.get_unlocked_by_type("recipe")
+	var recipes_to_remove: Array[Recipe] = []
+	for recipe in recipes:
+		if not unlocked_recipes.has(recipe.result.Name):
+			recipes_to_remove.append(recipe)
+
+	for recipe in recipes_to_remove:
+		recipes.erase(recipe)
+
 func debug_print_crafting_dict() -> void: # print the crafting dictionary for debugging purposes.
-	print("Crafting Dictionary:")
-	for recipe in crafting_dict.keys():
-		var data = crafting_dict[recipe]
-		print("Recipe: " + recipe.result.Name + ", Status: " + str(data["status"]) + ", Timer: " + str(data["timer"]) + ", Result: " + str(data["result"]))
+	pass
 
 func debug_print_recipes() -> void: # print the loaded recipes for debugging purposes.
-	print("Loaded Recipes:")
-	for recipe in recipes:
-		print("Recipe: " + recipe.result.Name + ", Ingredients: " + str(recipe.ingredients))
+	pass
 
 func update_crafting_status() -> void:
 	for recipe in recipes: # for each recipe.

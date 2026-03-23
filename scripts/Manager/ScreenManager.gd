@@ -28,6 +28,8 @@ func update_screen(pending_orders: Array[Order]) -> void:
 					found = true
 					#update the order with the latest info from the order instance.
 					var ui = child
+					var btn = ui.get_child(0) as Button
+					
 					var recipeNameLabel: RichTextLabel = ui.get_child(2)
 					var ingredientsLabel: RichTextLabel = ui.get_child(3)
 					recipeNameLabel.text = o.recipe.result.Name
@@ -38,9 +40,12 @@ func update_screen(pending_orders: Array[Order]) -> void:
 
 					#update color based on order status
 					if o.status == Order.OrderStatus.ACTIVE:
+						btn.set_pressed_no_signal(true)
 						var colorRect: ColorRect = ui.get_child(1)
 						colorRect.color = Color(0.0, 155, 0.0, 1.0)
+
 					else:
+						btn.set_pressed_no_signal(false)
 						var colorRect: ColorRect = ui.get_child(1)
 						colorRect.color = Color(255, 0.0, 0.0, 1.0)
 					displayed_order_ids.append(o.id)

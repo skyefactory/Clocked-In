@@ -1,5 +1,6 @@
 extends Button
 @onready var rect: ColorRect = $"../ColorRect"
+@onready var timer = $"../Timer"
 var ID: Node
 
 var orderManager: OrderManager
@@ -9,13 +10,12 @@ func _ready() -> void:
 	# set the order manager reference
 	orderManager = get_node("/root/Restauraunt/Managers/OrderManager")
 	ID = get_parent().get_child(4)
+	timer.timer_finished.connect(_on_timer_finished)
 
 
-func _on_toggled(toggled_on: bool) -> void:
-	
+func _on_toggled(toggled_on: bool) -> void:	
 	if(!toggled_on): 
 			orderManager.set_order_as_pending(int(ID.name))
-		#rect.color = Color(255, 0.0, 0.0, 1.0)
 	else: 
 			orderManager.set_active_order(int(ID.name))
 

@@ -5,6 +5,9 @@ extends CanvasLayer
 
 var is_changing_scene = false # are we currently waiting to change scene
 
+func _ready() -> void:
+	layer = 100
+
 func change_scene(target: String) -> void: # call this to change scene
 	if is_changing_scene: # if we're already in the process of changing scene, return to avoid multiple calls
 		return

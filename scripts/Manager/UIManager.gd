@@ -20,11 +20,27 @@ class_name UIController
 @onready var pause_menu: Control = $PauseMenu
 @onready var quit_button: Button = $PauseMenu/Quit
 @onready var resume_button: Button = $PauseMenu/Resume
+@onready var day_end_confirmation: Control = $DayEndConfirmation
+@onready var day_end_confirm_button: Button = $DayEndConfirmation/Confirm
+@onready var day_completed_label: Label = $DayEndConfirmation/DayCompletedLabel
+@onready var day_complete_instruction_label: Label = $DayReadyToBeCompletedLabel
 
 @onready var assembler_crafting_station: CraftingStation = $AssemblerCraftingStation
 
 var daytimer: DayTimer
 var inventory_hint_request_id: int = 0
+var pickup_hint_container: VBoxContainer
+
+const PICKUP_HINT_DURATION: float = 2.0
+const PICKUP_HINT_FADE_DURATION: float = 0.25
+
+var day_ready_to_be_completed: bool = false
+
+func _process(delta: float) -> void:
+	if day_ready_to_be_completed and Input.is_action_just_released("end_day"):
+		player.release_mouse()
+		day_completed_label.text = "Day %d Complete!" % Gamestate.current_day
+		day_end_confirmation.show()
 
 func _ready():
 	# Initialize the day timer and connect signals
@@ -33,6 +49,7 @@ func _ready():
 	daytimer.day_start.connect(on_day_start)
 	daytimer.day_end.connect(on_day_end)
 	daytimer.time_changed.connect(on_time_changed)
+	daytimer.time_changed.connect(game_manager.on_time_changed)
 	daytimer.day_start.connect(game_manager.on_day_start)
 	daytimer.day_start.connect(order_manager.on_day_start)
 	daytimer.day_end.connect(order_manager.on_day_end)
@@ -41,11 +58,16 @@ func _ready():
 
 	# Connect inventory signals to update the hotbar and highlight the selected slot
 	inventory.inventory_changed.connect(update_hotbar)
+	inventory.inventory_changed.connect(refresh_inventory_hint)
 	inventory.selected_item_changed.connect(highlight_slot)
 	inventory.selected_item_changed.connect(show_inventory_hint)
+	inventory.item_added.connect(show_pickup_hint)
+	inventory.item_removed.connect(show_take_hint)
 	# Initial hotbar update
 	update_hotbar()
 	inventory_hint.hide()
+	setup_pickup_hint_container()
+	resized.connect(update_pickup_hint_position)
 
 	# Connect the game paused signal to show the pause menu
 	game_manager.paused.connect(on_game_paused)
@@ -56,6 +78,7 @@ func _ready():
 	player.interact_target.connect(toggle_interact_label)
 
 	order_manager.update_orders_ui.connect(screen_manager.update_screen)
+	order_manager.all_orders_completed.connect(game_manager.on_all_orders_completed)
 	cash_label.text = "Cash: $%d" % Gamestate.cash
 	match Gamestate.rating:
 		1:
@@ -69,6 +92,20 @@ func _ready():
 		5:
 			rating_label.text = "Rating: ★★★★★"
 	day_label.text = "Day %d" % Gamestate.current_day
+
+	game_manager.show_day_end_confirmation.connect(show_day_end_confirmation)
+	day_end_confirm_button.pressed.connect(switch_to_day_end_scene)
+
+
+
+func show_day_end_confirmation():
+	day_ready_to_be_completed = true
+	day_complete_instruction_label.text = "Day %d complete! Press F to end the day." % Gamestate.current_day
+	day_complete_instruction_label.show()
+func switch_to_day_end_scene():
+	day_end_confirmation.hide()
+	day_complete_instruction_label.hide()
+	Scenechange.change_scene("res://scenes/DayEndSummary.tscn")
 
 # trigger to show the interaction label. Called by other scripts when they need it via signal.
 func toggle_interact_label(show_label: bool, text: String = ""):
@@ -98,6 +135,9 @@ func update_hotbar():
 			var max_qty = slot.item.MaxStackSize
 			hotbar.set_item_text(i, "%d/%d" % [slot.quantity, max_qty])
 
+func refresh_inventory_hint() -> void:
+	show_inventory_hint(inventory.selected_slot)
+
 # function for when the day is started, could be used to trigger UI/Audio events
 func on_day_start():
 	pass
@@ -118,16 +158,12 @@ func on_time_changed(hour: int, minute: int, pm: bool, spedup: bool):
 
 # select the slot in the ItemList.
 func highlight_slot(index: int):
-	if index >= 0 and index < hotbar.get_item_count():
-		hotbar.select(index)    
+	if index >= 0:
+		if(index < hotbar.get_item_count()):
+			hotbar.select(index)    
 
 # shows a hint with the item quantity and name when selected
 func show_inventory_hint(index: int) -> void:
-	# increment the request id to invalidate any previous requests, 
-	# this way if the player quickly changes selection we won't have multiple hints 
-	# showing up and hiding at different times.
-	inventory_hint_request_id += 1
-	var request_id = inventory_hint_request_id
 
 	# if the index is out of bounds, hide the hint and return.
 	if index < 0 or index >= inventory.inventory_size:
@@ -142,13 +178,53 @@ func show_inventory_hint(index: int) -> void:
 		return
 
 	# show the hint with the item name and quantity, 
-	# then hide it after 2 seconds if the request id hasn't changed (meaning the player hasn't changed selection).
-	inventory_hint.text = "%d %s" % [slot.quantity, slot.item.Name]
+	inventory_hint.text = "Holding: %s" % slot.item.Name
 	inventory_hint.show()
 
-	await get_tree().create_timer(2.0).timeout
-	if request_id == inventory_hint_request_id:
-		inventory_hint.hide()
+func setup_pickup_hint_container() -> void:
+	pickup_hint_container = VBoxContainer.new() # make a container to hold the pickup hints
+	pickup_hint_container.name = "PickupHintContainer" #give name
+	pickup_hint_container.mouse_filter = Control.MOUSE_FILTER_IGNORE # ignore mouse
+	pickup_hint_container.top_level = true # top of the UI
+	pickup_hint_container.custom_minimum_size = Vector2(260.0, 0.0) # size
+	add_child(pickup_hint_container) # add as a child to the UI
+	update_pickup_hint_position()
+
+func update_pickup_hint_position() -> void:
+	if pickup_hint_container == null:
+		return
+	# get viewport
+	var rect := get_viewport().get_visible_rect()
+	#set position to bottom center of the screen
+	pickup_hint_container.position = Vector2((rect.size.x * 0.5) - 130.0, rect.size.y - 420.0)
+
+func show_pickup_hint(item_name: String, quantity: int) -> void:
+	show_item_hint(item_name, quantity, true)
+
+func show_take_hint(item_name: String, quantity: int) -> void:
+	show_item_hint(item_name, quantity, false)
+
+func show_item_hint(item_name: String, quantity: int, is_positive: bool) -> void:
+	if quantity <= 0:
+		return
+
+	if pickup_hint_container == null:
+		return
+
+	var pickup_label := Label.new()
+	pickup_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pickup_label.text = "%s%d %s" % ["+" if is_positive else "-", quantity, item_name]
+	pickup_label.modulate = Color(0.75, 1.0, 0.75, 1.0) if is_positive else Color(1.0, 0.45, 0.45, 1.0)
+	
+	pickup_hint_container.add_child(pickup_label)
+	pickup_hint_container.move_child(pickup_label, 0)
+	
+
+	var tween := create_tween()
+	tween.tween_interval(PICKUP_HINT_DURATION)
+	tween.tween_property(pickup_label, "modulate:a", 0.0, PICKUP_HINT_FADE_DURATION)
+	tween.finished.connect(pickup_label.queue_free)
+
 
 func on_game_paused(paused: bool):
 	if paused:

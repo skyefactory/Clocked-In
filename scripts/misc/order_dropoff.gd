@@ -9,7 +9,7 @@ func get_interaction_text(interacting_player: Player) -> String:
 	if order_manager.get_active_order() != null: # is there an active order
 		#check if the player is holding an item.
 		if interacting_player.inventory.held_item != null and interacting_player.inventory.held_item.item != null:
-			return "Press E to submit" + interacting_player.inventory.held_item.item.Name # interaction text.
+			return "Press E to submit " + interacting_player.inventory.held_item.item.Name # interaction text.
 		else:
 			return ""
 	else: # there was no active order, player needs to select one first.

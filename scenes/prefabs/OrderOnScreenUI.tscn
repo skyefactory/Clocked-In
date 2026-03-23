@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://brooydsgo0ejl" path="res://scripts/misc/order_ui_timer.gd" id="2_77pfx"]
 [ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="2_hcwp6"]
 [ext_resource type="FontFile" uid="uid://kwk25hkyaadj" path="res://others/font/Oxanium-SemiBold.ttf" id="3_mrduy"]
-[ext_resource type="FontFile" uid="uid://d01uwom00xy2e" path="res://others/font/Oxanium-Light.ttf" id="4_hegyg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_77pfx"]
 
@@ -14,10 +13,13 @@ anchors_preset = 0
 
 [node name="Button2" type="Button" parent="." unique_id=1661815591]
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 200.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 268.0
+offset_bottom = 252.0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_77pfx")
 toggle_mode = true
+action_mode = 0
 script = ExtResource("1_77pfx")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=274165364]
@@ -35,6 +37,8 @@ offset_right = 265.0
 offset_bottom = 50.0
 mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
 theme_override_fonts/normal_font = ExtResource("2_hcwp6")
 theme_override_font_sizes/normal_font_size = 26
 text = "PLACEHOLDER"
@@ -46,6 +50,7 @@ offset_top = 50.0
 offset_right = 263.0
 offset_bottom = 215.0
 mouse_filter = 2
+theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("3_mrduy")
 theme_override_font_sizes/normal_font_size = 22
 text = "o PLACEHOLDER
@@ -60,16 +65,18 @@ offset_top = 206.0
 offset_right = 43.0
 offset_bottom = 246.0
 scale = Vector2(3.08, 1)
+mouse_filter = 2
 color = Color(0, 0.40619966, 0.5057472, 1)
 
 [node name="Timer" type="RichTextLabel" parent="." unique_id=570306792]
 layout_mode = 0
-offset_left = 7.0
-offset_top = 213.0
-offset_right = 207.0
-offset_bottom = 413.0
+offset_left = 1.0
+offset_top = 214.0
+offset_right = 201.0
+offset_bottom = 414.0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("4_hegyg")
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("3_mrduy")
 theme_override_font_sizes/normal_font_size = 18
 text = "PLACEHOLDER"
 script = ExtResource("2_77pfx")

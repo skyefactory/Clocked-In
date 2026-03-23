@@ -25,6 +25,9 @@ var slot_world_item_instance: WorldItem = null
 func is_held_item_fryable() -> bool:
 	return player.inventory.held_item and player.inventory.held_item.item and player.inventory.held_item.item.isFryable()
 
+func _ready() -> void:
+	ui.hide()
+
 func can_interact(_interacting_player: Player) -> bool:
 	# Allow interaction when loading raw food, and when cooked food is ready to collect.
 	return (status == Status.EMPTY and is_held_item_fryable()) or status == Status.READY
