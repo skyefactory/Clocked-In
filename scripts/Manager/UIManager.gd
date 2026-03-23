@@ -37,6 +37,7 @@ const PICKUP_HINT_FADE_DURATION: float = 0.25
 var day_ready_to_be_completed: bool = false
 
 func _process(delta: float) -> void:
+	# check for day end input
 	if day_ready_to_be_completed and Input.is_action_just_released("end_day"):
 		player.release_mouse()
 		day_completed_label.text = "Day %d Complete!" % Gamestate.current_day
@@ -44,25 +45,27 @@ func _process(delta: float) -> void:
 
 func _ready():
 	# Initialize the day timer and connect signals
-	daytimer = DayTimer.new()
-	add_child(daytimer)
-	daytimer.day_start.connect(on_day_start)
-	daytimer.day_end.connect(on_day_end)
-	daytimer.time_changed.connect(on_time_changed)
-	daytimer.time_changed.connect(game_manager.on_time_changed)
-	daytimer.day_start.connect(game_manager.on_day_start)
-	daytimer.day_start.connect(order_manager.on_day_start)
-	daytimer.day_end.connect(order_manager.on_day_end)
-	daytimer.day_end.connect(game_manager.on_day_end)
-	daytimer.time_changed.connect(order_manager.on_time_changed)
+	daytimer = DayTimer.new() # create the day timer instance
+	add_child(daytimer) # add it as a child to the UI so that it can emit signals to the UIController
+
+	daytimer.time_changed.connect(on_time_changed) # connect the time_changed signal to the on_time_changed function to update the daytimer label
+	daytimer.time_changed.connect(game_manager.on_time_changed) # connect the time_changed signal to the game manager
+	daytimer.day_start.connect(game_manager.on_day_start) # connect the day_start signal to the game manager
+	daytimer.day_start.connect(order_manager.on_day_start) # connect the day_start signal to the order manager
+	daytimer.day_end.connect(order_manager.on_day_end) # connect the day_end signal to the order manager
+	daytimer.day_end.connect(game_manager.on_day_end) # connect the day_end signal to the game manager
+	daytimer.time_changed.connect(order_manager.on_time_changed) # connect the time_changed signal to the order manager
 
 	# Connect inventory signals to update the hotbar and highlight the selected slot
 	inventory.inventory_changed.connect(update_hotbar)
-	inventory.inventory_changed.connect(refresh_inventory_hint)
 	inventory.selected_item_changed.connect(highlight_slot)
+
+	# Connect inventory signals to show hints when the inventory changes, when a new item is selected, and when items are added or removed.
+	inventory.inventory_changed.connect(refresh_inventory_hint)
 	inventory.selected_item_changed.connect(show_inventory_hint)
 	inventory.item_added.connect(show_pickup_hint)
 	inventory.item_removed.connect(show_take_hint)
+
 	# Initial hotbar update
 	update_hotbar()
 	inventory_hint.hide()
@@ -72,15 +75,18 @@ func _ready():
 	# Connect the game paused signal to show the pause menu
 	game_manager.paused.connect(on_game_paused)
 
+	# setup pause menu buttons
 	pause_menu.hide()
 	quit_button.pressed.connect(game_manager.quit)
 	resume_button.pressed.connect(game_manager.toggle_pause)
 	player.interact_target.connect(toggle_interact_label)
 
+	# Connect order manager signals to update the screen and handle end of day sequence.
 	order_manager.update_orders_ui.connect(screen_manager.update_screen)
 	order_manager.all_orders_completed.connect(game_manager.on_all_orders_completed)
-	cash_label.text = "Cash: $%d" % Gamestate.cash
-	match Gamestate.rating:
+
+	cash_label.text = "Cash: $%d" % Gamestate.cash # set the cash label to the current cash amount from the gamestate
+	match Gamestate.rating: # set the rating label based on the current rating in the gamestate
 		1:
 			rating_label.text = "Rating: ★"
 		2:
@@ -91,17 +97,19 @@ func _ready():
 			rating_label.text = "Rating: ★★★★"
 		5:
 			rating_label.text = "Rating: ★★★★★"
-	day_label.text = "Day %d" % Gamestate.current_day
+	day_label.text = "Day %d" % Gamestate.current_day # set the day label to the current day from the gamestate
 
 	game_manager.show_day_end_confirmation.connect(show_day_end_confirmation)
 	day_end_confirm_button.pressed.connect(switch_to_day_end_scene)
 
 
-
+# Used to show a label letting the player know to press F to end the day.
 func show_day_end_confirmation():
 	day_ready_to_be_completed = true
 	day_complete_instruction_label.text = "Day %d complete! Press F to end the day." % Gamestate.current_day
 	day_complete_instruction_label.show()
+
+# switch to the day end summary scene.
 func switch_to_day_end_scene():
 	day_end_confirmation.hide()
 	day_complete_instruction_label.hide()
@@ -137,13 +145,6 @@ func update_hotbar():
 
 func refresh_inventory_hint() -> void:
 	show_inventory_hint(inventory.selected_slot)
-
-# function for when the day is started, could be used to trigger UI/Audio events
-func on_day_start():
-	pass
-# function for when the day is started, will probably be used to display a scoring screen or something similar
-func on_day_end():
-	pass
 
 # update daytimer label
 func on_time_changed(hour: int, minute: int, pm: bool, spedup: bool):
@@ -205,27 +206,28 @@ func show_take_hint(item_name: String, quantity: int) -> void:
 	show_item_hint(item_name, quantity, false)
 
 func show_item_hint(item_name: String, quantity: int, is_positive: bool) -> void:
+	# if quantity is 0 or negative, don't show a hint.
 	if quantity <= 0:
 		return
-
+	# if the pickup hint container hasn't been set up yet, don't show a hint.
 	if pickup_hint_container == null:
 		return
-
+	# create a new label for the hint, set its text to the item name and quantity, and set its color based on whether it's a pickup or a take.
 	var pickup_label := Label.new()
 	pickup_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pickup_label.text = "%s%d %s" % ["+" if is_positive else "-", quantity, item_name]
 	pickup_label.modulate = Color(0.75, 1.0, 0.75, 1.0) if is_positive else Color(1.0, 0.45, 0.45, 1.0)
-	
+	# add the label to the pickup hint container and move it to the top of the container so that multiple hints will stack downwards with the newest one on top.
 	pickup_hint_container.add_child(pickup_label)
 	pickup_hint_container.move_child(pickup_label, 0)
 	
-
+	# create a tween to fade out and remove the hint after a duration.
 	var tween := create_tween()
 	tween.tween_interval(PICKUP_HINT_DURATION)
 	tween.tween_property(pickup_label, "modulate:a", 0.0, PICKUP_HINT_FADE_DURATION)
 	tween.finished.connect(pickup_label.queue_free)
 
-
+# pause the game and show the pause menu when the game is paused, and unpause and hide the pause menu when unpaused.
 func on_game_paused(paused: bool):
 	if paused:
 		interact_label.hide()

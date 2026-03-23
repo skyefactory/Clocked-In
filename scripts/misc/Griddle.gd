@@ -2,6 +2,7 @@ extends StaticBody3D
 class_name Griddle
 
 @export var player: Player
+# references to the 6 cooking slots and their associated floating timer UIs
 @onready var slot1: Node3D = $Slot1
 @onready var slot2: Node3D = $Slot2
 @onready var slot3: Node3D = $Slot3
@@ -40,6 +41,7 @@ func initialize_slots() -> void:
 
 		set_floating_ui_for_slot(i) # assign the floating UI instance for this slot
 
+#assign each timer to its corresponding slot in the dictionary for easy access
 func set_floating_ui_for_slot(slot_index: int) -> void:
 	if not slots.has(slot_index):
 		return
@@ -60,6 +62,7 @@ func set_floating_ui_for_slot(slot_index: int) -> void:
 	
 	slots[slot_index]["ui"].visible = false # hide the UI initially
 
+#update the floating timers
 func update_floating_ui_for_slot(slot_index: int) -> void:
 	if not slots.has(slot_index):
 		push_error("Invalid slot index: " + str(slot_index))
@@ -74,25 +77,23 @@ func update_floating_ui_for_slot(slot_index: int) -> void:
 	match slot["status"]:
 		SlotStatus.COOKING:
 			ui.visible = true
-			ui.progress_bar.value = (slot["timer"] / slot["item"].time_to_cook) * 100.0
+			ui.progress_bar.value = (slot["timer"] / slot["item"].time_to_cook) * 100.0 # update the progress bar based on the cooking timer
 		SlotStatus.READY:
-			ui.visible = false
-		SlotStatus.EMPTY:
-			ui.visible = false
+			ui.visible = false # hide the timer when the item is ready
+			ui.visible = false # hide the timer when the slot is empty
 
 func _ready() -> void: # initialization
 	initialize_slots()
 	if player == null:
 		push_error("Griddle player reference is not assigned.")
 
-func debug_print_slots() -> void: # debug print for slots
-	pass
-
+# helper function to check for an open slot, returns the index of the first open slot, or -1 if no open slots are available
 func is_open_slot() -> int: # returns the index of an open slot, or -1 if no open slots are available
 	for i in range(1, num_slots+1):
 		if slots[i]["status"] == SlotStatus.EMPTY:
 			return i
 	return -1
+
 
 func is_held_item_cookable() -> bool: # returns whether the currently held item is cookable or not by checking if the held item has item data and if that item data is cookable.
 	return player.inventory.held_item and player.inventory.held_item.item and player.inventory.held_item.item.isCookable()
@@ -121,7 +122,7 @@ func interact(_interacting_player: Player) -> void:
 		spawn_world_item_for_slot(slot_index, held_item, false, false) # spawn the raw item as a world item that cannot be picked up
 		player.inventory.take_item(held_item, 1) # take the item from the player's inventory
 
-# gets the transform of the 1 of the 4 slot areas
+# gets the transform of the 1 of the 6 slot areas
 func get_slot_position(slot_index: int) -> Vector3:
 	match slot_index:
 		1:
@@ -148,6 +149,7 @@ func despawn_slot_world_item(slot_index: int) -> void:
 		world_item.queue_free()
 	slots[slot_index]["world_item_instance"] = null # set as null
 
+# spawns the world item associated with a slot.
 func spawn_world_item_for_slot(slot_index: int, item_data: ItemData, pickup_allowed: bool, connect_depleted: bool) -> void:
 	# is the item valid
 	if item_data == null:
@@ -178,6 +180,7 @@ func spawn_world_item_for_slot(slot_index: int, item_data: ItemData, pickup_allo
 		push_error("current scene is null")
 		return
 
+	# add the world item to the scene, set its data and position it at the corresponding slot
 	scene_root.add_child(world_item)
 	world_item.Data = item_data
 	world_item.Quantity = 1
@@ -200,7 +203,7 @@ func _on_slot_world_item_depleted(world_item: WorldItem, slot_index: int) -> voi
 	var slot = slots[slot_index]
 	if slot["world_item_instance"] != world_item:
 		return
-
+	#reset the slot to empty
 	slot["item"] = null
 	slot["timer"] = 0.0
 	slot["status"] = SlotStatus.EMPTY

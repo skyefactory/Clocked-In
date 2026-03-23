@@ -12,10 +12,10 @@ const HOURS_PER_DAY: int = 12 # number of hours in a day (8 am to 8 pm)
 var pending_orders: Array[Order] = [] # pending orders
 var recipes: Array[Recipe] = [] # collection of all recipes
 var order_schedule: Array[Vector2i] = [] # schedule of when orders should be generated for the day
-var next_scheduled_order_index: int = 0
-var next_order_id: int = 0
-var day_started: bool = false
-var completion_emitted_for_day: bool = false
+var next_scheduled_order_index: int = 0 # next order to be spawned
+var next_order_id: int = 0 # incremental ID for orders to keep track of them, since multiple orders can have the same recipe.
+var day_started: bool = false # flag to track if the day has started, used to control when orders can be spawned and when the day completion can be emitted.
+var completion_emitted_for_day: bool = false # flag to ensure we only emit the all_orders_completed signal once per day
 
 func _ready() -> void:
 	randomize() # randomize the random number generator for picking random recipes
@@ -32,7 +32,7 @@ func schedule_orders_for_day() -> void:
 	next_scheduled_order_index = 0 # reset the next scheduled order index
 
 	# get the total number of orders based on current rating
-	var total_orders_for_day = ORDERS_PER_RATING[Gamestate.rating - 1] # 
+	var total_orders_for_day = ORDERS_PER_RATING[Gamestate.rating - 1] # get the number of orders for the current rating
 	if total_orders_for_day <= 0:
 		return
 
@@ -79,12 +79,12 @@ func load_recipes() -> void:
 	push_error("Failed to load recipes from path: " + recipes_path)
 
 func remove_not_unlocked_recipes():
-	var unlocked_recipes = Gamestate.get_unlocked_by_type("recipe")
-	var recipes_to_remove: Array[Recipe] = []
+	var unlocked_recipes = Gamestate.get_unlocked_by_type("recipe") # get all unlocked recipes
+	var recipes_to_remove: Array[Recipe] = [] # list of locked recipes to remove from the recipes array
 	for recipe in recipes:
 		if not unlocked_recipes.has(recipe.result.Name):
 			recipes_to_remove.append(recipe)
-
+	#remove any locked recipes from the recipes array
 	for recipe in recipes_to_remove:
 		recipes.erase(recipe)
 
@@ -233,17 +233,18 @@ func spawn_due_orders(hour: int, minute: int, pm: bool) -> void:
 		if scheduled_day_minutes > current_day_minutes:
 			break
 
-		var order = new_order()
+		var order = new_order() # create the new order
 		if order:
-			pending_orders.append(order)
-			added_order = true
-		next_scheduled_order_index += 1
+			pending_orders.append(order) # add the new order to the pending orders
+			added_order = true # set the flag to true since we added an order
+		next_scheduled_order_index += 1 # increment the next scheduled order index so that we check the next order in the schedule on the next iteration of the loop.
 
 	if added_order:
 		update_orders_ui.emit(pending_orders)
 
 	check_all_orders_completed()
-
+ 
+ # calculate how many minutes have passed since the start of the day (8:00 am) based on the current time. This is used to determine when orders should be spawned based on the order schedule.
 func get_minutes_since_day_start(hour: int, minute: int, pm: bool) -> int:
 	var normalized_hour = hour
 	if normalized_hour == 0:
@@ -263,6 +264,7 @@ func get_order_by_id(id: int) -> Order:
 			return order
 	return null
 
+# check if all orders have been completed and emit the all_orders_completed signal if so. This is used to trigger the end of day sequence in the game manager.
 func check_all_orders_completed() -> void:
 	if completion_emitted_for_day:
 		return

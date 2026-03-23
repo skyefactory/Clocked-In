@@ -3,8 +3,8 @@ class_name GameManager
 
 var is_paused: bool = false
 
-signal paused
-signal show_day_end_confirmation()
+signal paused # is the game paused
+signal show_day_end_confirmation() # signal to show the day end confirmation screen after the day ends and payouts are calculated.
 
 
 var orders_perfect: Array[Order] = [] # all completed orders for the day
@@ -12,16 +12,17 @@ var orders_late: Array[Order] = [] # all late orders for the day
 var orders_wrong: Array[Order] = [] # all wrong orders for the day
 var all_completed_orders: Array[Order] = [] # all completed orders for the day, used for calculating efficiency and payout
 
-var payout = 0.0
-var potential_payout = 0.0
-var efficiency = 0.0
+var payout = 0.0 # net payout for the day based on completed orders, used for calculating cash earned at the end of the day and shown in the day end summary screen.
+var potential_payout = 0.0 # gross payout for the day if all orders were perfect, used for calculating efficiency and shown in the day end summary screen.
+var efficiency = 0.0 
 
-var is_day_over: bool = false
-var all_orders_completed: bool = false
+var is_day_over: bool = false # is the day over
+var all_orders_completed: bool = false # are all the orders complte for the day
 
 const POINTS_TO_RATING: Array[int] = [0,75,150,275,350] # rating points required to reach each rating 1-5
 const ORDER_PAYOUT_PER_RATING: Array[float] = [4.2,4.8,5.4,6.0,6.6] # payout multiplier based on the current rating 1-5
 
+# stations 
 @export var griddle_1: Node
 @export var griddle_2: Node
 @export var drink_machine_1: Node
@@ -30,6 +31,7 @@ const ORDER_PAYOUT_PER_RATING: Array[float] = [4.2,4.8,5.4,6.0,6.6] # payout mul
 @export var fryer_2: Node
 @export var drink_machine_table: Node
 
+#supplies
 @export var patty_supply: Node
 @export var bun_supply: Node
 @export var cheese_supply: Node
@@ -39,11 +41,13 @@ const ORDER_PAYOUT_PER_RATING: Array[float] = [4.2,4.8,5.4,6.0,6.6] # payout mul
 @export var frozen_fries_supply: Node
 @export var empty_cup_supply: Node
 
+# environment and lighting
 @export var world_environment: WorldEnvironment
 @export var sun: DirectionalLight3D
 var environment: Environment
 var sky_material: ProceduralSkyMaterial
 
+# used for day / night cycle, changes the sky and sun based on the time of day.
 const DAY_SKY_TOP: Color = Color(0.32, 0.66, 0.98)
 const DAY_SKY_HORIZON: Color = Color(0.86, 0.93, 1.0)
 const DAY_GROUND_HORIZON: Color = Color(0.39, 0.49, 0.28)
@@ -57,6 +61,7 @@ const NIGHT_GROUND_BOTTOM: Color = Color(0.01, 0.015, 0.025)
 const DAY_SUN_COLOR: Color = Color(1.0, 0.97, 0.91)
 const NIGHT_SUN_COLOR: Color = Color(0.35, 0.42, 0.58)
 
+#show / hide nodes based on if they are unlocked in the game state. This is used for showing new stations and supplies as they are unlocked.
 func show_hide_unlocked_content() -> void:
 	var supplies = Gamestate.get_available_supplies()
 
@@ -78,6 +83,7 @@ func show_hide_unlocked_content() -> void:
 	set_node_unlocked_state(frozen_fries_supply, supplies.has("FROZENFRIES"))
 	set_node_unlocked_state(empty_cup_supply, supplies.has("EMPTYCUP"))
 
+# helper function to show or hide a node and its collision shapes based on whether it is unlocked or not. This is used for stations and supplies that are unlocked as the player progresses through the game.
 func set_node_unlocked_state(target: Node, unlocked: bool) -> void:
 	if target == null:
 		return
@@ -157,6 +163,7 @@ func _process(_delta: float) -> void:
 
 
 func _ready() -> void:
+	# Set up environment and sky material references for day/night cycle.
 	if world_environment != null:
 		environment = world_environment.environment
 		if environment != null and environment.sky != null and environment.sky.sky_material is ProceduralSkyMaterial:
@@ -166,11 +173,13 @@ func _ready() -> void:
 	else:
 		push_warning("world_environment is not assigned on GameManager.")
 
+	# Initialize game state for the start of the day.
 	Gamestate.current_state = Gamestate.States.KITCHEN
 	Gamestate.last_day_perfect_orders = []
 	Gamestate.last_day_late_orders = [] 
 	Gamestate.last_day_wrong_orders = []
 	Gamestate.last_day_payout = 0.0
+
 	#clear all variables that should be reset at the start of the game
 	orders_perfect.clear()
 	orders_late.clear()
@@ -269,10 +278,6 @@ func record_completed_order(order: Order, wrong: bool = false) -> void:
 		orders_perfect.append(order)
 
 	order.status = Order.OrderStatus.COMPLETED
-
-# helper function to print an order's details for debugging purposes
-func print_order(order: Order , additional_info: String = "") -> void:
-	pass
 
 #helper function to get all completed orders
 func get_completed_orders() -> Array[Order]:

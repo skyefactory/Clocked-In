@@ -37,46 +37,49 @@ func _process(_delta: float) -> void:
 			slots[i] = InventorySlot.new() # set the slot to a new empty slot
 			inventory_was_changed = true
 
+	# try to combine any stacks that can be combined to free up inventory space.
 	if auto_combine_stacks():
 		inventory_was_changed = true
 
 	if inventory_was_changed:
 		emit_signal("inventory_changed") # emit signal to update the UI
 
+	#update the held item reference to match the currently selected slot.
 	update_held_item()
 	pass
 
+# auto combine stacks
 func auto_combine_stacks() -> bool:
 	var changed := false
 
-	for i in range(inventory_size):
-		var target_slot = slots[i]
+	for i in range(inventory_size): # for each slot
+		var target_slot = slots[i] 
 		if target_slot.item == null:
 			continue
 
 		var max_stack: int = target_slot.item.MaxStackSize
-		if max_stack <= 1 or target_slot.quantity >= max_stack:
+		if max_stack <= 1 or target_slot.quantity >= max_stack: # if the item is not stackable or the stack is already full, skip it.
 			continue
 
-		for j in range(i + 1, inventory_size):
-			var source_slot = slots[j]
-			if source_slot.item == null:
+		for j in range(i + 1, inventory_size): # check the slots after this one for stacks of the same item to combine with.
+			var source_slot = slots[j] # the slot we're trying to combine into the target slot
+			if source_slot.item == null: # does the slot have an item?
 				continue
-			if source_slot.item.ID != target_slot.item.ID:
+			if source_slot.item.ID != target_slot.item.ID: # is it the same type as the target slot?
 				continue
-			if source_slot.quantity <= 0:
+			if source_slot.quantity <= 0: # does the source slot have a valid quantity?
 				continue
 
-			var space_left: int = max_stack - target_slot.quantity
-			if space_left <= 0:
+			var space_left: int = max_stack - target_slot.quantity # how much space is left in the target slot to add more of the item
+			if space_left <= 0: # if there is no space left in the target slot, we can't combine with this one, so skip it.
 				break
 
-			var amount_to_move: int = min(space_left, source_slot.quantity)
-			target_slot.quantity += amount_to_move
-			source_slot.quantity -= amount_to_move
-			changed = true
-
-			if source_slot.quantity <= 0:
+			var amount_to_move: int = min(space_left, source_slot.quantity) # the amount we can move from the source slot to the target slot without exceeding the max stack
+			target_slot.quantity += amount_to_move # add the amount to the target slot
+			source_slot.quantity -= amount_to_move # remove the amount from the source slot
+			changed = true # mark that we changed the inventory so that we know to emit the signal to update the UI later.
+ 
+			if source_slot.quantity <= 0: # if we emptied the source slot, set it to a new empty slot.
 				slots[j] = InventorySlot.new()
 
 			if target_slot.quantity >= max_stack:
@@ -90,15 +93,17 @@ func handle_slot_input() -> void:
 		if Input.is_action_just_pressed("slot_" + str(i+1)): #check if the slot_i action is pressed
 			set_selected_slot(i)
 
+#used for handling scroll wheel input.
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP: # scroll up to go to previous slot
 			set_selected_slot(posmod(selected_slot - 1, inventory_size))
 			get_viewport().set_input_as_handled()
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN: # scroll down to go to next slot
 			set_selected_slot(posmod(selected_slot + 1, inventory_size))
 			get_viewport().set_input_as_handled()
 
+# force the selected slot to a specific index
 func set_selected_slot(new_slot: int) -> void:
 	if inventory_size <= 0:
 		return

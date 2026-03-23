@@ -17,16 +17,17 @@ func _ready() -> void:
 func update_shop_entries() -> void:
 	for child in shop_entry_container.get_children(): # clear existing shop entries
 		child.queue_free()
-	unlockable_recipes = Gamestate.get_unlockable_now("recipe", false)
-	unlockable_stations = Gamestate.get_unlockable_now("station", false)
+	unlockable_recipes = Gamestate.get_unlockable_now("recipe", false) # get all unlockable recipes
+	unlockable_stations = Gamestate.get_unlockable_now("station", false) # get all unlockable stations
 
 	for content_id in unlockable_recipes:
-		var entry = load(shop_entry_scene).instantiate() as Control
-		entry.content_id = content_id
-		entry.display_name = content_id
-		entry.content_type = "recipe"
-		shop_entry_container.add_child(entry)
+		var entry = load(shop_entry_scene).instantiate() as Control # create a new shop entry
+		entry.content_id = content_id # set the content id of the shop entry so it knows what content it represents when we try to unlock it
+		entry.display_name = content_id # set the content ID name as the display name
+		entry.content_type = "recipe" # set the content type so the shop entry knows what type of content it is representing when we try to unlock it
+		shop_entry_container.add_child(entry) # add the shop entry to the container to display it in the shop
 	
+	# same story for stations
 	for content_id in unlockable_stations:
 		var entry = load(shop_entry_scene).instantiate() as Control
 		entry.content_id = content_id
@@ -34,16 +35,19 @@ func update_shop_entries() -> void:
 		entry.content_type = "station"
 		shop_entry_container.add_child(entry)
 	
+	# if there is nothing to unlock, show the "you've unlocked everything" label, otherwise hide it.
 	if unlockable_recipes.size() == 0 and unlockable_stations.size() == 0:
 		unlocked_everything_label.show()
 	else:
 		unlocked_everything_label.hide()
 
+# this function is called by the shop entry when we successfully unlock content, it updates the shop entries and cash display to reflect the newly unlocked content and the cash spent on unlocking it.
 func unlock_content(content_id: String) -> void:
 	if Gamestate.unlock_content(content_id):
 		update_shop_entries() # update the shop entries to reflect the newly unlocked content
 		cash_label.text = "Cash: $%d" % Gamestate.cash
 
+# this function is called when we press the continue button, it increments the day, saves the game, and goes back to the main level scene to start the next day.
 func on_continue_pressed() -> void:
 	continue_button.disabled = true # disable the continue button to prevent multiple presses
 	Gamestate.current_day += 1

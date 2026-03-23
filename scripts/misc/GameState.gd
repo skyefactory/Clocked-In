@@ -149,6 +149,8 @@ func get_available_supplies() -> Array[String]:
 	all_supplies.sort() # sort the available supplies alphabetically
 	return all_supplies
 
+
+# save the game by writing all the relevant variables to a save file. This will be called when the player finishes a day or when they get a game over.
 func save_game() -> void:
 	var file = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	

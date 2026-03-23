@@ -8,6 +8,8 @@ class_name Fryer
 @onready var mesh_cooking: Node3D = $FRYER_basket_in
 @onready var mesh_ready: Node3D = $FRYER
 
+#this whole script is very similar to griddle.gd, but with a singular slot and the addition of switching meshes.
+
 var slot = null
 
 enum Status{

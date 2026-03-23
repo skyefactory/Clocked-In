@@ -1,6 +1,8 @@
 extends StaticBody3D
 @export var crafting_station: CraftingStation
 
+#used as a generic interactable that will open a crafting station UI.
+
 func can_interact(_interacting_player: Player) -> bool:
 	return !crafting_station.visible
 

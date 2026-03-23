@@ -40,12 +40,12 @@ func update_screen(pending_orders: Array[Order]) -> void:
 
 					#update color based on order status
 					if o.status == Order.OrderStatus.ACTIVE:
-						btn.set_pressed_no_signal(true)
+						btn.set_pressed_no_signal(true) # mark the order as toggled on the UI to indicate it's active.
 						var colorRect: ColorRect = ui.get_child(1)
 						colorRect.color = Color(0.0, 155, 0.0, 1.0)
 
 					else:
-						btn.set_pressed_no_signal(false)
+						btn.set_pressed_no_signal(false) # mark the order as toggled off on the UI to indicate it's not active.
 						var colorRect: ColorRect = ui.get_child(1)
 						colorRect.color = Color(255, 0.0, 0.0, 1.0)
 					displayed_order_ids.append(o.id)
@@ -60,9 +60,10 @@ func update_screen(pending_orders: Array[Order]) -> void:
 			continue
 		if not displayed_order_ids.has(o.id): # not found on screen, need to add it.
 			var ui = OrderUIScene.instantiate() # create new order UI scene and initialize it.
-			var recipeNameLabel: RichTextLabel = ui.get_child(2)
-			var ingredientsLabel: RichTextLabel = ui.get_child(3)
-			var uiIDStorage: Node = ui.get_child(4)
+			var recipeNameLabel: RichTextLabel = ui.get_child(2) # get reference to the recipe name label in the UI so we can set it to the order's recipe name.
+			var ingredientsLabel: RichTextLabel = ui.get_child(3) # get reference to the ingredients label in the UI so we can set it to the order's recipe ingredients.
+			var uiIDStorage: Node = ui.get_child(4) # hidden node used to store the order ID as its name so that we can match it to the order instance later for updates and removals.
+			# setup nodes and text
 			uiIDStorage.name = str(o.id)
 			recipeNameLabel.text = o.recipe.result.Name
 			var ingredientsText = ""
