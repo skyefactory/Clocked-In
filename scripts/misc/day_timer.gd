@@ -17,7 +17,7 @@ signal day_end
 signal time_changed
 
 const TICK_TO_GAME_MINUTES: int = 5 # how many in game minutes pass for every tick, can be adjusted for testing or to change the pacing of the game.
-var tick: float = 3.25
+var tick: float = 3.75
 
 func _process(delta: float) -> void:
 	accum += delta # iterate the accumulator by the delta time
@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 		spedup = true
 	else: 
 		spedup = false
-		tick = 3.5
+		tick = 3.75
 	
 	
 # advances the time by TICK_TO_GAME_MINUTES and updates PM 

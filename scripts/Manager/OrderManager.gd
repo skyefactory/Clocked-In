@@ -3,7 +3,7 @@ class_name OrderManager
 
 signal update_orders_ui(pending_orders: Array[Order])
 signal all_orders_completed()
-const ORDERS_PER_RATING: Array[int] = [27,36,45,54,63] # number of orders based on the current rating 1-5
+const ORDERS_PER_RATING: Array[int] = [30,37,44,50,56] # number of orders based on the current rating 1-5
 const HOURS_PER_DAY: int = 12 # number of hours in a day (8 am to 8 pm)
 
 @export var game_manager: GameManager

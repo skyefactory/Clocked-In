@@ -1,3 +1,4 @@
+
 extends Node3D
 class_name ScreenManager
 
@@ -12,9 +13,29 @@ var is_hovering: bool = false
 var last_event_pos2D: Vector2 = Vector2.ZERO
 var last_event_time: float = -1.0
 
+func _get_valid_order_count(pending_orders: Array[Order]) -> int:
+	var count := 0
+	for o in pending_orders:
+		if o != null:
+			count += 1
+	return count
+
+func _get_timer_duration_for_count(order_count: int) -> int:
+	# 2 mins for >= 5 orders, 3.5 mins for >= 10 orders, 5 mins for >= 15 orders.
+	if order_count >= 15:
+		return 410
+	if order_count >= 10:
+		return 300
+	if order_count >= 5:
+		return 210
+	return 120
+
 # updates the order UIs on the screen based on the current pending orders. 
 # It adds new UIs for new orders, updates existing UIs for existing orders, and removes UIs for orders that are no longer pending.
 func update_screen(pending_orders: Array[Order]) -> void:
+	var valid_order_count := _get_valid_order_count(pending_orders)
+	var timer_duration := _get_timer_duration_for_count(valid_order_count)
+
 	#Check if order is already on the screen.
 	var displayed_order_ids = []
 	for child in order_container.get_children():
@@ -28,8 +49,8 @@ func update_screen(pending_orders: Array[Order]) -> void:
 					found = true
 					#update the order with the latest info from the order instance.
 					var ui = child
-					var btn = ui.get_child(0) as Button
-					
+					var btn = ui.get_child(0) as OrderButton
+
 					var recipeNameLabel: RichTextLabel = ui.get_child(2)
 					var ingredientsLabel: RichTextLabel = ui.get_child(3)
 					recipeNameLabel.text = o.recipe.result.Name
@@ -63,6 +84,7 @@ func update_screen(pending_orders: Array[Order]) -> void:
 			var recipeNameLabel: RichTextLabel = ui.get_child(2) # get reference to the recipe name label in the UI so we can set it to the order's recipe name.
 			var ingredientsLabel: RichTextLabel = ui.get_child(3) # get reference to the ingredients label in the UI so we can set it to the order's recipe ingredients.
 			var uiIDStorage: Node = ui.get_child(4) # hidden node used to store the order ID as its name so that we can match it to the order instance later for updates and removals.
+			var timer_label: Node = ui.get_node_or_null("Timer")
 			# setup nodes and text
 			uiIDStorage.name = str(o.id)
 			recipeNameLabel.text = o.recipe.result.Name
@@ -71,6 +93,8 @@ func update_screen(pending_orders: Array[Order]) -> void:
 				ingredientsText += "- " + ingredient.Name + "\n"
 			ingredientsLabel.text = ingredientsText
 			ui.name = "Order" + str(o.id)
+			if timer_label and timer_label.has_method("set_timer_duration"):
+				timer_label.call("set_timer_duration", timer_duration)
 			order_container.add_child(ui)
 
 # handle the raycast from the player.

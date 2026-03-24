@@ -61,6 +61,8 @@ const NIGHT_GROUND_BOTTOM: Color = Color(0.01, 0.015, 0.025)
 const DAY_SUN_COLOR: Color = Color(1.0, 0.97, 0.91)
 const NIGHT_SUN_COLOR: Color = Color(0.35, 0.42, 0.58)
 
+@export var restauraunt_name_label: Label3D
+
 #show / hide nodes based on if they are unlocked in the game state. This is used for showing new stations and supplies as they are unlocked.
 func show_hide_unlocked_content() -> void:
 	var supplies = Gamestate.get_available_supplies()
@@ -194,6 +196,8 @@ func _ready() -> void:
 	show_hide_unlocked_content()
 	# Match DayTimer starting value so lighting is correct on scene load.
 	on_time_changed(7, 45, false, false)
+
+	restauraunt_name_label.text = Gamestate.restaurant_name
 
 # checks for pause key
 func check_for_input() -> void:

@@ -9,6 +9,11 @@ var gtr: bool = true # used for flashing timer effect
 var gtw: bool = false # used for flashing timer effect
 var value = 1.0 # value used for flashing timer effect, will oscillate between 1.0 and 0.0 to create a flashing effect when the timer is done.
 
+func set_timer_duration(duration: int) -> void:
+	timer_duration = duration
+	elapsed = 0.0
+	fin = false
+
 func _process(delta):
 	# flashing timer effect when the timer is done, will oscillate the text color between white and red to indicate that the timer is finished.
 	if fin:

@@ -17,6 +17,8 @@ var recipes: Array[Recipe] = [] # recipe storage
 var crafting_dict: Dictionary = {} # Dictionary that maps recipes to their status and crafting timer.
 var was_visible_before_pause: bool = false
 
+@onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D # reference to the audio player for playing crafting sounds.
+
 enum recipe_status {
 	CRAFTABLE,
 	CRAFTING,
@@ -36,7 +38,10 @@ func _process(delta):
 			crafting_dict[recipe]["timer"] -= delta # tick down the stored timer
 			update_recipe_block_timer(recipe, crafting_dict[recipe]["timer"]) # update the timer display on the recipe block UI for this recipe.
 			if crafting_dict[recipe]["timer"] <= 0: # if it has reached 0, crafting is finished.
+				#play the crafting finished sound
+				audio_player.play()
 				crafting_dict[recipe]["status"] = recipe_status.READY # set the status to ready so the player can collect the item.
+				crafting_dict[recipe]["itemstorage"] = [] # clear the stored ingredients since crafting is finished and the player can no longer cancel and get them back.
 				update_recipe_block_status(recipe) # update the UI for this recipe block to show that it is ready to collect.
 		else:
 			update_recipe_block_timer(recipe, -1) # if we're not crafting this item, clear the timer by passing -1.

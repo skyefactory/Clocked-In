@@ -21,6 +21,20 @@ var last_day_late_orders: Array = [] # late orders from the last day
 var last_day_wrong_orders: Array = [] # wrong orders from the last day
 var last_day_payout: float = 0.0 # payout from the last day
 
+#SETTINGS	
+var fullscreen: bool = false
+var mouse_sensitivity: float = 1.0
+var volume: float = 100.0
+#CONTROL SETTINGS
+var move_forward: String = "W"
+var move_backward: String = "S"
+var move_left: String = "A"
+var move_right: String = "D"
+var interact: String = "E"
+var toggle_menu: String = "Escape"
+var drop_item: String = "Q"
+var end_day: String = "F"
+
 # Type: station or recipe
 # starts_unlcoked: whether the content is unlocked at the start of the game
 # requires_all: list of ids that must be unlocked before this content can be unlocked
@@ -62,6 +76,8 @@ func get_total_supplies_cost() -> int:
 
 func _ready() -> void:
 	initialize_unlocked_content()
+	load_settings()
+	apply_settings()
 
 
 # set unlocked content to the unlocks with start unlocked as true
@@ -163,3 +179,93 @@ func save_game() -> void:
 	file.store_var(chef_name)
 
 	file.close()
+
+func save_settings() -> void:
+	var file = FileAccess.open("user://settings.save", FileAccess.WRITE)
+	if file == null:
+		return
+	
+	file.store_var(fullscreen)
+	file.store_var(mouse_sensitivity)
+	file.store_var(volume)
+	file.store_var(move_forward)
+	file.store_var(move_backward)
+	file.store_var(move_left)
+	file.store_var(move_right)
+	file.store_var(interact)
+	file.store_var(toggle_menu)
+	file.store_var(drop_item)
+	file.store_var(end_day)
+
+	file.close()
+
+	apply_settings()
+
+func rebind_control(action: String, new_key: String) -> bool:
+	if not InputMap.has_action(action):
+		return false
+
+	var normalized_key = new_key.strip_edges()
+	if normalized_key == "":
+		return false
+
+	var event = InputEventKey.new()
+	var keycode = OS.find_keycode_from_string(normalized_key)
+	if keycode == 0:
+		return false
+
+	InputMap.action_erase_events(action) # remove existing keybinds for this action only if replacement is valid
+	event.keycode = keycode
+	event.pressed = true
+	InputMap.action_add_event(action, event) # add the new keybind for this action
+	return true
+
+func _read_setting_or_default(file: FileAccess, default_value):
+	if file.get_position() >= file.get_length():
+		return default_value
+
+	var value = file.get_var()
+	if typeof(value) != typeof(default_value):
+		return default_value
+
+	return value
+
+func load_settings() -> void:
+	var file = FileAccess.open("user://settings.save", FileAccess.READ)
+	
+	if file == null:
+		return
+	
+	fullscreen = _read_setting_or_default(file, fullscreen)
+	mouse_sensitivity = _read_setting_or_default(file, mouse_sensitivity)
+	volume = _read_setting_or_default(file, volume)
+	move_forward = _read_setting_or_default(file, move_forward)
+	move_backward = _read_setting_or_default(file, move_backward)
+	move_left = _read_setting_or_default(file, move_left)
+	move_right = _read_setting_or_default(file, move_right)
+	interact = _read_setting_or_default(file, interact)
+	toggle_menu = _read_setting_or_default(file, toggle_menu)
+	drop_item = _read_setting_or_default(file, drop_item)
+	end_day = _read_setting_or_default(file, end_day)
+
+	file.close()
+
+func apply_settings() -> void:
+	if fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+	AudioServer.set_bus_volume_db(0, linear_to_db(clampf(volume, 0.0, 1.0)))
+	
+	rebind_control("move_forward", move_forward)
+	rebind_control("move_backward", move_backward)
+	rebind_control("move_left", move_left)
+	rebind_control("move_right", move_right)
+	rebind_control("interact", interact)
+	rebind_control("toggle_menu", toggle_menu)
+	rebind_control("drop_item", drop_item)
+	rebind_control("end_day", end_day)
+	
+
+

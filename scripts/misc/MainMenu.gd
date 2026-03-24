@@ -3,15 +3,65 @@ extends Control
 @onready var new_game_button = $New #button to start a new game
 @onready var load_button = $Load #button to load an existing game
 @onready var quit_button = $Quit #button to quit the game
-
+@onready var settings_button = $Settings #button to open the settings menu
 @onready var confirmation_modal = $ConfirmationModal # modal that asks the player to confirm if they want to start a new game when they already have a save file
 @onready var confirm_yes_button = $ConfirmationModal/ConfirmYes # button to confirm starting a new game and overwriting the existing save file
 @onready var confirm_no_button = $ConfirmationModal/ConfirmNo # button to cancel starting a new game and keep the existing save file
+@onready var settings_modal = $SettingsModal # modal that contains the settings options, this will be implemented in the future, for now it just prints to the console when the settings button is pressed.
+@onready var submit_settings_button = $SettingsModal/Submit # button to submit the settings changes, this will be implemented in the future, for now it just prints to the console when pressed.
+@onready var cancel_settings_button = $SettingsModal/Cancel # button to cancel any changes made in the settings modal and close the modal, this will be implemented in the future, for now it just prints to the console when pressed.
+
 
 @onready var name_entry_modal = $NameEntryModal # modal that asks the player to enter their restaurant and chef name when starting a new game, this only shows up if they don't have an existing save file, if they do have a save file it will just use the names from the save file.
 @onready var restauraunt_name: LineEdit = $NameEntryModal/RestaurauntName # line edit for the player to enter their restaurant name when starting a new game
 @onready var chef_name: LineEdit = $NameEntryModal/ChefName # line edit for the player to enter their chef name when starting a new game
 @onready var name_confirm_button = $NameEntryModal/Confirm # button to confirm the entered names and start the new game
+
+@export var fullscreen_toggle: CheckButton # checkbox to toggle fullscreen mode on and off
+@export var volume_slider: HSlider # slider to adjust the game's volume
+@export var sensitivity_slider: HSlider # slider to adjust the game's mouse sensitivity
+
+@export var move_forward: LineEdit
+@export var move_backward: LineEdit
+@export var move_left: LineEdit
+@export var move_right: LineEdit
+@export var interact: LineEdit
+@export var toggle_menu: LineEdit
+@export var drop_item: LineEdit
+@export var end_day: LineEdit
+
+@export var volume_slider_label: Label
+@export var sensitivity_slider_label: Label
+
+func _normalize_keybind_or_fallback(raw_key: String, fallback: String) -> String:
+	var trimmed = raw_key.strip_edges()
+	if trimmed == "":
+		return fallback
+
+	var keycode = OS.find_keycode_from_string(trimmed)
+	if keycode == 0:
+		return fallback
+
+	return OS.get_keycode_string(keycode)
+
+func _sync_settings_ui_from_gamestate() -> void:
+	fullscreen_toggle.button_pressed = Gamestate.fullscreen
+	volume_slider.value = Gamestate.volume
+	sensitivity_slider.value = Gamestate.mouse_sensitivity
+
+	move_forward.text = Gamestate.move_forward
+	move_backward.text = Gamestate.move_backward
+	move_left.text = Gamestate.move_left
+	move_right.text = Gamestate.move_right
+	interact.text = Gamestate.interact
+	toggle_menu.text = Gamestate.toggle_menu
+	drop_item.text = Gamestate.drop_item
+	end_day.text = Gamestate.end_day
+
+	volume_slider_label.text = str(int(Gamestate.volume)) + "%"
+	sensitivity_slider_label.text =str(round(Gamestate.mouse_sensitivity))
+
+
 
 func create_new_game(): # called when the new game button is pressed
 	#reset gamestate
@@ -44,7 +94,7 @@ func load_game():
 	Gamestate.rating_points = file.get_var()
 	Gamestate.current_day = file.get_var()
 	Gamestate.unlocked_content = file.get_var()
-	Gamestate.restauraunt_name = file.get_var()
+	Gamestate.restaurant_name = file.get_var()
 	Gamestate.chef_name = file.get_var()
 
 	file.close()
@@ -85,6 +135,29 @@ func create_new_game_with_name():
 
 	create_new_game()
 		
+func open_settings():
+	_sync_settings_ui_from_gamestate()
+	settings_modal.visible = true
+
+func close_settings():
+	settings_modal.visible = false
+
+func submit_settings():
+	Gamestate.fullscreen = fullscreen_toggle.button_pressed
+	Gamestate.mouse_sensitivity = sensitivity_slider.value
+	Gamestate.volume = volume_slider.value
+
+	Gamestate.move_forward = _normalize_keybind_or_fallback(move_forward.text, Gamestate.move_forward)
+	Gamestate.move_backward = _normalize_keybind_or_fallback(move_backward.text, Gamestate.move_backward)
+	Gamestate.move_left = _normalize_keybind_or_fallback(move_left.text, Gamestate.move_left)
+	Gamestate.move_right = _normalize_keybind_or_fallback(move_right.text, Gamestate.move_right)
+	Gamestate.interact = _normalize_keybind_or_fallback(interact.text, Gamestate.interact)
+	Gamestate.toggle_menu = _normalize_keybind_or_fallback(toggle_menu.text, Gamestate.toggle_menu)
+	Gamestate.drop_item = _normalize_keybind_or_fallback(drop_item.text, Gamestate.drop_item)
+	Gamestate.end_day = _normalize_keybind_or_fallback(end_day.text, Gamestate.end_day)
+
+	Gamestate.save_settings()
+	close_settings()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -97,4 +170,13 @@ func _ready() -> void:
 	load_button.pressed.connect(load_game)
 	new_game_button.pressed.connect(start_new_game)
 	quit_button.pressed.connect(get_tree().quit)
+	settings_button.pressed.connect(open_settings)
+	submit_settings_button.pressed.connect(submit_settings)
+	cancel_settings_button.pressed.connect(close_settings)
+	volume_slider.value_changed.connect(func(value):
+		volume_slider_label.text = str(int(value)) + "%"
+	)
+	sensitivity_slider.value_changed.connect(func(value):
+		sensitivity_slider_label.text = str(round(value))
+	)
 	pass # Replace with function body.

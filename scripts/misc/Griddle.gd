@@ -17,6 +17,8 @@ class_name Griddle
 @onready var slot5_timer = $Slot5/FloatingTimer
 @onready var slot6_timer = $Slot6/FloatingTimer
 
+@onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D	
+
 
 var slots = {
 }
@@ -236,3 +238,4 @@ func _process(delta: float) -> void:
 				slot["item"] = cooked_item # update the slot item to the cooked item
 				slot["timer"] = 0.0
 				spawn_world_item_for_slot(i, cooked_item, true, true) # spawn the cooked item as a world item that can be picked up
+				audio_player.play() # play the cooking sound

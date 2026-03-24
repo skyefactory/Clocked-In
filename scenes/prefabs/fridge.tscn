@@ -11,7 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://dhcn4a352xsf8" path="res://models/blend files/fridge_Poliigon_PlasticMoldWorn_7486_Normal.png.png" id="9_nx6c0"]
 [ext_resource type="Texture2D" uid="uid://b3g5ohgwvs3km" path="res://models/blend files/fridge_Poliigon_PlasticMoldWorn_7486_BaseColor.jpg.jpg" id="10_yoh4r"]
 [ext_resource type="Texture2D" uid="uid://mnlmc67pc3kl" path="res://models/blend files/fridge_Poliigon_PlasticMoldWorn_7486_Roughness.jpg_11.jpg" id="11_6s3sb"]
+[ext_resource type="AudioStream" uid="uid://l8pqctsllvp0" path="res://others/audio/fridge_open.ogg" id="11_ofahi"]
 [ext_resource type="Texture2D" uid="uid://bdnnxqfobat6r" path="res://models/blend files/fridge_Poliigon_PlasticMoldWorn_7486_Normal.png_9.png" id="12_gawk1"]
+[ext_resource type="AudioStream" uid="uid://befsbiuftlp4f" path="res://others/audio/fride_close.ogg" id="12_p22xt"]
+[ext_resource type="AudioStream" uid="uid://dqwiqmvbkjs1w" path="res://others/audio/fridge_idle.ogg" id="13_0uem1"]
 [ext_resource type="Script" uid="uid://dkpo018g3d3jy" path="res://scripts/misc/fridge.gd" id="13_t2fjl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7vnt4"]
@@ -345,10 +348,14 @@ shape = SubResource("ConcavePolygonShape3D_t2fjl")
 transform = Transform3D(0.08750002, 0, 0, 0, 1.4354047, 0, 0, 0, 0.07599998, 2.074398, 4.336295, 1.5979693)
 mesh = SubResource("ArrayMesh_nc6vp")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Cube_002" unique_id=1128251510]
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube_002" unique_id=1128251510 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4665031, -0.23428583, -21.025917)
 collision_layer = 5
 script = ExtResource("13_t2fjl")
+audio_player = NodePath("../../AudioStreamPlayer3D")
+fridge_open_sfx = ExtResource("11_ofahi")
+fridge_close_sfx = ExtResource("12_p22xt")
+fridge_idle_sfx = ExtResource("13_0uem1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_002/StaticBody3D" unique_id=1083544355]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -1.4210855e-14, 0, 1, -0.68984413, 0, 0)
@@ -400,3 +407,9 @@ shape = SubResource("BoxShape3D_nx6c0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2012749649]
 libraries/ = SubResource("AnimationLibrary_e8ccx")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1627183343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2611065, 3.8555622, 0)
+volume_db = -10.0
+max_distance = 10.0
+bus = &"sfx"

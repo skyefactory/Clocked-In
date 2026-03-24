@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ca1x81o75blva" path="res://others/main_menu/3.png" id="3_4ytvr"]
 [ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_mhnvy"]
 [ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="6_g3eks"]
+[ext_resource type="FontFile" uid="uid://b1ed41ycilyk1" path="res://others/font/Oxanium-Medium.ttf" id="7_13sgg"]
 [ext_resource type="FontFile" uid="uid://d01uwom00xy2e" path="res://others/font/Oxanium-Light.ttf" id="7_v86rl"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4h3mk"]
@@ -43,7 +44,10 @@ bg_color = Color(0.7786898, 0.118815385, 0.05190999, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70i5f"]
 bg_color = Color(0.7786898, 0.118815385, 0.05190999, 1)
 
-[node name="Menu" type="Control" unique_id=953088719]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj5lg"]
+bg_color = Color(0.59607846, 0.48235294, 0, 0)
+
+[node name="Menu" type="Control" unique_id=953088719 node_paths=PackedStringArray("fullscreen_toggle", "volume_slider", "sensitivity_slider", "move_forward", "move_backward", "move_left", "move_right", "interact", "toggle_menu", "drop_item", "end_day", "volume_slider_label", "sensitivity_slider_label")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -53,6 +57,19 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4ytvr")
+fullscreen_toggle = NodePath("SettingsModal/Fullscreen/CheckButton")
+volume_slider = NodePath("SettingsModal/Volume/HSlider")
+sensitivity_slider = NodePath("SettingsModal/MouseSensitivity/HSlider")
+move_forward = NodePath("SettingsModal/ForwardControl/LineEdit")
+move_backward = NodePath("SettingsModal/BackwardsControl/LineEdit")
+move_left = NodePath("SettingsModal/LeftControl/LineEdit")
+move_right = NodePath("SettingsModal/RightControl/LineEdit")
+interact = NodePath("SettingsModal/InteractControl/LineEdit")
+toggle_menu = NodePath("SettingsModal/PauseGame/LineEdit")
+drop_item = NodePath("SettingsModal/DropItem/LineEdit")
+end_day = NodePath("SettingsModal/EndDay/LineEdit")
+volume_slider_label = NodePath("SettingsModal/Volume/Sensitivity")
+sensitivity_slider_label = NodePath("SettingsModal/MouseSensitivity/Sensitivity")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1546440247]
 sprite_frames = SubResource("SpriteFrames_4h3mk")
@@ -61,9 +78,9 @@ autoplay = "default"
 [node name="New" type="Button" parent="." unique_id=1267581906]
 layout_mode = 0
 offset_left = -860.0
-offset_top = -132.0
+offset_top = -190.0
 offset_right = -653.0
-offset_bottom = -59.0
+offset_bottom = -117.0
 theme_override_fonts/font = ExtResource("4_mhnvy")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
@@ -75,9 +92,9 @@ text = "New Game"
 [node name="Load" type="Button" parent="." unique_id=166240239]
 layout_mode = 0
 offset_left = -860.0
-offset_top = 86.0
+offset_top = -30.0
 offset_right = -653.0
-offset_bottom = 159.0
+offset_bottom = 43.0
 theme_override_fonts/font = ExtResource("4_mhnvy")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
@@ -89,9 +106,9 @@ text = "Load Game"
 [node name="Quit" type="Button" parent="." unique_id=2137939630]
 layout_mode = 0
 offset_left = -860.0
-offset_top = 288.0
+offset_top = 283.0
 offset_right = -653.0
-offset_bottom = 361.0
+offset_bottom = 356.0
 theme_override_fonts/font = ExtResource("4_mhnvy")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
@@ -99,6 +116,22 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
 theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
 text = "Quit
+"
+
+[node name="Settings" type="Button" parent="." unique_id=2006373265]
+layout_mode = 0
+offset_left = -860.0
+offset_top = 126.0
+offset_right = -653.0
+offset_bottom = 199.0
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Settings
+
 "
 
 [node name="ConfirmationModal" type="Control" parent="." unique_id=1809986893]
@@ -191,6 +224,385 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
 theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
 text = "Yes"
+
+[node name="SettingsModal" type="Control" parent="." unique_id=53687853]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 456.0
+offset_top = 48.0
+offset_right = 496.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsBG" type="ColorRect" parent="SettingsModal" unique_id=1302943598]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -400.0
+offset_right = -275.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2784314, 0.2784314, 0.2784314, 0.81960785)
+
+[node name="SettingsLabel" type="Label" parent="SettingsModal" unique_id=1807095408]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -559.0
+offset_top = -363.0
+offset_right = 110.0
+offset_bottom = -259.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_g3eks")
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+
+[node name="Cancel" type="Button" parent="SettingsModal" unique_id=1153116187]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -532.0
+offset_top = 168.0
+offset_right = -325.0
+offset_bottom = 241.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6lef")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v86rl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_70i5f")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Nevermind"
+
+[node name="Submit" type="Button" parent="SettingsModal" unique_id=315820134]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -535.0
+offset_top = 86.0
+offset_right = -325.0
+offset_bottom = 159.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_mhnvy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ytvr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g3eks")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_13sgg")
+text = "Save Changes"
+
+[node name="MouseSensitivity" type="ColorRect" parent="SettingsModal" unique_id=2037317685]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -237.0
+offset_right = -303.0
+offset_bottom = -206.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/MouseSensitivity" unique_id=1582371279]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Mouse Sensitivity:"
+
+[node name="HSlider" type="HSlider" parent="SettingsModal/MouseSensitivity" unique_id=1983406547]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 7.0
+offset_right = 205.0
+offset_bottom = 23.0
+max_value = 3.0
+tick_count = 1
+
+[node name="Sensitivity" type="Label" parent="SettingsModal/MouseSensitivity" unique_id=916972233]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 10.0
+offset_right = 346.0
+offset_bottom = 33.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+theme_override_font_sizes/font_size = 12
+text = "0.0"
+
+[node name="Volume" type="ColorRect" parent="SettingsModal" unique_id=1992704619]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -198.0
+offset_right = -303.0
+offset_bottom = -167.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/Volume" unique_id=1187602746]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Volume:"
+
+[node name="HSlider" type="HSlider" parent="SettingsModal/Volume" unique_id=726515543]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 7.0
+offset_right = 205.0
+offset_bottom = 23.0
+tick_count = 1
+
+[node name="Sensitivity" type="Label" parent="SettingsModal/Volume" unique_id=554899931]
+layout_mode = 0
+offset_left = 207.0
+offset_top = 10.0
+offset_right = 343.0
+offset_bottom = 33.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+theme_override_font_sizes/font_size = 12
+text = "100"
+
+[node name="Fullscreen" type="ColorRect" parent="SettingsModal" unique_id=141007344]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -276.0
+offset_right = -303.0
+offset_bottom = -245.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="CheckButton" type="CheckButton" parent="SettingsModal/Fullscreen" unique_id=156092055]
+layout_mode = 0
+offset_left = 139.0
+offset_right = 171.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mj5lg")
+text = "
+"
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/Fullscreen" unique_id=1446309233]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Fullscreen"
+
+[node name="ForwardControl" type="ColorRect" parent="SettingsModal" unique_id=1298747866]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -133.0
+offset_right = -303.0
+offset_bottom = -102.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/ForwardControl" unique_id=1926749563]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/ForwardControl" unique_id=168218798]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Move Forward:"
+
+[node name="LeftControl" type="ColorRect" parent="SettingsModal" unique_id=334877060]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -101.0
+offset_right = -303.0
+offset_bottom = -70.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/LeftControl" unique_id=1002373528]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/LeftControl" unique_id=1761337895]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Move Left:"
+
+[node name="RightControl" type="ColorRect" parent="SettingsModal" unique_id=2028558023]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -69.0
+offset_right = -303.0
+offset_bottom = -38.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/RightControl" unique_id=609806224]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/RightControl" unique_id=874651177]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Move Right:"
+
+[node name="BackwardsControl" type="ColorRect" parent="SettingsModal" unique_id=806410921]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -37.0
+offset_right = -303.0
+offset_bottom = -6.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/BackwardsControl" unique_id=1322685351]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/BackwardsControl" unique_id=357393274]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Move Back:"
+
+[node name="InteractControl" type="ColorRect" parent="SettingsModal" unique_id=716279628]
+layout_mode = 0
+offset_left = -538.0
+offset_top = -5.0
+offset_right = -303.0
+offset_bottom = 26.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/InteractControl" unique_id=2029767157]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/InteractControl" unique_id=1187639289]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Interact:"
+
+[node name="DropItem" type="ColorRect" parent="SettingsModal" unique_id=753537130]
+layout_mode = 0
+offset_left = -538.0
+offset_top = 27.0
+offset_right = -303.0
+offset_bottom = 58.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/DropItem" unique_id=2108681106]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/DropItem" unique_id=582776479]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Drop Item:"
+
+[node name="EndDay" type="ColorRect" parent="SettingsModal" unique_id=958477402]
+layout_mode = 0
+offset_left = -538.0
+offset_top = 27.0
+offset_right = -303.0
+offset_bottom = 58.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/EndDay" unique_id=1251924993]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/EndDay" unique_id=286721651]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "End Day:"
+
+[node name="PauseGame" type="ColorRect" parent="SettingsModal" unique_id=1938188284]
+layout_mode = 0
+offset_left = -538.0
+offset_top = 59.0
+offset_right = -303.0
+offset_bottom = 90.0
+color = Color(0.59607846, 0.48235294, 0, 1)
+
+[node name="LineEdit" type="LineEdit" parent="SettingsModal/PauseGame" unique_id=688208656]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 198.5
+offset_bottom = 31.0
+max_length = 1
+
+[node name="SettingLabel" type="Label" parent="SettingsModal/PauseGame" unique_id=583700082]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 139.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("7_13sgg")
+text = "Pause Game:"
 
 [node name="NameEntryModal" type="Control" parent="." unique_id=1436637179]
 visible = false

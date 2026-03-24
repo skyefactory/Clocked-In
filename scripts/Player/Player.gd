@@ -3,7 +3,7 @@ class_name Player
 @onready var inventory: Inventory = $Inventory
 @export var screen_manager: ScreenManager
 @onready var camera: Camera3D = $Camera # reference to player camera
-
+@onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 # Main movement code was adapted from https://github.com/rbarongr/GodotFirstPersonController/tree/main
 
 
@@ -27,6 +27,7 @@ var grav_vel: Vector3 # Gravity velocity
 var jump_vel: Vector3 # Jumping velocity
 
 var forward: Vector3 # forward direction for dropping items and moving
+var min_walk_speed_for_sfx: float = 0.2
 
 var current_interactable: Node # currently active interactable target.
 
@@ -34,8 +35,17 @@ signal interact_target(show_label, text)
 
 func _ready() -> void: # capture the mouse
 	capture_mouse()
+	if audio_player:
+		audio_player.stop()
 	if inventory:
 		inventory.selected_item_changed.connect(_on_selected_item_changed)
+		inventory.item_added.connect(play_pickup_sound)
+		inventory.item_removed.connect(play_pickup_sound)
+
+func play_pickup_sound(_item, _quantity) -> void:
+	var pickup_sound = $InventoryNoise as AudioStreamPlayer
+	if pickup_sound:
+		pickup_sound.play()
 
 func _on_selected_item_changed(_selected_slot: int) -> void:
 	refresh_interaction_prompt()
@@ -112,6 +122,22 @@ func _physics_process(delta: float) -> void:
 	elif current_interactable: # if there is no interactable in view but we have a current interactable, clear it.
 		clear_interactable(current_interactable)
 	move_and_slide()
+	_update_walking_sfx()
+
+func _update_walking_sfx() -> void:
+	if not audio_player or not audio_player.stream:
+		return
+
+	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
+	var should_play := is_on_floor() and move_dir.length() > 0.1 and horizontal_speed > min_walk_speed_for_sfx
+
+	if should_play:
+		# Keep one walking clip running while moving; clip includes multiple step hits.
+		if not audio_player.playing:
+			audio_player.play()
+		audio_player.pitch_scale = lerp(0.95, 1.1, clamp(horizontal_speed / speed, 0.0, 1.0))
+	elif audio_player.playing:
+		audio_player.stop()
 
 # drops the currently held item into the world as a pickup. 
 # The item is removed from the inventory and an instance of the item's WorldModel 

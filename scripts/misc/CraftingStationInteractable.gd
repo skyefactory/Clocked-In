@@ -18,3 +18,4 @@ func interact(_interacting_player: Player) -> void:
 		crafting_station.player.release_mouse()
 		crafting_station.player.interact_target.emit(false,"")
 		crafting_station.show()
+		

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://brooydsgo0ejl" path="res://scripts/misc/order_ui_timer.gd" id="2_77pfx"]
 [ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="2_hcwp6"]
 [ext_resource type="FontFile" uid="uid://kwk25hkyaadj" path="res://others/font/Oxanium-SemiBold.ttf" id="3_mrduy"]
+[ext_resource type="AudioStream" uid="uid://d0f8hqv47drbw" path="res://others/audio/click_on_screen.ogg" id="5_hcwp6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_77pfx"]
 
@@ -80,5 +81,10 @@ theme_override_fonts/normal_font = ExtResource("3_mrduy")
 theme_override_font_sizes/normal_font_size = 18
 text = "PLACEHOLDER"
 script = ExtResource("2_77pfx")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1014583110]
+stream = ExtResource("5_hcwp6")
+volume_db = 16.0
+bus = &"sfx"
 
 [connection signal="toggled" from="Button2" to="Button2" method="_on_toggled"]
