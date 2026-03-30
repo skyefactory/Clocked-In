@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Moveable
 class_name Fryer
 
 @export var player: Player

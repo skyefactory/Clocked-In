@@ -2,17 +2,17 @@ extends Control
 
 var unlockable_recipes = [] # list of content ids for the recipes that can be unlocked right now
 var unlockable_stations = [] # list of content ids for the stations that can be unlocked right now
-@onready var shop_entry_container: GridContainer = $ShopEntryContainer
-@onready var unlocked_everything_label: Label = $UnlockedEverythingLabel
-@onready var cash_label: Label = $CashLabel
-@onready var continue_button: Button = $ContinueButton
-@export var shop_entry_scene: String = "res://scenes/prefabs/ShopEntry.tscn"
+@onready var shop_entry_container: GridContainer = $ShopEntryContainer # container that holds each shop entry
+@onready var unlocked_everything_label: Label = $UnlockedEverythingLabel # label that is shown when there is nothing else to unlock.
+@onready var cash_label: Label = $CashLabel # label that displays the player's current cash
+@onready var continue_button: Button = $ContinueButton # button that continues to the next day after we're done shopping
+@export var shop_entry_scene: String = "res://scenes/prefabs/ShopEntry.tscn" # the scene that represents a single entry in the shop
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	cash_label.text = "Cash: $%d" % Gamestate.cash
-	update_shop_entries()
-	continue_button.pressed.connect(on_continue_pressed)
+	cash_label.text = "Cash: $%d" % Gamestate.cash # set the cash label to show the player's current cash
+	update_shop_entries() # populate the shop with the appropriate entries for the current game state
+	continue_button.pressed.connect(on_continue_pressed) # connect the continue button to the function that continues to the next day
 
 func update_shop_entries() -> void:
 	for child in shop_entry_container.get_children(): # clear existing shop entries

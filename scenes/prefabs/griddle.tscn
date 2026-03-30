@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://br35dvd5m8iv8"]
 
-[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/misc/Griddle.gd" id="1_gne31"]
+[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/stations/Griddle.gd" id="1_gne31"]
 [ext_resource type="PackedScene" uid="uid://bl6f3p03ytljn" path="res://models/blend files/griddle.blend" id="2_5ucq5"]
 [ext_resource type="PackedScene" uid="uid://dc4865ni4iv6e" path="res://scenes/prefabs/floatingtimer.tscn" id="3_hoj7j"]
 

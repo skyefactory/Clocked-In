@@ -129,6 +129,8 @@ func load_recipes() -> void: #load all recipes from the specified path and add t
 	# If we failed to open the directory, print an error
 	push_error("Failed to load recipes from path: " + recipes_path)
 
+
+# remove any recipes from the crafting station that the player has not yet unlocked according to the gamestate.
 func remove_not_unlocked_recipes() -> void:
 	var unlocked_recipes = Gamestate.get_unlocked_by_type("recipe")
 	var recipes_to_remove: Array[Recipe] = []
@@ -139,11 +141,6 @@ func remove_not_unlocked_recipes() -> void:
 	for recipe in recipes_to_remove:
 		recipes.erase(recipe)
 
-func debug_print_crafting_dict() -> void: # print the crafting dictionary for debugging purposes.
-	pass
-
-func debug_print_recipes() -> void: # print the loaded recipes for debugging purposes.
-	pass
 
 func update_crafting_status() -> void:
 	for recipe in recipes: # for each recipe.
@@ -180,6 +177,7 @@ func update_tooltip() -> void:
 		var res = inventory.has_items(child.recipe_ref.ingredients)
 		child.set_tt_text(child.recipe_ref.ingredients, res["missing"])
 
+# used for hiding the crafting station UI when the game is paused and showing it again when unpaused if it was visible before pausing.
 func on_game_paused(paused: bool) -> void:
 	if paused:
 		was_visible_before_pause = visible

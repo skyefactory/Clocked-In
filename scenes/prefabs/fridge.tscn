@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bdnnxqfobat6r" path="res://models/blend files/fridge_Poliigon_PlasticMoldWorn_7486_Normal.png_9.png" id="12_gawk1"]
 [ext_resource type="AudioStream" uid="uid://befsbiuftlp4f" path="res://others/audio/fride_close.ogg" id="12_p22xt"]
 [ext_resource type="AudioStream" uid="uid://dqwiqmvbkjs1w" path="res://others/audio/fridge_idle.ogg" id="13_0uem1"]
-[ext_resource type="Script" uid="uid://dkpo018g3d3jy" path="res://scripts/misc/fridge.gd" id="13_t2fjl"]
+[ext_resource type="Script" uid="uid://dkpo018g3d3jy" path="res://scripts/stations/fridge.gd" id="13_t2fjl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7vnt4"]
 resource_name = "Material"

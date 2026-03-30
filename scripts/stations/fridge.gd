@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Moveable
 
 var opened = false
 @onready var animator: AnimationPlayer = get_parent().get_parent().get_node("AnimationPlayer")

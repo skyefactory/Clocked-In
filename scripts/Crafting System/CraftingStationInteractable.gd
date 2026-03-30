@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Moveable
 @export var crafting_station: CraftingStation
 
 #used as a generic interactable that will open a crafting station UI.

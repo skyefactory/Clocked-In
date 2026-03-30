@@ -10,10 +10,16 @@ config_version=5
 
 [application]
 
-config/name="The Cooking"
+config/name="Clocked IN"
 run/main_scene="uid://dafh3frppmetf"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://others/textures/icon.svg"
+config/icon="uid://cq1yfkg6uketb"
+config/macos_native_icon="res://others/textures/icon.icns"
+config/windows_native_icon="res://others/textures/icon.ico"
+
+[audio]
+
+buses/default_bus_layout="uid://bb11l6i31mgsc"
 
 [autoload]
 
@@ -154,3 +160,4 @@ end_day={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/vram_compression/import_etc2_astc=true

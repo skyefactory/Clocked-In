@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dmdkbr3gbxblp"]
 
-[ext_resource type="Script" uid="uid://c3yr6s2r2wddg" path="res://scripts/misc/order_dropoff.gd" id="1_byej8"]
+[ext_resource type="Script" uid="uid://c3yr6s2r2wddg" path="res://scripts/stations/order_dropoff.gd" id="1_byej8"]
 [ext_resource type="Texture2D" uid="uid://bvlmr24gh70cq" path="res://models/blend files/restauraunt_wood_cabinet_worn_long_diff_4k.jpg" id="2_egdrs"]
 [ext_resource type="Texture2D" uid="uid://dmevkx5y2ocsn" path="res://models/blend files/restauraunt_wood_cabinet_worn_long_metallicRoughness_4k.jpg.jpg" id="3_jafoe"]
 [ext_resource type="Texture2D" uid="uid://d0toeimb6m61a" path="res://models/blend files/restauraunt_wood_cabinet_worn_long_normal_4k.jpg" id="4_4vn7t"]

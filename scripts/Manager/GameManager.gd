@@ -19,7 +19,7 @@ var efficiency = 0.0
 var is_day_over: bool = false # is the day over
 var all_orders_completed: bool = false # are all the orders complte for the day
 
-const POINTS_TO_RATING: Array[int] = [0,75,150,275,350] # rating points required to reach each rating 1-5
+const POINTS_TO_RATING: Array[int] = [0,75,275,450,600] # rating points required to reach each rating 1-5
 const ORDER_PAYOUT_PER_RATING: Array[float] = [4.2,4.8,5.4,6.0,6.6] # payout multiplier based on the current rating 1-5
 
 # stations 
@@ -140,6 +140,7 @@ func _apply_day_night(day_fraction: float) -> void:
 		var base_tint = NIGHT_SUN_COLOR.lerp(DAY_SUN_COLOR, daylight)
 		sun.light_color = base_tint.lerp(warm_tint, sunrise_sunset * 0.35)
 	
+#disable collisions on a node and all its children, used for hiding locked stations and supplies.
 func set_collision_shapes_disabled(root: Node, disabled: bool) -> void:
 	for child in root.get_children():
 		if child is CollisionShape3D:
@@ -237,11 +238,11 @@ func calculate_rating_points() -> void:
 		var was_late = orders_late.has(order)
 		var was_wrong = orders_wrong.has(order)
 		if was_late and was_wrong:
-			points_earned -= 6
+			points_earned -= 12
 		elif was_late or was_wrong:
-			points_earned -= 3
+			points_earned -= 6
 		else:
-			points_earned += 3
+			points_earned += 4
 	
 	Gamestate.rating_points += points_earned
 

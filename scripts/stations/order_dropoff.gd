@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Moveable
 
 @export var order_manager: OrderManager
 

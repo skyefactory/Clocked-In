@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b58k8mwwgxaqj"]
 
 [ext_resource type="FontFile" uid="uid://bn4dnw3akfcte" path="res://others/font/Oxanium-Regular.ttf" id="1_eku6w"]
-[ext_resource type="Script" uid="uid://spphkv5fu6nu" path="res://scripts/misc/ShopEntry.gd" id="2_ljaeq"]
+[ext_resource type="Script" uid="uid://spphkv5fu6nu" path="res://scripts/DayEnd/ShopEntry.gd" id="2_ljaeq"]
 [ext_resource type="FontFile" uid="uid://d01uwom00xy2e" path="res://others/font/Oxanium-Light.ttf" id="3_l4nbl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eku6w"]

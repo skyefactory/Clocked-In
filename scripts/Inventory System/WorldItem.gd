@@ -29,6 +29,7 @@ func interact(_interacting_player: Player) -> void:
 	if PickupAllowed:
 		pickup()
 
+# handles the logic for picking up this item.
 func pickup() -> void:
 	if not PickupAllowed:
 		return

@@ -13,8 +13,20 @@ var rating_points = 0 # player rating points
 var current_day = 0 # current day
 var unlocked_content: Dictionary = {}
 
-var chef_name: String = ""
-var restaurant_name: String = ""
+var chef_name: String = "" # the name of the player's chef
+var restaurant_name: String = "" # the name of the player's restaurant
+
+const DEBUG_CHEF_NAME: String = "Skye"
+const DEBUG_RESTAURANT_NAME: String = "Skye's Burgers"
+const DEBUG_UNLOCK_CONTENT_IDS: Array[String] = [
+	"Fryer",
+	"Drink Machine",
+	"Cheeseburger",
+	"Bacon Cheeseburger",
+	"Soda",
+	"COFFEE",
+	"Fries"
+]
 
 var last_day_perfect_orders: Array = [] # perfect orders from the last day
 var last_day_late_orders: Array = [] # late orders from the last day
@@ -63,9 +75,9 @@ var content_defs = {
 	"Soda": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]},
 	"Beer": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]},
 	"COFFEE": {"type": "recipe", "starts_unlocked": false, "requires_all": ["Drink Machine"], "cash_cost": 10, "grants_supplies": ["EMPTYCUP"]}
-}
+}#buns, raw patty, cheese, raw bacon, lettuce, tomato, frozen fries, empty cup
 
-const supplies_cost:int = 5 # how much it costs to keep a stock of each supply for a day.
+const supplies_cost:int = 6 # how much it costs to keep a stock of each supply for a day.
 
 func get_total_supplies_cost() -> int:
 	var total_cost = 0
@@ -86,6 +98,15 @@ func initialize_unlocked_content() -> void:
 	for content_id in content_defs.keys(): # for each content definition
 		if content_defs[content_id].get("starts_unlocked", false): # if it has starts unlocked as true
 			unlocked_content[content_id] = true # add it to unlocked content
+	apply_name_debug_unlocks()
+
+func apply_name_debug_unlocks() -> void:
+	if chef_name != DEBUG_CHEF_NAME or restaurant_name != DEBUG_RESTAURANT_NAME:
+		return
+
+	for content_id in DEBUG_UNLOCK_CONTENT_IDS:
+		if has_content(content_id):
+			unlocked_content[content_id] = true
 
 #does this content exist
 func has_content(content_id: String) -> bool:

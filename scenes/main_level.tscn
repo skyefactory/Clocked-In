@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dhscaotipm3y8"]
 
-[ext_resource type="Script" uid="uid://boqgxef72dvc6" path="res://scripts/misc/CraftingStationInteractable.gd" id="1_0e4v7"]
+[ext_resource type="Script" uid="uid://boqgxef72dvc6" path="res://scripts/Crafting System/CraftingStationInteractable.gd" id="1_0e4v7"]
 [ext_resource type="Script" uid="uid://c2ke1qko84lnb" path="res://scripts/Player/Player.gd" id="1_qmak7"]
 [ext_resource type="PackedScene" uid="uid://ucw4m14fn03y" path="res://models/blend files/counter.blend" id="2_6nivd"]
 [ext_resource type="Script" uid="uid://8p45qiffxeuj" path="res://scripts/Inventory System/Inventory.gd" id="2_8ra5a"]
@@ -43,11 +43,11 @@
 [ext_resource type="PackedScene" uid="uid://cjpajbynmf5w6" path="res://scenes/items/world_items/15_frozen_fries.tscn" id="38_3b3m7"]
 [ext_resource type="PackedScene" uid="uid://cjwcld0d5obfn" path="res://scenes/items/world_items/16_double_burger.tscn" id="39_hj1cc"]
 [ext_resource type="PackedScene" uid="uid://imjex4pjgmba" path="res://scenes/items/world_items/17_bacon_cheeseburger.tscn" id="40_8b7d6"]
-[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/misc/Griddle.gd" id="41_3oxv6"]
+[ext_resource type="Script" uid="uid://cvve7dk6jnvh0" path="res://scripts/stations/Griddle.gd" id="41_3oxv6"]
 [ext_resource type="PackedScene" uid="uid://dvag2maluhw3v" path="res://scenes/items/world_items/18_double_cheese_burger.tscn" id="41_6l5nr"]
 [ext_resource type="PackedScene" uid="uid://cavyhmlt4p45x" path="res://scenes/items/world_items/19_tomato.tscn" id="42_24g5d"]
 [ext_resource type="PackedScene" uid="uid://bl6f3p03ytljn" path="res://models/blend files/griddle.blend" id="42_sys65"]
-[ext_resource type="Script" uid="uid://x7skss6bdksc" path="res://scripts/misc/fryer.gd" id="43_gvvxt"]
+[ext_resource type="Script" uid="uid://x7skss6bdksc" path="res://scripts/stations/fryer.gd" id="43_gvvxt"]
 [ext_resource type="PackedScene" uid="uid://bfjtiv8dr7ntj" path="res://scenes/items/world_items/20_double_bacon_cheese_burger.tscn" id="43_ivnhj"]
 [ext_resource type="PackedScene" uid="uid://c2k5brtp8o66w" path="res://models/blend files/FRYER_basket_in.blend" id="44_gvvxt"]
 [ext_resource type="PackedScene" uid="uid://drdwdjk3xw0w4" path="res://models/blend files/FRYER.blend" id="44_xgm4f"]
@@ -67,11 +67,11 @@
 [ext_resource type="Texture2D" uid="uid://dm4rdwy4getn" path="res://models/blend files/restauraunt_bitumen_diff_4k.jpg" id="59_lyxqv"]
 [ext_resource type="Texture2D" uid="uid://dx5tw0ofbeohq" path="res://models/blend files/restauraunt_bitumen_metallicRoughness_4k.jpg.jpg" id="60_w8un5"]
 [ext_resource type="Texture2D" uid="uid://bnia8sx73aiu1" path="res://models/blend files/restauraunt_bitumen_normal_4k.jpg" id="61_cuuiy"]
-[ext_resource type="Script" uid="uid://bdwsa6cja4cyf" path="res://scenes/happy.gd" id="64_5rvfu"]
+[ext_resource type="Script" uid="uid://bdwsa6cja4cyf" path="res://scripts/happy.gd" id="64_5rvfu"]
 [ext_resource type="Texture2D" uid="uid://dity42de20e0l" path="res://models/steamhappy_0.jpg" id="65_431h0"]
 [ext_resource type="Texture2D" uid="uid://ue7i5mnfjyx4" path="res://models/steamhappy_1.png" id="66_su331"]
 [ext_resource type="AudioStream" uid="uid://ntusgtjeon1g" path="res://others/audio/0323.MP3" id="71_k8p4b"]
-[ext_resource type="Texture2D" uid="uid://t83mdduc1xf8" path="res://others/job-application.png" id="71_ujyw0"]
+[ext_resource type="Texture2D" uid="uid://t83mdduc1xf8" path="res://others/textures/job-application.png" id="71_ujyw0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gr2jy"]
 size = Vector3(1.501976, 2.4181519, 6.8964157)
@@ -153,6 +153,21 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 expand_margin_left = 5.0
 expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8p4b"]
+bg_color = Color(0.23108348, 0.33046642, 0.15417445, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyxqv"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8un5"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuuiy"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kvph"]
+bg_color = Color(0.33783653, 0.47004604, 0.23261914, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_kxeow"]
 size = Vector2(4, 2.5)
@@ -929,6 +944,7 @@ game_manager = NodePath("../../GameManager")
 assembler = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Managers/UIController/AssemblerCraftingStation" unique_id=233057835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -86.93349, 2.6156807, 7.957979)
 stream = ExtResource("9_su331")
 volume_db = 10.0
 bus = &"sfx"
@@ -947,6 +963,7 @@ station_name = "Drink Station"
 filler = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Managers/UIController/DrinkCraftingStation2" unique_id=749141523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.68642, 3.716135, -14.104885)
 stream = ExtResource("9_su331")
 bus = &"sfx"
 
@@ -964,6 +981,7 @@ station_name = "Drink Station"
 filler = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Managers/UIController/DrinkCraftingStation" unique_id=1825593071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.79348, 5.3414354, -9.732184)
 stream = ExtResource("9_su331")
 bus = &"sfx"
 
@@ -1116,6 +1134,11 @@ theme_override_fonts/font = ExtResource("12_sjhni")
 theme_override_font_sizes/font_size = 32
 text = "$0.00"
 
+[node name="DayTimer" type="Label" parent="Managers/UIController/VBox" unique_id=1901495053]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_sjhni")
+theme_override_font_sizes/font_size = 32
+
 [node name="InventoryHint" type="Label" parent="Managers/UIController" unique_id=565561295]
 visible = false
 layout_mode = 1
@@ -1191,6 +1214,165 @@ offset_bottom = 62.75
 theme_override_fonts/font = ExtResource("12_sys65")
 theme_override_font_sizes/font_size = 36
 text = "Press F to end the day"
+
+[node name="Day0Popup" type="Control" parent="Managers/UIController" unique_id=1838430694]
+anchors_preset = 0
+offset_left = 882.0
+offset_top = 423.0
+offset_right = 922.0
+offset_bottom = 463.0
+
+[node name="Introduction" type="Control" parent="Managers/UIController/Day0Popup" unique_id=889895930]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BG" type="ColorRect" parent="Managers/UIController/Day0Popup/Introduction" unique_id=510335025]
+layout_mode = 0
+offset_left = -85.0
+offset_top = -142.0
+offset_right = 315.0
+offset_bottom = 458.0
+color = Color(0.6627451, 0.6627451, 0.6627451, 0.81960785)
+
+[node name="IntroductionLabel" type="Label" parent="Managers/UIController/Day0Popup/Introduction" unique_id=1587810034]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = -137.0
+offset_right = 210.0
+offset_bottom = -88.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4862745, 1, 0.7764706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("12_sys65")
+theme_override_font_sizes/font_size = 48
+text = "Welcome!"
+
+[node name="IntroductionInfoLabel" type="RichTextLabel" parent="Managers/UIController/Day0Popup/Introduction" unique_id=1414966326]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -103.0
+offset_top = -93.0
+offset_right = 297.0
+offset_bottom = 407.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("11_tykae")
+theme_override_fonts/bold_font = ExtResource("12_sjhni")
+theme_override_font_sizes/normal_font_size = 22
+theme_override_font_sizes/bold_font_size = 22
+bbcode_enabled = true
+text = "Today is the grand opening of your restauraunt PLACEHOLDER.
+
+Your goal is to maximize your ratings and cashflow to prevent bankruptcy.
+
+The restauraunt opens at [b]8:00 AM[/b] and closes at [b]8:00 PM[/b] every day. 
+
+You must finish all pending orders to end the day
+
+At the end of the day you will recieve your income and purchase upgrades and new menu items.
+
+The more menu items you purchase, the more your daily supplies cost increases	"
+
+[node name="ViewControlsButton" type="Button" parent="Managers/UIController/Day0Popup/Introduction" unique_id=1285592324]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 419.0
+offset_right = 291.0
+offset_bottom = 454.0
+theme_override_fonts/font = ExtResource("11_tykae")
+theme_override_styles/normal = SubResource("StyleBoxFlat_k8p4b")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lyxqv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w8un5")
+text = "View Controls"
+
+[node name="CloseButton" type="Button" parent="Managers/UIController/Day0Popup/Introduction" unique_id=1209346448]
+layout_mode = 0
+offset_left = -64.0
+offset_top = 419.0
+offset_right = 56.0
+offset_bottom = 454.0
+theme_override_fonts/font = ExtResource("11_tykae")
+theme_override_styles/normal = SubResource("StyleBoxFlat_k8p4b")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cuuiy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6kvph")
+text = "Start the Day!"
+
+[node name="Controls" type="Control" parent="Managers/UIController/Day0Popup" unique_id=902091816]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BG" type="ColorRect" parent="Managers/UIController/Day0Popup/Controls" unique_id=645252189]
+layout_mode = 0
+offset_left = -85.0
+offset_top = -142.0
+offset_right = 315.0
+offset_bottom = 458.0
+color = Color(0.6627451, 0.6627451, 0.6627451, 0.81960785)
+
+[node name="ControlsLabel" type="Label" parent="Managers/UIController/Day0Popup/Controls" unique_id=1210117024]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = -137.0
+offset_right = 210.0
+offset_bottom = -88.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4862745, 1, 0.7764706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("12_sys65")
+theme_override_font_sizes/font_size = 48
+text = "Controls"
+
+[node name="CloseButton" type="Button" parent="Managers/UIController/Day0Popup/Controls" unique_id=527972973]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 404.0
+offset_right = 175.0
+offset_bottom = 439.0
+theme_override_fonts/font = ExtResource("11_tykae")
+theme_override_styles/normal = SubResource("StyleBoxFlat_k8p4b")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cuuiy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6kvph")
+text = "Start the Day!"
+
+[node name="ControlsInfoLabel" type="RichTextLabel" parent="Managers/UIController/Day0Popup/Controls" unique_id=1655903800]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -103.0
+offset_top = -39.0
+offset_right = 297.0
+offset_bottom = 361.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("11_tykae")
+theme_override_fonts/bold_font = ExtResource("12_sjhni")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "Move Forward
+Move Back
+Move Left
+Move Right
+Interact
+Drop Item
+Pause
+End Day
+Fast Forward Time: Shift+Z
+"
 
 [node name="ScreenManager" type="Node3D" parent="Managers" unique_id=89943004]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 1, -66.56678, 5.8514237, -19.405876)
@@ -1722,7 +1904,7 @@ transform = Transform3D(20, 0, 0, 0, 4, 0, 0, 0, 36, 0, 20, -0.11183143)
 shape = SubResource("BoxShape3D_su331")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="restauraunt2" unique_id=1614532622]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -12.14018, 13.822953, 35.946213)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -14.749317, 13.822953, 35.946213)
 mesh = SubResource("BoxMesh_sys65")
 surface_material_override/0 = SubResource("StandardMaterial3D_r4cag")
 
@@ -1734,7 +1916,7 @@ spot_range = 24.0
 spot_attenuation = 0.0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="restauraunt2" unique_id=1648762152]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.0528959, 13.822953, 35.946213)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.13735831, 13.822953, 35.946213)
 mesh = SubResource("BoxMesh_sys65")
 surface_material_override/0 = SubResource("StandardMaterial3D_r4cag")
 
@@ -1927,7 +2109,7 @@ font_size = 120
 width = 0.0
 
 [node name="happy" type="StaticBody3D" parent="." unique_id=45963686]
-transform = Transform3D(-4, 0, -3.496911e-07, 0, 4, 0, 3.496911e-07, 0, -4, -97.01306, 10.8321, 3.2373413e-07)
+transform = Transform3D(-4, 0, -3.496911e-07, 0, 4, 0, 3.496911e-07, 0, -4, -108.021965, 10.8321, 1.2861631e-06)
 collision_layer = 5
 script = ExtResource("64_5rvfu")
 target_pos = Vector3(-9.371923, -65.04217, 17.22235)
@@ -1975,7 +2157,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.40130615, -0.14216614, -0.0
 shape = SubResource("BoxShape3D_jx7rp")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1530661750]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -104.56626, 26.720371, 0.5119166)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -110.85613, 26.720371, 0.5119166)
 light_color = Color(1, 0.039215688, 0, 1)
 light_energy = 5.0
 spot_range = 36.95468

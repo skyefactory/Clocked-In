@@ -50,6 +50,7 @@ func play_pickup_sound(_item, _quantity) -> void:
 func _on_selected_item_changed(_selected_slot: int) -> void:
 	refresh_interaction_prompt()
 
+# This function is called to refresh the interaction prompt text, for example when we change the currently held item in the inventory
 func refresh_interaction_prompt() -> void:
 	if not current_interactable or not is_instance_valid(current_interactable):
 		return
@@ -177,22 +178,23 @@ func drop_item():
 	# place at a nearby ray hit if valid, otherwise fall back to the original feet/front drop.
 	world_item.global_position = get_drop_position()
 
+# This function calculates the position to drop an item based on a raycast from the center of the screen.
 func get_drop_position(max_distance: float = 6.0) -> Vector3:
-	var fallback_position = global_position + forward * 2.0
-	var query = raycast_from_crosshair()
+	var fallback_position = global_position + forward * 2.0 # if we cant find a valid drop position, we will drop the item in front of the player
+	var query = raycast_from_crosshair() # set up the ray query parameters for a raycast from the center of the screen
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
 	query.exclude = [get_rid()]
 
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	if not result or not result.collider:
+	if not result or not result.collider: # if we didn't hit anything, return the fallback position
 		return fallback_position
 
 	var hit_distance = camera.global_position.distance_to(result.position)
-	if hit_distance > max_distance:
+	if hit_distance > max_distance: # if we hit something but it's too far away, return the fallback position
 		return fallback_position
 
-	return result.position
+	return result.position # if we hit something valid and it's within range, return the hit position as the drop position
 
 #checks to see if it is colliding with a collider on layer 3 to determine if we are looking at an item we can interact with.
 func interactable_in_view(max_distance: float = 8.0) -> Node:
@@ -245,6 +247,7 @@ func _jump(delta: float) -> Vector3:
 	jump_vel = Vector3.ZERO if is_on_floor() or is_on_ceiling_only() else jump_vel.move_toward(Vector3.ZERO, gravity * delta)
 	return jump_vel
 
+# This function is used to set the current interactable target when we look at an interactable object, it emits a signal to update the interaction prompt text and visibility.
 func set_interactable(target: Node) -> void:
 	if not is_instance_valid(target):
 		return

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://demkjr11rydy6"]
 
-[ext_resource type="Script" uid="uid://bplrc57hmt7y4" path="res://scripts/misc/day_summary.gd" id="1_4t4v7"]
-[ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="1_l8ov3"]
-[ext_resource type="Script" uid="uid://b4wtfa5m7r2bi" path="res://scripts/misc/upgrades_shop.gd" id="3_62c8v"]
-[ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_fgkmq"]
+[ext_resource type="Script" uid="uid://bplrc57hmt7y4" path="res://scripts/DayEnd/day_summary.gd" id="1_wm2t3"]
+[ext_resource type="FontFile" uid="uid://u1f6lcjhdggm" path="res://others/font/Oxanium-ExtraBold.ttf" id="2_4pmjh"]
+[ext_resource type="Script" uid="uid://b4wtfa5m7r2bi" path="res://scripts/DayEnd/upgrades_shop.gd" id="3_8ossm"]
+[ext_resource type="FontFile" uid="uid://g18qbv0vwrrr" path="res://others/font/Oxanium-Bold.ttf" id="4_mao1a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62c8v"]
 bg_color = Color(0.23108348, 0.33046642, 0.15417445, 1)
@@ -37,7 +37,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_4t4v7")
+script = ExtResource("1_wm2t3")
 
 [node name="summarybg" type="ColorRect" parent="DaySummary" unique_id=1144985164]
 layout_mode = 1
@@ -80,7 +80,7 @@ offset_right = 67.0
 offset_bottom = -246.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.44313726, 0, 1, 1)
-theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_fonts/font = ExtResource("2_4pmjh")
 theme_override_font_sizes/font_size = 32
 text = "Day X Completed"
 
@@ -243,7 +243,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_62c8v")
+script = ExtResource("3_8ossm")
 
 [node name="shopbg" type="ColorRect" parent="UpgradesShop" unique_id=1050982940]
 layout_mode = 1
@@ -286,7 +286,7 @@ offset_right = 66.5
 offset_bottom = -266.33334
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.44313726, 0, 1, 1)
-theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_fonts/font = ExtResource("2_4pmjh")
 theme_override_font_sizes/font_size = 32
 text = "Shop"
 horizontal_alignment = 1
@@ -308,7 +308,7 @@ offset_top = 269.0
 offset_right = 179.0
 offset_bottom = 333.0
 scale = Vector2(0.977, 1)
-theme_override_fonts/font = ExtResource("4_fgkmq")
+theme_override_fonts/font = ExtResource("4_mao1a")
 theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_62c8v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_026ns")
@@ -325,7 +325,7 @@ offset_right = 313.0
 offset_bottom = -122.33333
 theme_override_colors/font_color = Color(0.3254902, 0.40392157, 1, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("1_l8ov3")
+theme_override_fonts/font = ExtResource("2_4pmjh")
 theme_override_font_sizes/font_size = 32
 text = "You have unlocked EVERYTHING!!!"
 

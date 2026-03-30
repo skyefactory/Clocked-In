@@ -21,7 +21,9 @@ extends Control
 @export var volume_slider: HSlider # slider to adjust the game's volume
 @export var sensitivity_slider: HSlider # slider to adjust the game's mouse sensitivity
 
-@export var move_forward: LineEdit
+
+#keybind settings. each of these is the entry where the player can enter a single character keybind.
+@export var move_forward: LineEdit 
 @export var move_backward: LineEdit
 @export var move_left: LineEdit
 @export var move_right: LineEdit
@@ -30,9 +32,10 @@ extends Control
 @export var drop_item: LineEdit
 @export var end_day: LineEdit
 
-@export var volume_slider_label: Label
-@export var sensitivity_slider_label: Label
+@export var volume_slider_label: Label # the label that displays the current volume percentage for the volume slider
+@export var sensitivity_slider_label: Label # the label that displays the current sensitivity value for the sensitivity slider
 
+# takes the input from a line edit for a keybind, and normalizes it to a standard key name using godot keycodes. If the input is empty or invalid, it falls back to the previous keybind
 func _normalize_keybind_or_fallback(raw_key: String, fallback: String) -> String:
 	var trimmed = raw_key.strip_edges()
 	if trimmed == "":
@@ -44,6 +47,7 @@ func _normalize_keybind_or_fallback(raw_key: String, fallback: String) -> String
 
 	return OS.get_keycode_string(keycode)
 
+# syncs the settings UI with the current values in the gamestate, this is used when opening the settings menu to make sure the UI reflects the current settings values.
 func _sync_settings_ui_from_gamestate() -> void:
 	fullscreen_toggle.button_pressed = Gamestate.fullscreen
 	volume_slider.value = Gamestate.volume
@@ -96,6 +100,7 @@ func load_game():
 	Gamestate.unlocked_content = file.get_var()
 	Gamestate.restaurant_name = file.get_var()
 	Gamestate.chef_name = file.get_var()
+	Gamestate.apply_name_debug_unlocks()
 
 	file.close()
 
@@ -134,14 +139,17 @@ func create_new_game_with_name():
 	Gamestate.restaurant_name = restauraunt_name.text.strip_edges()
 
 	create_new_game()
-		
+
+# opens the settings modal and syncs the current settings values from the gamestate to the UI elements in the settings modal.
 func open_settings():
 	_sync_settings_ui_from_gamestate()
 	settings_modal.visible = true
 
+# closes the settings modal without saving any changes
 func close_settings():
 	settings_modal.visible = false
 
+# takes the values from the settings UI elements and saves them to the gamestate, then saves the gamestate to the save file so the settings persist, and finally closes the settings modal.
 func submit_settings():
 	Gamestate.fullscreen = fullscreen_toggle.button_pressed
 	Gamestate.mouse_sensitivity = sensitivity_slider.value
@@ -167,6 +175,7 @@ func _ready() -> void:
 	if not does_save_file_exist():
 		load_button.disabled = true
 
+	# hook up all the various buttons and UI elements to their respective functions
 	load_button.pressed.connect(load_game)
 	new_game_button.pressed.connect(start_new_game)
 	quit_button.pressed.connect(get_tree().quit)

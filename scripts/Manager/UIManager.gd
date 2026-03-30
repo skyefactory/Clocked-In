@@ -27,9 +27,19 @@ class_name UIController
 
 @onready var assembler_crafting_station: CraftingStation = $AssemblerCraftingStation
 
+@onready var day0_popup: Control = $Day0Popup
+@onready var day0_introduction_popup: Control = $Day0Popup/Introduction
+@onready var day0_introduction_popup_text: RichTextLabel = $Day0Popup/Introduction/IntroductionInfoLabel
+@onready var day0_introduction_popup_view_controls_button: Button = $Day0Popup/Introduction/ViewControlsButton
+@onready var day0_introduction_popup_close_button: Button = $Day0Popup/Introduction/CloseButton
+@onready var day0_controls_popup: Control = $Day0Popup/Controls
+@onready var day0_controls_popup_close_button: Button = $Day0Popup/Controls/CloseButton
+@onready var day0_controls_popup_controls_text: RichTextLabel = $Day0Popup/Controls/ControlsInfoLabel
+
 var daytimer: DayTimer
 var inventory_hint_request_id: int = 0
 var pickup_hint_container: VBoxContainer
+var day0_popup_paused_game: bool = false
 
 const PICKUP_HINT_DURATION: float = 2.0
 const PICKUP_HINT_FADE_DURATION: float = 0.25
@@ -44,6 +54,32 @@ func _process(delta: float) -> void:
 		day_end_confirmation.show()
 
 func _ready():
+	# If this is the first day, show the introductory popup with the game instructions and controls.
+	if Gamestate.current_day == 0:
+		day0_popup.show()
+		day0_introduction_popup.show()
+		day0_controls_popup.hide()
+		pause_for_day0_popup()
+		day0_introduction_popup_text.text = "
+Today is the grand opening of your restauraunt %s.
+
+Your goal is to maximize your ratings and cashflow to prevent bankruptcy.
+
+The restauraunt opens at [b]8:00 AM[/b] and closes at [b]8:00 PM[/b] every day. 
+
+You must finish all pending orders to end the day
+
+At the end of the day you will recieve your income and purchase upgrades and new menu items.
+
+The more menu items you purchase, the more your daily supplies cost increases	
+" % Gamestate.restaurant_name
+
+		player.release_mouse()
+		day0_introduction_popup_view_controls_button.pressed.connect(show_controls)
+		day0_introduction_popup_close_button.pressed.connect(close_day0_popup)
+		day0_controls_popup_close_button.pressed.connect(close_day0_popup)
+	
+
 	# Initialize the day timer and connect signals
 	daytimer = DayTimer.new() # create the day timer instance
 	add_child(daytimer) # add it as a child to the UI so that it can emit signals to the UIController
@@ -102,11 +138,44 @@ func _ready():
 	game_manager.show_day_end_confirmation.connect(show_day_end_confirmation)
 	day_end_confirm_button.pressed.connect(switch_to_day_end_scene)
 
+# shows the controls popup with the current keybind settings from the gamestate.
+func show_controls():
+	day0_introduction_popup.hide()
+	day0_controls_popup.show()
+	day0_controls_popup_controls_text.text = "Move Forward: %s \n
+Move Back: %s \n
+Move Left: %s \n
+Move Right: %s \n
+Interact: %s \n
+Drop Item: %s \n
+Pause: %s \n
+End Day: %s \n
+Fast Forward Time: Shift+Z
+" % [Gamestate.move_forward, Gamestate.move_backward, Gamestate.move_left, Gamestate.move_right, Gamestate.interact, Gamestate.drop_item, Gamestate.toggle_menu, Gamestate.end_day]
+# closes the day 0 popups and resumes the game if it was paused for the popups.
+func close_day0_popup():
+	day0_popup.hide()
+	day0_introduction_popup.hide()
+	day0_controls_popup.hide()
+	resume_after_day0_popup()
+	player.capture_mouse()
+# pauses the game and shows the day 0 introduction popup, this is used at the start of the game to show the instructions before the player starts playing.
+func pause_for_day0_popup() -> void:
+	day0_popup.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	if not get_tree().paused:
+		day0_popup_paused_game = true
+		get_tree().paused = true
+# resumes the game if it was paused for the day 0 popup, this is used when closing the day 0 popup to resume the game.
+func resume_after_day0_popup() -> void:
+	if day0_popup_paused_game:
+		get_tree().paused = false
+		day0_popup_paused_game = false
+
 
 # Used to show a label letting the player know to press F to end the day.
 func show_day_end_confirmation():
 	day_ready_to_be_completed = true
-	day_complete_instruction_label.text = "Day %d complete! Press F to end the day." % Gamestate.current_day
+	day_complete_instruction_label.text = "Press F to end the day."
 	day_complete_instruction_label.show()
 
 # switch to the day end summary scene.
@@ -142,7 +211,7 @@ func update_hotbar():
 			hotbar.set_item_icon(i, slot.item.Icon)
 			var max_qty = slot.item.MaxStackSize
 			hotbar.set_item_text(i, "%d/%d" % [slot.quantity, max_qty])
-
+# this function is used to refresh the inventory hint when the inventory changes
 func refresh_inventory_hint() -> void:
 	show_inventory_hint(inventory.selected_slot)
 
