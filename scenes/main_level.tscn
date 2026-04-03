@@ -55,6 +55,7 @@
 [ext_resource type="Texture2D" uid="uid://b00vjxgsfje8x" path="res://models/blend files/restauraunt_interior_tiles_diff_4k.jpg" id="47_3oxv6"]
 [ext_resource type="Texture2D" uid="uid://bb88ay1ww4e7y" path="res://models/blend files/restauraunt_interior_tiles_arm_4k.jpg" id="48_sys65"]
 [ext_resource type="Texture2D" uid="uid://bhps7lknpx4l8" path="res://models/blend files/restauraunt_interior_tiles_nor_dx_4k.jpg" id="49_r4cag"]
+[ext_resource type="AudioStream" uid="uid://bs38icvgmwkx5" path="res://others/audio/208747__everheat__sizzle2loops.wav" id="50_lyxqv"]
 [ext_resource type="Texture2D" uid="uid://3lth60ug0d6d" path="res://models/blend files/restauraunt_weathered_planks_diff_4k.jpg" id="50_tykae"]
 [ext_resource type="Texture2D" uid="uid://b4jo2ensrwylf" path="res://models/blend files/restauraunt_weathered_planks_metallicRoughness_4k.jpg.jpg" id="51_je3h7"]
 [ext_resource type="Texture2D" uid="uid://k8irlbvbhnv8" path="res://models/blend files/restauraunt_weathered_planks_normal_4k.jpg" id="52_5rvfu"]
@@ -1699,6 +1700,9 @@ player_camera = NodePath("../../../../Player/Camera")
 stream = ExtResource("46_431h0")
 volume_db = -10.0
 
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Griddles/Griddle" unique_id=1685407149]
+stream = ExtResource("50_lyxqv")
+
 [node name="Griddle2" type="StaticBody3D" parent="Griddles" unique_id=1989690677 node_paths=PackedStringArray("player")]
 transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, 4.3457146, 0, 5.9402993e-08)
 collision_layer = 5
@@ -1751,6 +1755,9 @@ player_camera = NodePath("../../../../Player/Camera")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Griddles/Griddle2" unique_id=1022790852]
 stream = ExtResource("46_431h0")
 volume_db = -10.0
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Griddles/Griddle2" unique_id=1384418681]
+stream = ExtResource("50_lyxqv")
 
 [node name="Fryer" type="StaticBody3D" parent="." unique_id=1475723413 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2643, 0, -1.8081784)

@@ -17,9 +17,8 @@ class_name Griddle
 @onready var slot5_timer = $Slot5/FloatingTimer
 @onready var slot6_timer = $Slot6/FloatingTimer
 
-@onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D	
-
-
+@onready var audio_player1: AudioStreamPlayer3D = $AudioStreamPlayer3D	
+@onready var audio_player2: AudioStreamPlayer3D = $AudioStreamPlayer3D2
 var slots = {
 }
 enum SlotStatus {
@@ -213,10 +212,12 @@ func _on_slot_world_item_depleted(world_item: WorldItem, slot_index: int) -> voi
 	slot["world_item_instance"] = null
 
 func _process(delta: float) -> void:
+	var something_cooking = false
 	for i in range(1, num_slots+1): # go over each slot
 		var slot = slots[i]
 		update_floating_ui_for_slot(i) # update the floating UI for this slot based on its status
 		if slot["status"] == SlotStatus.COOKING: # is the slot cooking an item?
+			something_cooking = true
 			if slot["item"] == null: # is the item null ?
 				slot["status"] = SlotStatus.EMPTY # if so, reset the slot to empty and continue
 				despawn_slot_world_item(i) # despawn any world item that might still be there just in case
@@ -238,4 +239,9 @@ func _process(delta: float) -> void:
 				slot["item"] = cooked_item # update the slot item to the cooked item
 				slot["timer"] = 0.0
 				spawn_world_item_for_slot(i, cooked_item, true, true) # spawn the cooked item as a world item that can be picked up
-				audio_player.play() # play the cooking sound
+				audio_player1.play() # play the cooking finished sound
+	if something_cooking:
+		if not audio_player2.playing:
+			audio_player2.play()
+	else:
+		audio_player2.stop()

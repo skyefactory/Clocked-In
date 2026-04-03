@@ -78,6 +78,11 @@ The more menu items you purchase, the more your daily supplies cost increases
 		day0_introduction_popup_view_controls_button.pressed.connect(show_controls)
 		day0_introduction_popup_close_button.pressed.connect(close_day0_popup)
 		day0_controls_popup_close_button.pressed.connect(close_day0_popup)
+	else:
+		player.capture_mouse()
+		day0_popup.hide()
+		day0_introduction_popup.hide()
+		day0_controls_popup.hide()
 	
 
 	# Initialize the day timer and connect signals

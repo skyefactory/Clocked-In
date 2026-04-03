@@ -35,6 +35,18 @@ extends Control
 @export var volume_slider_label: Label # the label that displays the current volume percentage for the volume slider
 @export var sensitivity_slider_label: Label # the label that displays the current sensitivity value for the sensitivity slider
 
+
+func show_only_modal(modal_to_show: Control) -> void:
+	confirmation_modal.visible = (modal_to_show == confirmation_modal)
+	settings_modal.visible = (modal_to_show == settings_modal)
+	name_entry_modal.visible = (modal_to_show == name_entry_modal)
+
+
+func hide_all_modals() -> void:
+	confirmation_modal.visible = false
+	settings_modal.visible = false
+	name_entry_modal.visible = false
+
 # takes the input from a line edit for a keybind, and normalizes it to a standard key name using godot keycodes. If the input is empty or invalid, it falls back to the previous keybind
 func _normalize_keybind_or_fallback(raw_key: String, fallback: String) -> String:
 	var trimmed = raw_key.strip_edges()
@@ -88,7 +100,10 @@ func create_new_game(): # called when the new game button is pressed
 	Scenechange.change_scene("res://scenes/main_level.tscn")
 
 func toggle_confirmation_modal():
-	confirmation_modal.visible = !confirmation_modal.visible
+	if confirmation_modal.visible:
+		hide_all_modals()
+	else:
+		show_only_modal(confirmation_modal)
 	
 # loads the game by reading the save file and setting the variables from the file.
 func load_game():
@@ -126,8 +141,7 @@ func start_new_game():
 
 # shows the name entry modal
 func take_name_entry():
-	name_entry_modal.visible = true
-	confirmation_modal.visible = false
+	show_only_modal(name_entry_modal)
 	name_confirm_button.pressed.connect(create_new_game_with_name)
 
 # creates a new game with the entered names, if the names are empty, it will not start the game and will wait for valid names to be entered.
@@ -143,11 +157,11 @@ func create_new_game_with_name():
 # opens the settings modal and syncs the current settings values from the gamestate to the UI elements in the settings modal.
 func open_settings():
 	_sync_settings_ui_from_gamestate()
-	settings_modal.visible = true
+	show_only_modal(settings_modal)
 
 # closes the settings modal without saving any changes
 func close_settings():
-	settings_modal.visible = false
+	hide_all_modals()
 
 # takes the values from the settings UI elements and saves them to the gamestate, then saves the gamestate to the save file so the settings persist, and finally closes the settings modal.
 func submit_settings():

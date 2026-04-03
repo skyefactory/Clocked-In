@@ -166,6 +166,8 @@ func initialize_ui() -> void:
 		recipe_block_container.add_child(block)
 		block.set_recipe(recipe)
 		block.set_status(crafting_dict[recipe]["status"])
+		# Prevent jump (space/ui_accept) from triggering focused UI buttons while the station is open.
+		block.button.focus_mode = Control.FOCUS_NONE
 		#connect the button press signal to the on_recipe_button_pressed function, passing the corresponding recipe as an argument.
 		block.button.pressed.connect(on_recipe_button_pressed.bindv([recipe]))
 	
@@ -192,6 +194,7 @@ func on_game_paused(paused: bool) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	station_name_label.text = station_name
+	close_button.focus_mode = Control.FOCUS_NONE
 	load_recipes() # Load the recipes when the node is ready
 	initialize_recipes() # Initialize the crafting dictionary for all loaded recipes
 	initialize_ui() 
